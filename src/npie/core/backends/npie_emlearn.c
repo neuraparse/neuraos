@@ -116,6 +116,8 @@ npie_status_t npie_backend_emlearn_inference(npie_model_t model,
                                              uint32_t num_inputs,
                                              npie_tensor_t* outputs,
                                              uint32_t num_outputs) {
+    (void)num_inputs;
+    (void)num_outputs;
     if (!model || !inputs || !outputs) {
         return NPIE_ERROR_INVALID_ARGUMENT;
     }
@@ -129,6 +131,7 @@ npie_status_t npie_backend_emlearn_inference(npie_model_t model,
 
     /* Get input features */
     float* features = (float*)inputs[0].data;
+    (void)features;
 
     /* Allocate output if needed */
     if (!outputs[0].data) {

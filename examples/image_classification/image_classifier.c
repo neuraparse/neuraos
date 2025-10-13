@@ -30,6 +30,8 @@ static const char* imagenet_labels[] = {
  * @brief Load and preprocess image
  */
 int load_image(const char* path, npie_tensor_t* tensor) {
+    (void)path;
+    (void)tensor;
 #ifdef NEURAOS_ENABLE_OPENCV
     /* Load image using OpenCV */
     Mat img = imread(path, IMREAD_COLOR);
@@ -96,6 +98,7 @@ void get_top_k(const float* predictions, int num_classes, int k,
  * @brief Logging callback
  */
 void log_callback(int level, const char* message, void* user_data) {
+    (void)user_data;
     const char* level_str[] = {"DEBUG", "INFO", "WARN", "ERROR"};
     printf("[%s] %s\n", level_str[level], message);
 }
@@ -170,7 +173,7 @@ int main(int argc, char** argv) {
     npie_model_get_info(model, &info);
     
     printf("Model Information:\n");
-    printf("  Name: %s\n", info.name ? info.name : "Unknown");
+    printf("  Name: %s\n", info.name);
     printf("  Backend: %d\n", info.backend);
     printf("  Accelerator: %d\n", info.accelerator);
     printf("  Inputs: %u\n", info.input_count);

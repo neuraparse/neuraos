@@ -294,7 +294,9 @@ npie_status_t npie_model_get_info(npie_model_t model, npie_model_info_t* info) {
     pthread_mutex_lock(&m->mutex);
 
     strncpy(info->name, m->name, sizeof(info->name) - 1);
+    info->name[sizeof(info->name) - 1] = '\0';
     strncpy(info->path, m->path, sizeof(info->path) - 1);
+    info->path[sizeof(info->path) - 1] = '\0';
     info->backend = m->backend;
     info->accelerator = m->accelerator;
     info->input_count = m->input_count;

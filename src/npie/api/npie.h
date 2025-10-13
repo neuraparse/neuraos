@@ -409,6 +409,76 @@ npie_status_t npie_tensor_alloc(npie_tensor_t* tensor);
  */
 npie_status_t npie_tensor_free(npie_tensor_t* tensor);
 
+/*
+ * ============================================================================
+ * Memory Manager API
+ * ============================================================================
+ */
+
+/**
+ * @brief Initialize memory pool
+ * @param pool_size Desired pool size (0 = default)
+ * @param use_hugepages Use hugepages if available
+ * @return Status code
+ */
+npie_status_t npie_memory_init(size_t pool_size, bool use_hugepages);
+
+/**
+ * @brief Shutdown memory pool
+ * @return Status code
+ */
+npie_status_t npie_memory_shutdown(void);
+
+/**
+ * @brief Allocate memory from pool
+ * @param size Size in bytes
+ * @return Pointer to memory or NULL on failure
+ */
+void* npie_memory_alloc(size_t size);
+
+/**
+ * @brief Free memory back to pool
+ * @param ptr Pointer to memory
+ */
+void npie_memory_free(void* ptr);
+
+/**
+ * @brief Allocate aligned memory from pool
+ * @param size Size in bytes
+ * @param alignment Alignment in bytes
+ * @return Pointer to memory or NULL on failure
+ */
+void* npie_memory_alloc_aligned(size_t size, size_t alignment);
+
+/**
+ * @brief Get memory pool statistics
+ * @param stats Pointer to stats structure
+ * @return Status code
+ */
+npie_status_t npie_memory_get_stats(npie_memory_stats_t* stats);
+
+/**
+ * @brief Reset memory pool (mark all blocks as free)
+ * @return Status code
+ */
+npie_status_t npie_memory_reset(void);
+
+/**
+ * @brief Copy memory with potential optimizations
+ * @param dst Destination pointer
+ * @param src Source pointer
+ * @param size Size in bytes
+ */
+void npie_memory_copy(void* dst, const void* src, size_t size);
+
+/**
+ * @brief Share tensor data pointer (zero-copy)
+ * @param dst Destination tensor
+ * @param src Source tensor
+ * @return Status code
+ */
+npie_status_t npie_memory_share_tensor(npie_tensor_t* dst, const npie_tensor_t* src);
+
 #ifdef __cplusplus
 }
 #endif

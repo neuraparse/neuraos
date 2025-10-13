@@ -123,9 +123,9 @@ static int detect_intel_gpu(struct gpu_device* dev) {
     
     while ((entry = readdir(dir)) != NULL) {
         if (strstr(entry->d_name, "card") != NULL) {
-            char path[256];
+            char path[512];
             snprintf(path, sizeof(path), "/sys/class/drm/%s/device/vendor", entry->d_name);
-            
+
             FILE* fp = fopen(path, "r");
             if (fp) {
                 char vendor[16];

@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <inttypes.h>
 #include "../../src/drivers/npu/npu_driver.h"
 #include "../../src/drivers/accelerators/gpu_accel.h"
 
@@ -60,7 +61,7 @@ static int test_npu_detection(void) {
             printf("  NPU %d: %s\n", i, caps.name);
             printf("    Cores: %d\n", caps.num_cores);
             printf("    Frequency: %d MHz\n", caps.max_frequency_mhz);
-            printf("    Memory: %llu MB\n", caps.memory_size / (1024*1024));
+            printf("    Memory: %" PRIu64 " MB\n", (uint64_t)(caps.memory_size / (1024*1024)));
         }
     }
     
@@ -153,7 +154,7 @@ static int test_gpu_detection(void) {
             printf("  GPU %d: %s (%s)\n", i, caps.name, caps.vendor);
             printf("    Compute Units: %d\n", caps.compute_units);
             printf("    Frequency: %d MHz\n", caps.max_frequency_mhz);
-            printf("    Memory: %llu MB\n", caps.memory_size / (1024*1024));
+            printf("    Memory: %" PRIu64 " MB\n", (uint64_t)(caps.memory_size / (1024*1024)));
             printf("    Supported APIs: ");
             for (int j = 0; j < caps.num_apis; j++) {
                 const char* api_names[] = {"OpenCL", "OpenGL ES", "Vulkan", "CUDA"};

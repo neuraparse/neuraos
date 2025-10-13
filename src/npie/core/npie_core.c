@@ -33,7 +33,7 @@ static const npie_options_t default_options = {
 /**
  * @brief Internal logging function
  */
-static void npie_log(npie_context_t ctx, int level, const char* format, ...) {
+static __attribute__((unused)) void npie_log(npie_context_t ctx, int level, const char* format, ...) {
     if (!ctx || !ctx->log_callback) {
         return;
     }
