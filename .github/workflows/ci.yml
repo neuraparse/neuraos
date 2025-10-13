@@ -48,14 +48,21 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y clang-format
 
-      - name: Check code formatting
+      - name: Check code formatting (only changed files)
         run: |
-          set -e
-          files=$(find src tests -type f \( -name '*.c' -o -name '*.cpp' -o -name '*.h' \))
-          if [ -n "$files" ]; then
-            echo "$files" | xargs clang-format --dry-run --Werror
+          set -euo pipefail
+          # Determine changed files
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            git fetch --no-tags --depth=1 origin "${{ github.base_ref }}"
+            files=$(git diff --name-only "origin/${{ github.base_ref }}"...HEAD -- 'src/**/*.c' 'src/**/*.cpp' 'src/**/*.h' 'tests/**/*.c' 'tests/**/*.cpp' 'tests/**/*.h' | tr '\n' ' ')
           else
-            echo "No C/C++ source files to lint."
+            files=$(git diff --name-only HEAD~1 -- 'src/**/*.c' 'src/**/*.cpp' 'src/**/*.h' 'tests/**/*.c' 'tests/**/*.cpp' 'tests/**/*.h' | tr '\n' ' ')
+          fi
+          if [ -n "${files:-}" ]; then
+            echo "Checking formatting for: $files"
+            echo "$files" | xargs -n 1 clang-format --dry-run --Werror
+          else
+            echo "No changed C/C++ source files to lint."
           fi
 
   fallback-make:

@@ -3,7 +3,7 @@
  * @brief NeuraParse Inference Engine (NPIE) Public API
  * @version 1.0.0-alpha
  * @date October 2025
- * 
+ *
  * This is the main public API for the NeuraParse Inference Engine.
  * It provides a unified interface for AI model loading, inference,
  * and hardware acceleration across multiple backends (LiteRT, ONNX Runtime, etc.)
@@ -109,12 +109,15 @@ typedef struct {
  * @brief Model metadata
  */
 typedef struct {
-    const char* name;               ///< Model name
-    const char* version;            ///< Model version
-    const char* description;        ///< Model description
-    const char* author;             ///< Model author
+    char name[256];                 ///< Model name
+    char path[512];                 ///< Model file path (if loaded from file)
+    const char* version;            ///< Model version (optional)
+    const char* description;        ///< Model description (optional)
+    const char* author;             ///< Model author (optional)
     uint32_t input_count;           ///< Number of inputs
     uint32_t output_count;          ///< Number of outputs
+    size_t model_size;              ///< Model size in bytes
+    bool quantized;                 ///< Whether model is quantized (if known)
     npie_backend_t backend;         ///< Backend type
     npie_accelerator_t accelerator; ///< Accelerator type
 } npie_model_info_t;
@@ -161,6 +164,37 @@ typedef struct npie_model* npie_model_t;
 typedef void (*npie_log_callback_t)(int level, const char* message, void* user_data);
 
 /**
+ * @brief Generic completion callback used by async inference and scheduler
+ */
+typedef void (*npie_callback_t)(npie_status_t status, const npie_metrics_t* metrics, void* user_data);
+
+/**
+ * @brief Scheduler statistics structure
+ */
+typedef struct {
+    uint64_t tasks_submitted;
+    uint64_t tasks_completed;
+    uint64_t tasks_failed;
+    uint64_t tasks_pending;
+    uint32_t num_workers;
+    uint64_t avg_inference_time_us;
+} npie_scheduler_stats_t;
+
+/**
+ * @brief Memory manager statistics
+ */
+typedef struct {
+    size_t total_size;
+    size_t used_size;
+    size_t free_size;
+    bool use_hugepages;
+    uint32_t num_blocks;
+    uint32_t num_free_blocks;
+} npie_memory_stats_t;
+
+
+/**
+
  * @brief Callback function for progress updates
  */
 typedef void (*npie_progress_callback_t)(float progress, void* user_data);
@@ -206,7 +240,7 @@ npie_status_t npie_shutdown(npie_context_t ctx);
  * @param user_data User data passed to callback
  * @return Status code
  */
-npie_status_t npie_set_log_callback(npie_context_t ctx, 
+npie_status_t npie_set_log_callback(npie_context_t ctx,
                                     npie_log_callback_t callback,
                                     void* user_data);
 
@@ -266,7 +300,7 @@ npie_status_t npie_model_get_info(npie_model_t model, npie_model_info_t* info);
  * @param tensor Pointer to tensor descriptor
  * @return Status code
  */
-npie_status_t npie_model_get_input(npie_model_t model, 
+npie_status_t npie_model_get_input(npie_model_t model,
                                    uint32_t index,
                                    npie_tensor_t* tensor);
 

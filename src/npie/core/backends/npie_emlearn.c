@@ -25,7 +25,7 @@ struct emlearn_context {
 /**
  * @brief Load model with emlearn backend
  */
-npie_status_t npie_backend_emlearn_load(npie_model_t model) {
+npie_status_t npie_backend_emlearn_load(npie_model_t model, const void* buffer, size_t size) {
     if (!model) {
         return NPIE_ERROR_INVALID_ARGUMENT;
     }

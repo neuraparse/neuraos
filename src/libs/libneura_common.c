@@ -73,8 +73,8 @@ void neura_log(neura_log_level_t level, const char* format, ...) {
         struct timeval tv;
         gettimeofday(&tv, NULL);
         
-        fprintf(stderr, "[%ld.%06d] [%s] %s\n",
-                (long)tv.tv_sec, tv.tv_usec, level_str[level], buffer);
+        fprintf(stderr, "[%ld.%06ld] [%s] %s\n",
+                (long)tv.tv_sec, (long)tv.tv_usec, level_str[level], buffer);
     }
 }
 

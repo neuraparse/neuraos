@@ -11,6 +11,8 @@
 #include <pthread.h>
 #include <stdbool.h>
 
+#include <stddef.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -19,6 +21,22 @@ extern "C" {
 #define NPIE_MAX_MODELS 32
 #define NPIE_MAX_ACCELERATORS 16
 #define NPIE_MAX_BACKENDS 8
+/* Accelerator descriptors and capabilities (internal) */
+typedef struct {
+    char name[64];
+    bool supports_fp32;
+    bool supports_fp16;
+    bool supports_int8;
+    uint32_t max_batch_size;
+    size_t memory_size;
+} npie_accelerator_caps_t;
+
+typedef struct {
+    npie_accelerator_t type;
+    int device_id;
+    char name[64];
+} npie_accelerator_desc_t;
+
 #define NPIE_DEFAULT_THREAD_COUNT 4
 
 /* Backend interface */
@@ -28,8 +46,8 @@ typedef struct npie_backend_ops {
     npie_status_t (*cleanup)(void);
     npie_status_t (*load_model)(const char* path, void** handle);
     npie_status_t (*unload_model)(void* handle);
-    npie_status_t (*run_inference)(void* handle, npie_tensor_t* inputs, 
-                                   int num_inputs, npie_tensor_t* outputs, 
+    npie_status_t (*run_inference)(void* handle, npie_tensor_t* inputs,
+                                   int num_inputs, npie_tensor_t* outputs,
                                    int num_outputs);
     npie_status_t (*get_model_info)(void* handle, npie_model_info_t* info);
 } npie_backend_ops_t;

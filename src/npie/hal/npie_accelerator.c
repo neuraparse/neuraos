@@ -22,7 +22,7 @@
 /**
  * @brief Initialize accelerator
  */
-npie_status_t npie_accelerator_init(npie_accelerator_t* accel) {
+npie_status_t npie_accelerator_init(npie_accelerator_desc_t* accel) {
     if (!accel) {
         return NPIE_ERROR_INVALID_ARGUMENT;
     }
@@ -33,7 +33,7 @@ npie_status_t npie_accelerator_init(npie_accelerator_t* accel) {
             int ret = npu_driver_init();
             if (ret != 0) {
                 NPIE_LOG_ERROR("Failed to initialize NPU driver");
-                return NPIE_ERROR_DEVICE;
+                return NPIE_ERROR_HARDWARE_NOT_AVAILABLE;
             }
             break;
         }
@@ -44,28 +44,28 @@ npie_status_t npie_accelerator_init(npie_accelerator_t* accel) {
             int ret = gpu_accel_init();
             if (ret != 0) {
                 NPIE_LOG_ERROR("Failed to initialize GPU accelerator");
-                return NPIE_ERROR_DEVICE;
+                return NPIE_ERROR_HARDWARE_NOT_AVAILABLE;
             }
             break;
         }
 #endif
 
-        case NPIE_ACCELERATOR_CPU:
+        case NPIE_ACCELERATOR_NONE:
             /* CPU always available */
             break;
             
         default:
             NPIE_LOG_WARN("Unknown accelerator type: %d", accel->type);
-            return NPIE_ERROR_NOT_SUPPORTED;
+            return NPIE_ERROR_UNSUPPORTED_OPERATION;
     }
     
-    return NPIE_OK;
+    return NPIE_SUCCESS;
 }
 
 /**
  * @brief Cleanup accelerator
  */
-npie_status_t npie_accelerator_cleanup(npie_accelerator_t* accel) {
+npie_status_t npie_accelerator_cleanup(npie_accelerator_desc_t* accel) {
     if (!accel) {
         return NPIE_ERROR_INVALID_ARGUMENT;
     }
@@ -87,13 +87,13 @@ npie_status_t npie_accelerator_cleanup(npie_accelerator_t* accel) {
             break;
     }
     
-    return NPIE_OK;
+    return NPIE_SUCCESS;
 }
 
 /**
  * @brief Get accelerator capabilities
  */
-npie_status_t npie_accelerator_get_capabilities(npie_accelerator_t* accel,
+npie_status_t npie_accelerator_get_capabilities(npie_accelerator_desc_t* accel,
                                                 npie_accelerator_caps_t* caps) {
     if (!accel || !caps) {
         return NPIE_ERROR_INVALID_ARGUMENT;
@@ -102,7 +102,7 @@ npie_status_t npie_accelerator_get_capabilities(npie_accelerator_t* accel,
     memset(caps, 0, sizeof(npie_accelerator_caps_t));
     
     switch (accel->type) {
-        case NPIE_ACCELERATOR_CPU:
+        case NPIE_ACCELERATOR_NONE:
             strncpy(caps->name, "CPU", sizeof(caps->name) - 1);
             caps->supports_fp32 = true;
             caps->supports_fp16 = false;
@@ -153,7 +153,7 @@ npie_status_t npie_accelerator_get_capabilities(npie_accelerator_t* accel,
             return NPIE_ERROR_NOT_SUPPORTED;
     }
     
-    return NPIE_OK;
+    return NPIE_SUCCESS;
 }
 
 /**
@@ -161,7 +161,7 @@ npie_status_t npie_accelerator_get_capabilities(npie_accelerator_t* accel,
  */
 npie_status_t npie_accelerator_select_best(npie_context_t ctx,
                                            const npie_model_info_t* model_info,
-                                           npie_accelerator_t* best_accel) {
+                                           npie_accelerator_desc_t* best_accel) {
     if (!ctx || !model_info || !best_accel) {
         return NPIE_ERROR_INVALID_ARGUMENT;
     }
@@ -172,19 +172,19 @@ npie_status_t npie_accelerator_select_best(npie_context_t ctx,
     
     npie_status_t status = npie_detect_accelerators(ctx, accelerators, 
                                                     NPIE_MAX_ACCELERATORS, &count);
-    if (status != NPIE_OK || count == 0) {
+    if (status != NPIE_SUCCESS || count == 0) {
         /* Fallback to CPU */
-        best_accel->type = NPIE_ACCELERATOR_CPU;
+        best_accel->type = NPIE_ACCELERATOR_NONE;
         best_accel->device_id = 0;
         strncpy(best_accel->name, "CPU", sizeof(best_accel->name) - 1);
-        return NPIE_OK;
+        return NPIE_SUCCESS;
     }
     
     /* Prefer NPU for quantized models */
     if (model_info->quantized) {
         for (uint32_t i = 0; i < count; i++) {
             if (accelerators[i].type == NPIE_ACCELERATOR_NPU) {
-                memcpy(best_accel, &accelerators[i], sizeof(npie_accelerator_t));
+                memcpy(best_accel, &accelerators[i], sizeof(npie_accelerator_desc_t));
                 return NPIE_OK;
             }
         }
@@ -194,29 +194,29 @@ npie_status_t npie_accelerator_select_best(npie_context_t ctx,
     if (model_info->size > 10 * 1024 * 1024) { /* > 10 MB */
         for (uint32_t i = 0; i < count; i++) {
             if (accelerators[i].type == NPIE_ACCELERATOR_GPU) {
-                memcpy(best_accel, &accelerators[i], sizeof(npie_accelerator_t));
+                memcpy(best_accel, &accelerators[i], sizeof(npie_accelerator_desc_t));
                 return NPIE_OK;
             }
         }
     }
     
     /* Use first available accelerator */
-    memcpy(best_accel, &accelerators[0], sizeof(npie_accelerator_t));
-    
-    return NPIE_OK;
+    memcpy(best_accel, &accelerators[0], sizeof(npie_accelerator_desc_t));
+
+    return NPIE_SUCCESS;
 }
 
 /**
  * @brief Allocate memory on accelerator
  */
-npie_status_t npie_accelerator_alloc(npie_accelerator_t* accel,
+npie_status_t npie_accelerator_alloc(npie_accelerator_desc_t* accel,
                                      size_t size, void** ptr) {
     if (!accel || !ptr || size == 0) {
         return NPIE_ERROR_INVALID_ARGUMENT;
     }
     
     switch (accel->type) {
-        case NPIE_ACCELERATOR_CPU:
+        case NPIE_ACCELERATOR_NONE:
             *ptr = malloc(size);
             if (!*ptr) {
                 return NPIE_ERROR_OUT_OF_MEMORY;
@@ -227,7 +227,7 @@ npie_status_t npie_accelerator_alloc(npie_accelerator_t* accel,
         case NPIE_ACCELERATOR_NPU: {
             npu_device_t dev = npu_open(accel->device_id);
             if (!dev) {
-                return NPIE_ERROR_DEVICE;
+                return NPIE_ERROR_HARDWARE_NOT_AVAILABLE;
             }
             
             npu_buffer_t* buffer = npu_alloc_buffer(dev, size);
@@ -251,19 +251,19 @@ npie_status_t npie_accelerator_alloc(npie_accelerator_t* accel,
             break;
     }
     
-    return NPIE_OK;
+    return NPIE_SUCCESS;
 }
 
 /**
  * @brief Free memory on accelerator
  */
-npie_status_t npie_accelerator_free(npie_accelerator_t* accel, void* ptr) {
+npie_status_t npie_accelerator_free(npie_accelerator_desc_t* accel, void* ptr) {
     if (!accel || !ptr) {
         return NPIE_ERROR_INVALID_ARGUMENT;
     }
     
     switch (accel->type) {
-        case NPIE_ACCELERATOR_CPU:
+        case NPIE_ACCELERATOR_NONE:
             free(ptr);
             break;
             
@@ -283,6 +283,6 @@ npie_status_t npie_accelerator_free(npie_accelerator_t* accel, void* ptr) {
             break;
     }
     
-    return NPIE_OK;
+    return NPIE_SUCCESS;
 }
 
