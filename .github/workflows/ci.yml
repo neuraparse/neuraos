@@ -1,0 +1,75 @@
+name: NeuralOS CI
+
+on:
+  push:
+    branches: [ main, master, develop, "release/*" ]
+  pull_request:
+    branches: [ main, master, develop ]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    name: Build and Test (CMake)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake build-essential
+
+      - name: Configure (Release)
+        run: |
+          cmake -S . -B build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DBUILD_TESTS=ON
+
+      - name: Build
+        run: cmake --build build --parallel
+
+      - name: Run tests
+        run: ctest --test-dir build --output-on-failure
+
+  lint:
+    name: Code Quality (clang-format)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install clang-format
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang-format
+
+      - name: Check code formatting
+        run: |
+          set -e
+          files=$(find src tests -type f \( -name '*.c' -o -name '*.cpp' -o -name '*.h' \))
+          if [ -n "$files" ]; then
+            echo "$files" | xargs clang-format --dry-run --Werror
+          else
+            echo "No C/C++ source files to lint."
+          fi
+
+  fallback-make:
+    name: Build and Test (Makefile.simple)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build (Makefile.simple)
+        run: |
+          make -f Makefile.simple all
+
+      - name: Test (Makefile.simple)
+        run: |
+          make -f Makefile.simple test
+
