@@ -1,0 +1,7 @@
+menu "NeuralOS (NeuraParse) external packages"
+
+# Include all NeuraParse package menus
+rsource "package/neuraparse/*/Config.in"
+
+endmenu
+

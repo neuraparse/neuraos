@@ -1,0 +1,7 @@
+config BR2_PACKAGE_NPI_INIT
+	bool "npi-init (NeuralOS init system)"
+	help
+	  Build and install the NeuralOS init system (npi). This is a
+	  lightweight init intended for embedded targets. By default it
+	  installs to /usr/sbin and does not replace BusyBox init.
+
