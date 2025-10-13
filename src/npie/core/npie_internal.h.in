@@ -38,8 +38,81 @@ typedef struct {
 } npie_accelerator_desc_t;
 
 #define NPIE_DEFAULT_THREAD_COUNT 4
+/* Forward declarations */
+struct npie_model;
+struct npie_context;
+
+/* Internal context structure (must match implementation) */
+struct npie_context {
+    npie_options_t options;
+    npie_log_callback_t log_callback;
+    void* log_user_data;
+    pthread_mutex_t mutex;
+    bool initialized;
+    uint32_t model_count;
+    npie_model_t* models;
+    /* Hardware detection cache */
+    bool accelerators_detected;
+    npie_accelerator_t available_accelerators[16];
+    uint32_t accelerator_count;
+};
+
+/* Internal model structure (must match implementation) */
+struct npie_model {
+    char name[256];
+    char path[512];
+    npie_backend_t backend;
+    npie_accelerator_t accelerator;
+    void* backend_handle;
+    npie_context_t context;
+
+    /* Model metadata */
+    uint32_t input_count;
+    uint32_t output_count;
+    npie_tensor_t* inputs;
+    npie_tensor_t* outputs;
+
+    /* Model data */
+    void* model_data;
+    size_t model_size;
+
+    bool loaded;
+    pthread_mutex_t mutex;
+};
+
 
 /* Backend interface */
+/* Backend function prototypes (used across C files) */
+#ifdef NEURAOS_ENABLE_LITERT
+npie_status_t npie_backend_litert_load(npie_model_t model);
+npie_status_t npie_backend_litert_unload(npie_model_t model);
+npie_status_t npie_backend_litert_inference(npie_model_t model,
+                                           const npie_tensor_t* inputs,
+                                           uint32_t num_inputs,
+                                           npie_tensor_t* outputs,
+                                           uint32_t num_outputs);
+#endif
+
+#ifdef NEURAOS_ENABLE_ONNXRUNTIME
+npie_status_t npie_backend_onnx_load(npie_model_t model);
+npie_status_t npie_backend_onnx_unload(npie_model_t model);
+npie_status_t npie_backend_onnx_inference(npie_model_t model,
+                                         const npie_tensor_t* inputs,
+                                         uint32_t num_inputs,
+                                         npie_tensor_t* outputs,
+                                         uint32_t num_outputs);
+#endif
+
+#ifdef NEURAOS_ENABLE_EMLEARN
+npie_status_t npie_backend_emlearn_load(npie_model_t model);
+npie_status_t npie_backend_emlearn_unload(npie_model_t model);
+npie_status_t npie_backend_emlearn_inference(npie_model_t model,
+                                           const npie_tensor_t* inputs,
+                                           uint32_t num_inputs,
+                                           npie_tensor_t* outputs,
+                                           uint32_t num_outputs);
+#endif
+
 typedef struct npie_backend_ops {
     const char* name;
     npie_status_t (*init)(void);

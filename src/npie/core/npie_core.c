@@ -16,24 +16,6 @@
 #include <stdarg.h>
 #include <unistd.h>
 
-/**
- * @brief Internal context structure
- */
-struct npie_context {
-    npie_options_t options;
-    npie_log_callback_t log_callback;
-    void* log_user_data;
-    pthread_mutex_t mutex;
-    bool initialized;
-    uint32_t model_count;
-    npie_model_t* models;
-
-    /* Hardware detection cache */
-    bool accelerators_detected;
-    npie_accelerator_t available_accelerators[16];
-    uint32_t accelerator_count;
-};
-
 
 /**
  * @brief Default options

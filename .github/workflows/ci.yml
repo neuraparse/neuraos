@@ -51,12 +51,19 @@ jobs:
       - name: Check code formatting (only changed files)
         run: |
           set -euo pipefail
-          # Determine changed files
+          # Determine changed files safely
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             git fetch --no-tags --depth=1 origin "${{ github.base_ref }}"
             files=$(git diff --name-only "origin/${{ github.base_ref }}"...HEAD -- 'src/**/*.c' 'src/**/*.cpp' 'src/**/*.h' 'tests/**/*.c' 'tests/**/*.cpp' 'tests/**/*.h' | tr '\n' ' ')
           else
-            files=$(git diff --name-only HEAD~1 -- 'src/**/*.c' 'src/**/*.cpp' 'src/**/*.h' 'tests/**/*.c' 'tests/**/*.cpp' 'tests/**/*.h' | tr '\n' ' ')
+            if git rev-parse --verify HEAD~1 >/dev/null 2>&1; then
+              base_ref="HEAD~1"
+            else
+              # Fallback to default branch if no previous commit
+              git fetch --no-tags --depth=1 origin "${{ github.ref_name }}" || true
+              base_ref="$(git rev-parse HEAD)"
+            fi
+            files=$(git diff --name-only "$base_ref" -- 'src/**/*.c' 'src/**/*.cpp' 'src/**/*.h' 'tests/**/*.c' 'tests/**/*.cpp' 'tests/**/*.h' | tr '\n' ' ')
           fi
           if [ -n "${files:-}" ]; then
             echo "Checking formatting for: $files"

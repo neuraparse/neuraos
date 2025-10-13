@@ -5,6 +5,7 @@
  */
 
 #include "npie.h"
+#include "npie_internal.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -13,31 +14,6 @@
 #include <unistd.h>
 
 #include <pthread.h>
-
-/**
- * @brief Internal model structure
- */
-struct npie_model {
-    char name[256];
-    char path[512];
-    npie_backend_t backend;
-    npie_accelerator_t accelerator;
-    void* backend_handle;
-    npie_context_t context;
-
-    /* Model metadata */
-    uint32_t input_count;
-    uint32_t output_count;
-    npie_tensor_t* inputs;
-    npie_tensor_t* outputs;
-
-    /* Model data */
-    void* model_data;
-    size_t model_size;
-
-    bool loaded;
-    pthread_mutex_t mutex;
-};
 
 /**
  * @brief Detect model format from file extension

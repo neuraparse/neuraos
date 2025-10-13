@@ -350,7 +350,9 @@ npie_status_t npie_inference_run(npie_model_t model,
 npie_status_t npie_inference_run_async(npie_model_t model,
                                        const npie_tensor_t* inputs,
                                        uint32_t num_inputs,
-                                       npie_progress_callback_t callback,
+                                       npie_tensor_t* outputs,
+                                       uint32_t num_outputs,
+                                       npie_callback_t callback,
                                        void* user_data);
 
 /*
