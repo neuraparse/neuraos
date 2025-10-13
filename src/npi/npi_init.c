@@ -156,7 +156,7 @@ static void set_hostname(void) {
 /**
  * @brief Load service configuration
  */
-static service_t* load_service(const char* path) {
+static __attribute__((unused)) service_t* load_service(const char* path) {
     FILE* fp = fopen(path, "r");
     if (!fp) {
         return NULL;
@@ -352,6 +352,8 @@ static void signal_handler(int sig) {
  * @brief Main init function
  */
 int main(int argc, char** argv) {
+    (void)argc;
+    (void)argv;
     /* Check if we're PID 1 */
     if (getpid() != 1) {
         fprintf(stderr, "NPI must be run as PID 1 (init)\n");

@@ -248,6 +248,7 @@ gpu_device_t gpu_open(int device_id) {
  * @brief Close GPU device
  */
 void gpu_close(gpu_device_t device) {
+    (void)device;
     /* Device remains open for reuse */
 }
 

@@ -233,6 +233,7 @@ npu_buffer_t* npu_alloc_buffer(npu_device_t device, size_t size) {
  * @brief Free NPU buffer
  */
 void npu_free_buffer(npu_device_t device, npu_buffer_t* buffer) {
+    (void)device;
     if (!buffer) return;
     
     if (buffer->data) {
@@ -291,6 +292,7 @@ void* npu_load_model(npu_device_t device, const void* model_data, size_t model_s
  * @brief Unload model from NPU
  */
 void npu_unload_model(npu_device_t device, void* model_handle) {
+    (void)device;
     if (model_handle) {
         free(model_handle);
     }
@@ -306,6 +308,9 @@ int npu_execute(npu_device_t device, void* model_handle,
         return -1;
     }
     
+    (void)num_inputs;
+    (void)num_outputs;
+
     /* This is a stub implementation */
     /* Real implementation would use device-specific APIs */
     
@@ -316,6 +321,7 @@ int npu_execute(npu_device_t device, void* model_handle,
  * @brief Set NPU power state
  */
 int npu_set_power_state(npu_device_t device, bool enabled) {
+    (void)enabled;
     if (!device) {
         return -1;
     }

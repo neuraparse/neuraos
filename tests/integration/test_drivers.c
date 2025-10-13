@@ -235,6 +235,8 @@ static void run_all_tests(void) {
  * @brief Main entry point
  */
 int main(int argc, char** argv) {
+    (void)argc;
+    (void)argv;
     run_all_tests();
     
     return (tests_failed == 0) ? 0 : 1;
