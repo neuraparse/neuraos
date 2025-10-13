@@ -10,6 +10,7 @@
 #include <time.h>
 #include <sys/time.h>
 #include "npie.h"
+#include <math.h>
 
 #define WARMUP_ITERATIONS 10
 #define BENCHMARK_ITERATIONS 100

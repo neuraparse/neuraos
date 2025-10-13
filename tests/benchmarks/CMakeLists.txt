@@ -8,7 +8,9 @@ add_executable(benchmark_npie
 )
 
 target_link_libraries(benchmark_npie
-    Threads::Threads
+    PRIVATE npie
+    PRIVATE Threads::Threads
+    PRIVATE m
 )
 
 # Note: Benchmarks are not added as tests, run manually

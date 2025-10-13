@@ -5,6 +5,7 @@
  */
 
 #include "npie.h"
+#include "npie_internal.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -12,6 +13,19 @@
 #include <sys/time.h>
 
 #include <pthread.h>
+
+/* Async context shared between run_async and thread function */
+struct async_context {
+    npie_model_t model;
+    const npie_tensor_t* inputs;
+    uint32_t num_inputs;
+    npie_tensor_t* outputs;
+    uint32_t num_outputs;
+    npie_callback_t callback;
+    void* user_data;
+};
+
+static void* async_inference_thread(void* arg);
 
 /**
  * @brief Get current time in microseconds
@@ -160,16 +174,6 @@ npie_status_t npie_inference_run_async(npie_model_t model,
     }
 
     /* Create async context */
-    struct async_context {
-        npie_model_t model;
-        const npie_tensor_t* inputs;
-        uint32_t num_inputs;
-        npie_tensor_t* outputs;
-        uint32_t num_outputs;
-        npie_callback_t callback;
-        void* user_data;
-    };
-
     struct async_context* ctx = malloc(sizeof(struct async_context));
     if (!ctx) {
         return NPIE_ERROR_OUT_OF_MEMORY;

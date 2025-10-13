@@ -8,7 +8,8 @@ add_executable(test_npie_core
 )
 
 target_link_libraries(test_npie_core
-    Threads::Threads
+    PRIVATE npie
+    PRIVATE Threads::Threads
 )
 
 add_test(NAME npie_core_tests

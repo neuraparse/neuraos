@@ -7,7 +7,8 @@ add_executable(image_classifier
 )
 
 target_link_libraries(image_classifier
-    Threads::Threads
+    PRIVATE npie
+    PRIVATE Threads::Threads
 )
 
 # Install example
