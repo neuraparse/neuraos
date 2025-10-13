@@ -35,6 +35,7 @@ include_directories(
 set(NPIE_CORE_SOURCES
     core/npie_core.c
     core/npie_inference.c
+    core/npie_model.c
     hal/npie_hal.c
     scheduler/npie_scheduler.c
     memory/npie_memory.c
