@@ -1,0 +1,11 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: npie
+Description: NeuraParse Inference Engine
+Version: @PROJECT_VERSION@
+Libs: -L${libdir} -lnpie
+Cflags: -I${includedir}
+

@@ -191,44 +191,56 @@ install(DIRECTORY ${CMAKE_BINARY_DIR}/include/
     FILES_MATCHING PATTERN "*.h"
 )
 
-install(FILES
-    ${CMAKE_SOURCE_DIR}/README.md
-    ${CMAKE_SOURCE_DIR}/LICENSE
-    DESTINATION share/doc/neuraos
-)
+# Install documentation (guard LICENSE if missing)
+if(EXISTS "${CMAKE_SOURCE_DIR}/LICENSE")
+    install(FILES
+        ${CMAKE_SOURCE_DIR}/README.md
+        ${CMAKE_SOURCE_DIR}/LICENSE
+        DESTINATION share/doc/neuraos
+    )
+else()
+    install(FILES
+        ${CMAKE_SOURCE_DIR}/README.md
+        DESTINATION share/doc/neuraos
+    )
+endif()
 
-# Package configuration
-include(CMakePackageConfigHelpers)
+# Package configuration (optional; only if template exists)
+if(EXISTS "${CMAKE_SOURCE_DIR}/cmake/NeuralOSConfig.cmake.in")
+    include(CMakePackageConfigHelpers)
 
-configure_package_config_file(
-    ${CMAKE_SOURCE_DIR}/cmake/NeuralOSConfig.cmake.in
-    ${CMAKE_BINARY_DIR}/NeuralOSConfig.cmake
-    INSTALL_DESTINATION lib/cmake/NeuralOS
-)
-
-write_basic_package_version_file(
-    ${CMAKE_BINARY_DIR}/NeuralOSConfigVersion.cmake
-    VERSION ${PROJECT_VERSION}
-    COMPATIBILITY SameMajorVersion
-)
-
-install(FILES
-    ${CMAKE_BINARY_DIR}/NeuralOSConfig.cmake
-    ${CMAKE_BINARY_DIR}/NeuralOSConfigVersion.cmake
-    DESTINATION lib/cmake/NeuralOS
-)
-
-# Uninstall target
-if(NOT TARGET uninstall)
-    configure_file(
-        ${CMAKE_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in
-        ${CMAKE_BINARY_DIR}/cmake_uninstall.cmake
-        IMMEDIATE @ONLY
+    configure_package_config_file(
+        ${CMAKE_SOURCE_DIR}/cmake/NeuralOSConfig.cmake.in
+        ${CMAKE_BINARY_DIR}/NeuralOSConfig.cmake
+        INSTALL_DESTINATION lib/cmake/NeuralOS
     )
 
-    add_custom_target(uninstall
-        COMMAND ${CMAKE_COMMAND} -P ${CMAKE_BINARY_DIR}/cmake_uninstall.cmake
+    write_basic_package_version_file(
+        ${CMAKE_BINARY_DIR}/NeuralOSConfigVersion.cmake
+        VERSION ${PROJECT_VERSION}
+        COMPATIBILITY SameMajorVersion
     )
+
+    install(FILES
+        ${CMAKE_BINARY_DIR}/NeuralOSConfig.cmake
+        ${CMAKE_BINARY_DIR}/NeuralOSConfigVersion.cmake
+        DESTINATION lib/cmake/NeuralOS
+    )
+endif()
+
+# Uninstall target (optional; only if template exists)
+if(EXISTS "${CMAKE_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in")
+    if(NOT TARGET uninstall)
+        configure_file(
+            ${CMAKE_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in
+            ${CMAKE_BINARY_DIR}/cmake_uninstall.cmake
+            IMMEDIATE @ONLY
+        )
+
+        add_custom_target(uninstall
+            COMMAND ${CMAKE_COMMAND} -P ${CMAKE_BINARY_DIR}/cmake_uninstall.cmake
+        )
+    endif()
 endif()
 
 # Print configuration summary
