@@ -1,0 +1,300 @@
+#!/usr/bin/env python3
+"""
+NeuraParse Model Converter (npconvert)
+Converts AI models to NeuralOS-compatible formats with optimization
+Version: 1.0.0-alpha
+"""
+
+import argparse
+import sys
+import os
+import json
+from pathlib import Path
+
+def print_banner():
+    print("""
+╔═══════════════════════════════════════════════════════════════╗
+║          NeuraParse Model Converter (npconvert)               ║
+║                    Version 1.0.0-alpha                        ║
+╚═══════════════════════════════════════════════════════════════╝
+""")
+
+def convert_to_tflite(input_path, output_path, quantize=None):
+    """Convert model to TensorFlow Lite format"""
+    try:
+        import tensorflow as tf
+        print(f"Converting {input_path} to TFLite format...")
+        
+        # Load model based on format
+        if input_path.endswith('.h5') or input_path.endswith('.keras'):
+            model = tf.keras.models.load_model(input_path)
+        elif input_path.endswith('.pb'):
+            # Load SavedModel
+            model = tf.saved_model.load(input_path)
+        else:
+            print(f"Error: Unsupported input format: {input_path}")
+            return False
+        
+        # Convert to TFLite
+        converter = tf.lite.TFLiteConverter.from_keras_model(model)
+        
+        # Apply optimizations
+        converter.optimizations = [tf.lite.Optimize.DEFAULT]
+        
+        # Apply quantization if requested
+        if quantize == 'int8':
+            print("Applying INT8 quantization...")
+            converter.target_spec.supported_ops = [tf.lite.OpsSet.TFLITE_BUILTINS_INT8]
+            converter.inference_input_type = tf.int8
+            converter.inference_output_type = tf.int8
+        elif quantize == 'float16':
+            print("Applying FLOAT16 quantization...")
+            converter.target_spec.supported_types = [tf.float16]
+        
+        # Convert
+        tflite_model = converter.convert()
+        
+        # Save
+        with open(output_path, 'wb') as f:
+            f.write(tflite_model)
+        
+        print(f"✓ Model converted successfully: {output_path}")
+        print(f"  Size: {len(tflite_model) / 1024:.2f} KB")
+        return True
+        
+    except ImportError:
+        print("Error: TensorFlow not installed. Install with: pip install tensorflow")
+        return False
+    except Exception as e:
+        print(f"Error converting model: {e}")
+        return False
+
+def convert_to_onnx(input_path, output_path):
+    """Convert model to ONNX format"""
+    try:
+        import torch
+        import onnx
+        
+        print(f"Converting {input_path} to ONNX format...")
+        
+        # Load PyTorch model
+        model = torch.load(input_path)
+        model.eval()
+        
+        # Create dummy input
+        dummy_input = torch.randn(1, 3, 224, 224)
+        
+        # Export to ONNX
+        torch.onnx.export(
+            model,
+            dummy_input,
+            output_path,
+            export_params=True,
+            opset_version=17,
+            do_constant_folding=True,
+            input_names=['input'],
+            output_names=['output'],
+            dynamic_axes={'input': {0: 'batch_size'}, 'output': {0: 'batch_size'}}
+        )
+        
+        # Verify
+        onnx_model = onnx.load(output_path)
+        onnx.checker.check_model(onnx_model)
+        
+        print(f"✓ Model converted successfully: {output_path}")
+        return True
+        
+    except ImportError:
+        print("Error: PyTorch/ONNX not installed. Install with: pip install torch onnx")
+        return False
+    except Exception as e:
+        print(f"Error converting model: {e}")
+        return False
+
+def optimize_model(input_path, output_path):
+    """Optimize model for inference"""
+    print(f"Optimizing model: {input_path}")
+    
+    if input_path.endswith('.tflite'):
+        # TFLite optimization
+        print("Applying TFLite optimizations...")
+        # Already optimized during conversion
+        import shutil
+        shutil.copy(input_path, output_path)
+        
+    elif input_path.endswith('.onnx'):
+        # ONNX optimization
+        try:
+            import onnx
+            from onnxruntime.transformers import optimizer
+            
+            print("Applying ONNX optimizations...")
+            model = onnx.load(input_path)
+            
+            # Optimize
+            optimized_model = optimizer.optimize_model(
+                input_path,
+                model_type='bert',  # or 'gpt2', etc.
+                num_heads=0,
+                hidden_size=0
+            )
+            
+            optimized_model.save_model_to_file(output_path)
+            print(f"✓ Model optimized: {output_path}")
+            return True
+            
+        except ImportError:
+            print("Error: ONNX Runtime not installed")
+            return False
+    
+    return True
+
+def validate_model(model_path):
+    """Validate model format and structure"""
+    print(f"Validating model: {model_path}")
+    
+    if model_path.endswith('.tflite'):
+        try:
+            import tensorflow as tf
+            interpreter = tf.lite.Interpreter(model_path=model_path)
+            interpreter.allocate_tensors()
+            
+            input_details = interpreter.get_input_details()
+            output_details = interpreter.get_output_details()
+            
+            print("✓ Model is valid")
+            print(f"  Inputs: {len(input_details)}")
+            for i, inp in enumerate(input_details):
+                print(f"    [{i}] {inp['name']}: {inp['shape']} ({inp['dtype']})")
+            
+            print(f"  Outputs: {len(output_details)}")
+            for i, out in enumerate(output_details):
+                print(f"    [{i}] {out['name']}: {out['shape']} ({out['dtype']})")
+            
+            return True
+            
+        except Exception as e:
+            print(f"✗ Model validation failed: {e}")
+            return False
+    
+    elif model_path.endswith('.onnx'):
+        try:
+            import onnx
+            model = onnx.load(model_path)
+            onnx.checker.check_model(model)
+            
+            print("✓ Model is valid")
+            print(f"  Inputs: {len(model.graph.input)}")
+            for inp in model.graph.input:
+                print(f"    {inp.name}")
+            
+            print(f"  Outputs: {len(model.graph.output)}")
+            for out in model.graph.output:
+                print(f"    {out.name}")
+            
+            return True
+            
+        except Exception as e:
+            print(f"✗ Model validation failed: {e}")
+            return False
+    
+    return False
+
+def main():
+    parser = argparse.ArgumentParser(
+        description='NeuraParse Model Converter - Convert and optimize AI models for NeuralOS',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  # Convert Keras model to TFLite
+  npconvert model.h5 -o model.tflite
+
+  # Convert with INT8 quantization
+  npconvert model.h5 -o model.tflite --quantize int8
+
+  # Convert PyTorch to ONNX
+  npconvert model.pth -o model.onnx --format onnx
+
+  # Validate model
+  npconvert model.tflite --validate
+
+  # Optimize existing model
+  npconvert model.onnx -o model_opt.onnx --optimize
+        """
+    )
+    
+    parser.add_argument('input', help='Input model file')
+    parser.add_argument('-o', '--output', help='Output model file')
+    parser.add_argument('-f', '--format', choices=['tflite', 'onnx', 'auto'], 
+                       default='auto', help='Output format (default: auto)')
+    parser.add_argument('-q', '--quantize', choices=['int8', 'float16'], 
+                       help='Quantization type')
+    parser.add_argument('--optimize', action='store_true', 
+                       help='Optimize model for inference')
+    parser.add_argument('--validate', action='store_true', 
+                       help='Validate model only')
+    parser.add_argument('-v', '--verbose', action='store_true', 
+                       help='Verbose output')
+    
+    args = parser.parse_args()
+    
+    print_banner()
+    
+    # Check input file exists
+    if not os.path.exists(args.input):
+        print(f"Error: Input file not found: {args.input}")
+        return 1
+    
+    # Validate only
+    if args.validate:
+        return 0 if validate_model(args.input) else 1
+    
+    # Determine output format
+    if args.format == 'auto':
+        if args.output:
+            if args.output.endswith('.tflite'):
+                output_format = 'tflite'
+            elif args.output.endswith('.onnx'):
+                output_format = 'onnx'
+            else:
+                print("Error: Cannot determine output format from extension")
+                return 1
+        else:
+            # Default to TFLite
+            output_format = 'tflite'
+            args.output = Path(args.input).stem + '.tflite'
+    else:
+        output_format = args.format
+        if not args.output:
+            args.output = Path(args.input).stem + f'.{output_format}'
+    
+    # Convert model
+    success = False
+    if output_format == 'tflite':
+        success = convert_to_tflite(args.input, args.output, args.quantize)
+    elif output_format == 'onnx':
+        success = convert_to_onnx(args.input, args.output)
+    
+    if not success:
+        return 1
+    
+    # Optimize if requested
+    if args.optimize:
+        temp_output = args.output + '.tmp'
+        os.rename(args.output, temp_output)
+        if not optimize_model(temp_output, args.output):
+            os.rename(temp_output, args.output)
+        else:
+            os.remove(temp_output)
+    
+    # Validate output
+    if validate_model(args.output):
+        print("\n✓ Conversion complete!")
+        return 0
+    else:
+        print("\n✗ Conversion failed validation")
+        return 1
+
+if __name__ == '__main__':
+    sys.exit(main())
+

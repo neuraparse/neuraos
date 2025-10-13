@@ -1,0 +1,16 @@
+config BR2_PACKAGE_EMLEARN
+	bool "emlearn"
+	help
+	  emlearn is an efficient Machine Learning inference engine
+	  for microcontrollers and embedded systems. It supports
+	  classical ML models (Random Forest, SVM, Neural Networks)
+	  with extremely small binary sizes (50-200 KB).
+
+	  Features:
+	  - Header-only C library
+	  - No dependencies
+	  - Supports scikit-learn and Keras models
+	  - Optimized for ARM Cortex-M and similar MCUs
+
+	  https://emlearn.org
+

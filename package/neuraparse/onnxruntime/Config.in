@@ -1,0 +1,41 @@
+config BR2_PACKAGE_ONNXRUNTIME
+	bool "onnxruntime"
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	depends on !BR2_STATIC_LIBS
+	select BR2_PACKAGE_PROTOBUF
+	select BR2_PACKAGE_FLATBUFFERS
+	help
+	  ONNX Runtime is a cross-platform, high performance ML
+	  inferencing and training accelerator. It supports models
+	  from PyTorch, TensorFlow, and other frameworks via ONNX.
+
+	  https://onnxruntime.ai
+
+if BR2_PACKAGE_ONNXRUNTIME
+
+config BR2_PACKAGE_ONNXRUNTIME_OPENVINO
+	bool "OpenVINO execution provider"
+	help
+	  Enable OpenVINO execution provider for Intel NPU/GPU
+	  acceleration.
+
+config BR2_PACKAGE_ONNXRUNTIME_TENSORRT
+	bool "TensorRT execution provider"
+	depends on BR2_aarch64
+	help
+	  Enable TensorRT execution provider for NVIDIA GPU
+	  acceleration (Jetson platforms).
+
+config BR2_PACKAGE_ONNXRUNTIME_ACL
+	bool "ARM Compute Library execution provider"
+	depends on BR2_aarch64 || BR2_arm
+	help
+	  Enable ARM Compute Library execution provider for
+	  Mali GPU acceleration.
+
+endif
+
+comment "onnxruntime needs a toolchain w/ C++, threads, dynamic library"
+	depends on !BR2_INSTALL_LIBSTDCPP || !BR2_TOOLCHAIN_HAS_THREADS || BR2_STATIC_LIBS
+

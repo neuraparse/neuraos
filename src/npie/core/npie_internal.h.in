@@ -1,0 +1,79 @@
+/**
+ * @file npie_internal.h
+ * @brief NPIE Internal Definitions
+ * @version @PROJECT_VERSION@
+ */
+
+#ifndef NPIE_INTERNAL_H
+#define NPIE_INTERNAL_H
+
+#include "npie.h"
+#include <pthread.h>
+#include <stdbool.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/* Internal configuration */
+#define NPIE_MAX_MODELS 32
+#define NPIE_MAX_ACCELERATORS 16
+#define NPIE_MAX_BACKENDS 8
+#define NPIE_DEFAULT_THREAD_COUNT 4
+
+/* Backend interface */
+typedef struct npie_backend_ops {
+    const char* name;
+    npie_status_t (*init)(void);
+    npie_status_t (*cleanup)(void);
+    npie_status_t (*load_model)(const char* path, void** handle);
+    npie_status_t (*unload_model)(void* handle);
+    npie_status_t (*run_inference)(void* handle, npie_tensor_t* inputs, 
+                                   int num_inputs, npie_tensor_t* outputs, 
+                                   int num_outputs);
+    npie_status_t (*get_model_info)(void* handle, npie_model_info_t* info);
+} npie_backend_ops_t;
+
+/* Backend registration */
+npie_status_t npie_register_backend(const npie_backend_ops_t* ops);
+
+/* Backend implementations */
+#ifdef NEURAOS_ENABLE_LITERT
+extern const npie_backend_ops_t npie_litert_backend;
+#endif
+
+#ifdef NEURAOS_ENABLE_ONNXRUNTIME
+extern const npie_backend_ops_t npie_onnx_backend;
+#endif
+
+#ifdef NEURAOS_ENABLE_EMLEARN
+extern const npie_backend_ops_t npie_emlearn_backend;
+#endif
+
+#ifdef NEURAOS_ENABLE_WASMEDGE
+extern const npie_backend_ops_t npie_wasm_backend;
+#endif
+
+/* Logging macros */
+#define NPIE_LOG_ERROR(fmt, ...) \
+    fprintf(stderr, "[NPIE ERROR] " fmt "\n", ##__VA_ARGS__)
+
+#define NPIE_LOG_WARN(fmt, ...) \
+    fprintf(stderr, "[NPIE WARN] " fmt "\n", ##__VA_ARGS__)
+
+#define NPIE_LOG_INFO(fmt, ...) \
+    fprintf(stdout, "[NPIE INFO] " fmt "\n", ##__VA_ARGS__)
+
+#ifdef DEBUG
+#define NPIE_LOG_DEBUG(fmt, ...) \
+    fprintf(stdout, "[NPIE DEBUG] " fmt "\n", ##__VA_ARGS__)
+#else
+#define NPIE_LOG_DEBUG(fmt, ...)
+#endif
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* NPIE_INTERNAL_H */
+

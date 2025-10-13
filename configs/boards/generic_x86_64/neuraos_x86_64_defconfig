@@ -1,0 +1,68 @@
+#
+# NeuralOS Configuration for Generic x86_64
+# For Intel/AMD processors with AVX2/AVX-512 support
+#
+
+# Include base configuration
+include configs/neuraos_defconfig
+
+#
+# Target Architecture - x86_64
+#
+BR2_x86_64=y
+BR2_x86_corei7=y
+
+#
+# Kernel - x86_64 specific
+#
+BR2_LINUX_KERNEL_CUSTOM_VERSION_VALUE="6.12.8"
+BR2_LINUX_KERNEL_DEFCONFIG="x86_64_defconfig"
+BR2_LINUX_KERNEL_BZIMAGE=y
+
+#
+# Bootloader - GRUB2
+#
+BR2_TARGET_GRUB2=y
+BR2_TARGET_GRUB2_BUILTIN_MODULES="boot linux ext2 fat part_msdos part_gpt normal biosdisk"
+
+#
+# GPU Support - Intel/AMD
+#
+BR2_PACKAGE_MESA3D_GALLIUM_DRIVER_IRIS=y
+BR2_PACKAGE_MESA3D_GALLIUM_DRIVER_RADEONSI=y
+BR2_PACKAGE_MESA3D_VULKAN_DRIVER_INTEL=y
+BR2_PACKAGE_MESA3D_VULKAN_DRIVER_RADEON=y
+BR2_PACKAGE_MESA3D_OPENGL_EGL=y
+BR2_PACKAGE_MESA3D_OPENGL_ES=y
+
+#
+# Hardware acceleration for AI
+#
+BR2_PACKAGE_LITERT_XNNPACK=y
+BR2_PACKAGE_ONNXRUNTIME_OPENVINO=y
+
+#
+# Networking
+#
+BR2_PACKAGE_LINUX_FIRMWARE_I915=y
+BR2_PACKAGE_LINUX_FIRMWARE_INTEL_WIFI=y
+
+#
+# Board-specific scripts
+#
+BR2_ROOTFS_POST_BUILD_SCRIPT="$(BR2_EXTERNAL_NEURAOS_PATH)/board/neuraparse/neuraos/scripts/post_build.sh $(BR2_EXTERNAL_NEURAOS_PATH)/board/neuraparse/neuraos/x86_64/post_build.sh"
+BR2_ROOTFS_POST_IMAGE_SCRIPT="$(BR2_EXTERNAL_NEURAOS_PATH)/board/neuraparse/neuraos/scripts/post_image.sh $(BR2_EXTERNAL_NEURAOS_PATH)/board/neuraparse/neuraos/x86_64/post_image.sh"
+
+#
+# Filesystem - Larger for x86_64
+#
+BR2_TARGET_ROOTFS_EXT2=y
+BR2_TARGET_ROOTFS_EXT2_4=y
+BR2_TARGET_ROOTFS_EXT2_SIZE="2048M"
+
+#
+# ISO image for USB/CD boot
+#
+BR2_TARGET_ROOTFS_ISO9660=y
+BR2_TARGET_ROOTFS_ISO9660_BOOT_MENU="$(BR2_EXTERNAL_NEURAOS_PATH)/board/neuraparse/neuraos/x86_64/isolinux.cfg"
+

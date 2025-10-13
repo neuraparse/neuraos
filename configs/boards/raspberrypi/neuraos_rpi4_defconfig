@@ -1,0 +1,81 @@
+#
+# NeuralOS Configuration for Raspberry Pi 4
+# Based on neuraos_defconfig with RPi4-specific settings
+#
+
+# Include base configuration
+include configs/neuraos_defconfig
+
+#
+# Target Architecture - ARM 64-bit (Cortex-A72)
+#
+BR2_aarch64=y
+BR2_cortex_a72=y
+BR2_ARM_FPU_VFPV4=y
+BR2_ARM_INSTRUCTIONS_THUMB2=y
+
+#
+# Kernel - Raspberry Pi 4 specific
+#
+BR2_LINUX_KERNEL_CUSTOM_VERSION_VALUE="6.12.8"
+BR2_LINUX_KERNEL_DEFCONFIG="bcm2711"
+BR2_LINUX_KERNEL_DTS_SUPPORT=y
+BR2_LINUX_KERNEL_INTREE_DTS_NAME="broadcom/bcm2711-rpi-4-b broadcom/bcm2711-rpi-400 broadcom/bcm2711-rpi-cm4"
+
+#
+# Bootloader - U-Boot for RPi4
+#
+BR2_TARGET_UBOOT=y
+BR2_TARGET_UBOOT_BOARD_DEFCONFIG="rpi_4"
+BR2_TARGET_UBOOT_NEEDS_DTC=y
+
+#
+# Raspberry Pi Firmware
+#
+BR2_PACKAGE_RPI_FIRMWARE=y
+BR2_PACKAGE_RPI_FIRMWARE_VARIANT_PI4=y
+BR2_PACKAGE_RPI_FIRMWARE_CONFIG_FILE="$(BR2_EXTERNAL_NEURAOS_PATH)/board/neuraparse/neuraos/rpi4/config.txt"
+
+#
+# Raspberry Pi specific packages
+#
+BR2_PACKAGE_RPI_USERLAND=y
+BR2_PACKAGE_RPI_WIFI_FIRMWARE=y
+BR2_PACKAGE_RPI_BT_FIRMWARE=y
+
+#
+# GPU Support - VideoCore VI
+#
+BR2_PACKAGE_MESA3D_GALLIUM_DRIVER_VC4=y
+BR2_PACKAGE_MESA3D_GALLIUM_DRIVER_V3D=y
+BR2_PACKAGE_MESA3D_OPENGL_EGL=y
+BR2_PACKAGE_MESA3D_OPENGL_ES=y
+
+#
+# Hardware acceleration for AI
+#
+BR2_PACKAGE_LITERT_GPU_DELEGATE=y
+BR2_PACKAGE_LITERT_XNNPACK=y
+
+#
+# Networking - WiFi and Bluetooth
+#
+BR2_PACKAGE_BRCMFMAC_SDIO=y
+BR2_PACKAGE_LINUX_FIRMWARE_BRCM_BCM43XXX=y
+
+#
+# Board-specific scripts
+#
+BR2_ROOTFS_POST_BUILD_SCRIPT="$(BR2_EXTERNAL_NEURAOS_PATH)/board/neuraparse/neuraos/scripts/post_build.sh $(BR2_EXTERNAL_NEURAOS_PATH)/board/neuraparse/neuraos/rpi4/post_build.sh"
+BR2_ROOTFS_POST_IMAGE_SCRIPT="$(BR2_EXTERNAL_NEURAOS_PATH)/board/neuraparse/neuraos/scripts/post_image.sh $(BR2_EXTERNAL_NEURAOS_PATH)/board/neuraparse/neuraos/rpi4/post_image.sh"
+
+#
+# Filesystem - SD card image
+#
+BR2_TARGET_ROOTFS_EXT2=y
+BR2_TARGET_ROOTFS_EXT2_4=y
+BR2_TARGET_ROOTFS_EXT2_SIZE="512M"
+BR2_PACKAGE_HOST_DOSFSTOOLS=y
+BR2_PACKAGE_HOST_GENIMAGE=y
+BR2_PACKAGE_HOST_MTOOLS=y
+

@@ -1,0 +1,43 @@
+config BR2_PACKAGE_LITERT
+	bool "litert"
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	depends on !BR2_STATIC_LIBS
+	select BR2_PACKAGE_FLATBUFFERS
+	help
+	  LiteRT (formerly TensorFlow Lite) is Google's high-performance
+	  runtime for on-device AI. It enables running machine learning
+	  models on mobile and embedded devices with low latency and
+	  small binary size.
+
+	  https://ai.google.dev/edge/litert
+
+if BR2_PACKAGE_LITERT
+
+config BR2_PACKAGE_LITERT_XNNPACK
+	bool "XNNPACK delegate"
+	default y
+	help
+	  Enable XNNPACK delegate for optimized inference on ARM NEON
+	  and x86 AVX processors.
+
+config BR2_PACKAGE_LITERT_GPU_DELEGATE
+	bool "GPU delegate"
+	depends on BR2_PACKAGE_HAS_LIBGLES
+	select BR2_PACKAGE_MESA3D
+	select BR2_PACKAGE_LIBDRM
+	help
+	  Enable GPU delegate for hardware-accelerated inference
+	  using OpenGL ES or Vulkan.
+
+config BR2_PACKAGE_LITERT_NNAPI_DELEGATE
+	bool "NNAPI delegate"
+	help
+	  Enable NNAPI (Neural Networks API) delegate for NPU
+	  acceleration on supported platforms.
+
+endif
+
+comment "litert needs a toolchain w/ C++, threads, dynamic library"
+	depends on !BR2_INSTALL_LIBSTDCPP || !BR2_TOOLCHAIN_HAS_THREADS || BR2_STATIC_LIBS
+

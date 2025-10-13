@@ -1,0 +1,115 @@
+# NeuralOS - .gitignore (GitHub open-source ready)
+
+# OS / Editor junk
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+*.swp
+*.swo
+*.tmp
+*.bak
+*.orig
+*.rej
+
+# Environment / secrets
+.env
+.env.*
+*.key
+*.pem
+*.crt
+
+# Logs
+*.log
+logs/
+
+# Build artifacts (CMake, Make, local builds)
+/build/
+/build_*/
+/build-simple/
+/build_simple/
+cmake-build-*/
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+CTestTestfile.cmake
+cmake_install.cmake
+install_manifest.txt
+_compile_commands.json
+compile_commands.json
+
+# Object and binary files
+*.o
+*.obj
+*.lo
+*.la
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+*.app
+*.bin
+*.elf
+*.map
+
+# Tool outputs and reports
+*.sarif
+coverage/
+*.gcno
+*.gcda
+*.gcov
+
+# Python caches (for tools directory)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.tox/
+.venv/
+venv/
+
+# Documentation (generated)
+docs/html/
+docs/_build/
+site/
+
+# Models and large artifacts (keep dirs, ignore binaries)
+models/**/*.tflite
+models/**/*.onnx
+models/**/*.pb
+models/**/*.pt
+models/**/*.pth
+models/**/*.bin
+models/**/*.npz
+models/**/*.zip
+
+# Images/archives produced by builds
+*.img
+*.iso
+*.tar
+*.tar.*
+*.tgz
+*.zip
+*.7z
+*.xz
+*.bz2
+*.gz
+
+# IDE / Project files
+.idea/
+.vscode/
+*.code-workspace
+
+# Node (in case of examples)
+node_modules/
+
+# Misc temp
+.tmp/
+.temp/
+cache/
+

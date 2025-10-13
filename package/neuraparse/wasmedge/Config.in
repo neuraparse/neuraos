@@ -1,0 +1,30 @@
+config BR2_PACKAGE_WASMEDGE
+	bool "wasmedge"
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	depends on !BR2_STATIC_LIBS
+	help
+	  WasmEdge is a lightweight, high-performance WebAssembly
+	  runtime optimized for edge computing and AI applications.
+
+	  Features:
+	  - WASI-NN support for AI inference
+	  - Portable AI models across platforms
+	  - AOT compilation for performance
+	  - Plugin system for extensibility
+
+	  https://wasmedge.org
+
+if BR2_PACKAGE_WASMEDGE
+
+config BR2_PACKAGE_WASMEDGE_WASI_NN
+	bool "WASI-NN plugin"
+	default y
+	help
+	  Enable WASI-NN plugin for running AI models in WebAssembly.
+
+endif
+
+comment "wasmedge needs a toolchain w/ C++, threads, dynamic library"
+	depends on !BR2_INSTALL_LIBSTDCPP || !BR2_TOOLCHAIN_HAS_THREADS || BR2_STATIC_LIBS
+

@@ -1,0 +1,36 @@
+# Normalize line endings and mark binary files
+* text=auto eol=lf
+
+# Scripts
+*.sh text eol=lf
+*.bash text eol=lf
+*.py text eol=lf
+
+# Windows batch (if any)
+*.bat text eol=crlf
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.svg text
+*.ico binary
+*.pdf binary
+*.onnx binary
+*.tflite binary
+*.pb binary
+*.pt binary
+*.pth binary
+*.bin binary
+*.zip binary
+*.tar binary
+*.tar.* binary
+*.gz binary
+*.xz binary
+*.bz2 binary
+
+# Documentation classification
+/docs/* linguist-documentation
+/package/* linguist-vendored
+

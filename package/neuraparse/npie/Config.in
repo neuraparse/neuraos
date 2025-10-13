@@ -1,0 +1,33 @@
+config BR2_PACKAGE_NPIE
+	bool "npie"
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	depends on !BR2_STATIC_LIBS
+	help
+	  NeuraParse Inference Engine (NPIE) is the core AI runtime
+	  for NeuralOS. It provides a unified API for running AI models
+	  across multiple backends (LiteRT, ONNX Runtime, emlearn) with
+	  automatic hardware acceleration.
+
+	  Features:
+	  - Multi-backend support (LiteRT, ONNX, emlearn, WASM)
+	  - Hardware acceleration (GPU, NPU, TPU)
+	  - Real-time inference scheduling
+	  - Model hot-swapping
+	  - Performance profiling
+
+	  https://neuraparse.com
+
+if BR2_PACKAGE_NPIE
+
+config BR2_PACKAGE_NPIE_EXAMPLES
+	bool "Install example applications"
+	default y
+	help
+	  Install example applications demonstrating NPIE usage.
+
+endif
+
+comment "npie needs a toolchain w/ C++, threads, dynamic library"
+	depends on !BR2_INSTALL_LIBSTDCPP || !BR2_TOOLCHAIN_HAS_THREADS || BR2_STATIC_LIBS
+

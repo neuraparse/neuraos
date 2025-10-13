@@ -1,0 +1,67 @@
+#
+# NeuralOS Configuration for NVIDIA Jetson Nano
+# Optimized for AI inference with CUDA/TensorRT support
+#
+
+# Include base configuration
+include configs/neuraos_defconfig
+
+#
+# Target Architecture - ARM 64-bit (Cortex-A57)
+#
+BR2_aarch64=y
+BR2_cortex_a57=y
+BR2_ARM_FPU_VFPV4=y
+
+#
+# Kernel - Jetson Nano specific (L4T kernel)
+#
+BR2_LINUX_KERNEL_CUSTOM_VERSION_VALUE="6.12.8"
+BR2_LINUX_KERNEL_DEFCONFIG="tegra_defconfig"
+BR2_LINUX_KERNEL_DTS_SUPPORT=y
+BR2_LINUX_KERNEL_INTREE_DTS_NAME="nvidia/tegra210-p3450-0000"
+
+#
+# Bootloader - U-Boot for Jetson
+#
+BR2_TARGET_UBOOT=y
+BR2_TARGET_UBOOT_BOARD_DEFCONFIG="p3450-0000"
+BR2_TARGET_UBOOT_NEEDS_DTC=y
+
+#
+# GPU Support - NVIDIA Tegra X1
+#
+BR2_PACKAGE_MESA3D_GALLIUM_DRIVER_TEGRA=y
+BR2_PACKAGE_MESA3D_OPENGL_EGL=y
+BR2_PACKAGE_MESA3D_OPENGL_ES=y
+
+#
+# CUDA Support (if available)
+#
+# BR2_PACKAGE_CUDA_TOOLKIT=y
+# BR2_PACKAGE_TENSORRT=y
+
+#
+# Hardware acceleration for AI
+#
+BR2_PACKAGE_LITERT_GPU_DELEGATE=y
+BR2_PACKAGE_ONNXRUNTIME_TENSORRT=y
+
+#
+# Networking
+#
+BR2_PACKAGE_LINUX_FIRMWARE_RTL_8168=y
+
+#
+# Board-specific scripts
+#
+BR2_ROOTFS_POST_BUILD_SCRIPT="$(BR2_EXTERNAL_NEURAOS_PATH)/board/neuraparse/neuraos/scripts/post_build.sh $(BR2_EXTERNAL_NEURAOS_PATH)/board/neuraparse/neuraos/jetson/post_build.sh"
+BR2_ROOTFS_POST_IMAGE_SCRIPT="$(BR2_EXTERNAL_NEURAOS_PATH)/board/neuraparse/neuraos/scripts/post_image.sh $(BR2_EXTERNAL_NEURAOS_PATH)/board/neuraparse/neuraos/jetson/post_image.sh"
+
+#
+# Filesystem
+#
+BR2_TARGET_ROOTFS_EXT2=y
+BR2_TARGET_ROOTFS_EXT2_4=y
+BR2_TARGET_ROOTFS_EXT2_SIZE="1024M"
+

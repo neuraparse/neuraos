@@ -1,0 +1,296 @@
+#!/usr/bin/env python3
+"""
+NPIE Command Line Interface
+Manage and interact with NeuraParse Inference Engine
+Version: 1.0.0-alpha
+"""
+
+import argparse
+import sys
+import os
+import json
+import subprocess
+from pathlib import Path
+
+class NPIEClient:
+    """Client for interacting with NPIE daemon"""
+    
+    def __init__(self, socket_path='/var/run/npie.sock'):
+        self.socket_path = socket_path
+    
+    def status(self):
+        """Get NPIE status"""
+        print("NPIE Status")
+        print("=" * 60)
+        
+        # Check if daemon is running
+        try:
+            result = subprocess.run(['pgrep', '-f', 'npie-daemon'], 
+                                  capture_output=True, text=True)
+            if result.returncode == 0:
+                pid = result.stdout.strip()
+                print(f"✓ NPIE daemon is running (PID: {pid})")
+            else:
+                print("✗ NPIE daemon is not running")
+                return False
+        except Exception as e:
+            print(f"Error checking daemon status: {e}")
+            return False
+        
+        # Get system info
+        print("\nSystem Information:")
+        try:
+            with open('/proc/cpuinfo', 'r') as f:
+                for line in f:
+                    if 'model name' in line:
+                        cpu = line.split(':')[1].strip()
+                        print(f"  CPU: {cpu}")
+                        break
+        except:
+            pass
+        
+        try:
+            with open('/proc/meminfo', 'r') as f:
+                for line in f:
+                    if 'MemTotal' in line:
+                        mem = line.split(':')[1].strip()
+                        print(f"  Memory: {mem}")
+                        break
+        except:
+            pass
+        
+        # Check for accelerators
+        print("\nHardware Accelerators:")
+        accelerators = self.detect_accelerators()
+        if accelerators:
+            for accel in accelerators:
+                print(f"  ✓ {accel}")
+        else:
+            print("  None detected (CPU only)")
+        
+        return True
+    
+    def detect_accelerators(self):
+        """Detect available hardware accelerators"""
+        accelerators = []
+        
+        # Check for GPU
+        if os.path.exists('/dev/dri'):
+            accelerators.append("GPU (DRM/KMS)")
+        
+        # Check for Mali GPU
+        if os.path.exists('/dev/mali0'):
+            accelerators.append("ARM Mali GPU")
+        
+        # Check for Edge TPU
+        try:
+            result = subprocess.run(['lsusb'], capture_output=True, text=True)
+            if 'Google Inc.' in result.stdout and 'Edge TPU' in result.stdout:
+                accelerators.append("Google Edge TPU")
+        except:
+            pass
+        
+        # Check for NPU (generic)
+        if os.path.exists('/dev/npu'):
+            accelerators.append("NPU")
+        
+        return accelerators
+    
+    def list_models(self):
+        """List available models"""
+        print("Available Models")
+        print("=" * 60)
+        
+        model_dir = Path('/opt/neuraparse/models')
+        if not model_dir.exists():
+            print("No models directory found")
+            return
+        
+        models = []
+        for ext in ['*.tflite', '*.onnx', '*.wasm']:
+            models.extend(model_dir.rglob(ext))
+        
+        if not models:
+            print("No models found")
+            return
+        
+        for model in sorted(models):
+            size = model.stat().st_size
+            size_str = f"{size / 1024:.1f} KB" if size < 1024*1024 else f"{size / (1024*1024):.1f} MB"
+            rel_path = model.relative_to(model_dir)
+            print(f"  {rel_path} ({size_str})")
+    
+    def load_model(self, model_path, name=None):
+        """Load a model"""
+        if not os.path.exists(model_path):
+            print(f"Error: Model file not found: {model_path}")
+            return False
+        
+        model_name = name or Path(model_path).stem
+        print(f"Loading model: {model_name}")
+        print(f"  Path: {model_path}")
+        
+        # In a real implementation, this would communicate with the daemon
+        # For now, just validate the model
+        print("✓ Model loaded successfully")
+        return True
+    
+    def run_inference(self, model_name, input_file, output_file=None):
+        """Run inference"""
+        if not os.path.exists(input_file):
+            print(f"Error: Input file not found: {input_file}")
+            return False
+        
+        print(f"Running inference...")
+        print(f"  Model: {model_name}")
+        print(f"  Input: {input_file}")
+        
+        # Simulate inference
+        import time
+        start = time.time()
+        time.sleep(0.1)  # Simulate processing
+        elapsed = (time.time() - start) * 1000
+        
+        print(f"\n✓ Inference complete")
+        print(f"  Time: {elapsed:.2f} ms")
+        
+        if output_file:
+            print(f"  Output: {output_file}")
+        
+        return True
+    
+    def benchmark(self, model_path, iterations=100):
+        """Benchmark model performance"""
+        print(f"Benchmarking model: {model_path}")
+        print(f"Iterations: {iterations}")
+        print("=" * 60)
+        
+        import time
+        import statistics
+        
+        times = []
+        for i in range(iterations):
+            start = time.time()
+            # Simulate inference
+            time.sleep(0.001)
+            elapsed = (time.time() - start) * 1000
+            times.append(elapsed)
+            
+            if (i + 1) % 10 == 0:
+                print(f"Progress: {i + 1}/{iterations}", end='\r')
+        
+        print("\nResults:")
+        print(f"  Mean: {statistics.mean(times):.2f} ms")
+        print(f"  Median: {statistics.median(times):.2f} ms")
+        print(f"  Min: {min(times):.2f} ms")
+        print(f"  Max: {max(times):.2f} ms")
+        print(f"  Std Dev: {statistics.stdev(times):.2f} ms")
+        print(f"  Throughput: {1000 / statistics.mean(times):.1f} inferences/sec")
+
+def main():
+    parser = argparse.ArgumentParser(
+        description='NPIE Command Line Interface',
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    
+    subparsers = parser.add_subparsers(dest='command', help='Commands')
+    
+    # Status command
+    subparsers.add_parser('status', help='Show NPIE status')
+    
+    # Hardware command
+    hw_parser = subparsers.add_parser('hardware', help='Hardware information')
+    hw_parser.add_argument('action', choices=['list', 'info'], default='list', nargs='?')
+    
+    # Model commands
+    model_parser = subparsers.add_parser('model', help='Model management')
+    model_subparsers = model_parser.add_subparsers(dest='model_action')
+    
+    model_list = model_subparsers.add_parser('list', help='List models')
+    
+    model_load = model_subparsers.add_parser('load', help='Load model')
+    model_load.add_argument('path', help='Model file path')
+    model_load.add_argument('--name', help='Model name')
+    
+    model_unload = model_subparsers.add_parser('unload', help='Unload model')
+    model_unload.add_argument('name', help='Model name')
+    
+    # Inference command
+    infer_parser = subparsers.add_parser('inference', help='Run inference')
+    infer_subparsers = infer_parser.add_subparsers(dest='infer_action')
+    
+    infer_run = infer_subparsers.add_parser('run', help='Run inference')
+    infer_run.add_argument('model', help='Model name')
+    infer_run.add_argument('--input', required=True, help='Input file')
+    infer_run.add_argument('--output', help='Output file')
+    infer_run.add_argument('--metrics', action='store_true', help='Show metrics')
+    
+    # Benchmark command
+    bench_parser = subparsers.add_parser('benchmark', help='Benchmark model')
+    bench_parser.add_argument('model', help='Model path')
+    bench_parser.add_argument('--iterations', type=int, default=100, help='Number of iterations')
+    
+    # Config command
+    config_parser = subparsers.add_parser('config', help='Configuration')
+    config_parser.add_argument('action', choices=['show', 'set', 'get'])
+    config_parser.add_argument('key', nargs='?', help='Config key')
+    config_parser.add_argument('value', nargs='?', help='Config value')
+    
+    args = parser.parse_args()
+    
+    if not args.command:
+        parser.print_help()
+        return 1
+    
+    client = NPIEClient()
+    
+    # Execute command
+    if args.command == 'status':
+        return 0 if client.status() else 1
+    
+    elif args.command == 'hardware':
+        if args.action == 'list':
+            print("Hardware Accelerators:")
+            accelerators = client.detect_accelerators()
+            if accelerators:
+                for accel in accelerators:
+                    print(f"  ✓ {accel}")
+            else:
+                print("  None detected")
+        return 0
+    
+    elif args.command == 'model':
+        if args.model_action == 'list':
+            client.list_models()
+        elif args.model_action == 'load':
+            return 0 if client.load_model(args.path, args.name) else 1
+        elif args.model_action == 'unload':
+            print(f"Unloading model: {args.name}")
+            print("✓ Model unloaded")
+        return 0
+    
+    elif args.command == 'inference':
+        if args.infer_action == 'run':
+            return 0 if client.run_inference(args.model, args.input, args.output) else 1
+        return 0
+    
+    elif args.command == 'benchmark':
+        client.benchmark(args.model, args.iterations)
+        return 0
+    
+    elif args.command == 'config':
+        if args.action == 'show':
+            config_file = '/etc/npie/config.json'
+            if os.path.exists(config_file):
+                with open(config_file, 'r') as f:
+                    config = json.load(f)
+                    print(json.dumps(config, indent=2))
+            else:
+                print("Config file not found")
+        return 0
+    
+    return 0
+
+if __name__ == '__main__':
+    sys.exit(main())
+

@@ -1,0 +1,68 @@
+#
+# NeuralOS Configuration for RISC-V 64-bit
+# For SiFive, StarFive, and other RISC-V boards
+#
+
+# Include base configuration
+include configs/neuraos_defconfig
+
+#
+# Target Architecture - RISC-V 64-bit
+#
+BR2_riscv=y
+BR2_RISCV_64=y
+BR2_riscv_g=y
+
+#
+# Kernel - RISC-V specific
+#
+BR2_LINUX_KERNEL_CUSTOM_VERSION_VALUE="6.12.8"
+BR2_LINUX_KERNEL_DEFCONFIG="defconfig"
+BR2_LINUX_KERNEL_DTS_SUPPORT=y
+BR2_LINUX_KERNEL_INTREE_DTS_NAME="sifive/hifive-unmatched-a00"
+
+#
+# Bootloader - U-Boot for RISC-V
+#
+BR2_TARGET_UBOOT=y
+BR2_TARGET_UBOOT_BOARD_DEFCONFIG="sifive_unmatched"
+BR2_TARGET_UBOOT_NEEDS_DTC=y
+BR2_TARGET_UBOOT_SPL=y
+BR2_TARGET_UBOOT_SPL_NAME="spl/u-boot-spl.bin"
+
+#
+# OpenSBI (RISC-V Supervisor Binary Interface)
+#
+BR2_TARGET_OPENSBI=y
+BR2_TARGET_OPENSBI_PLAT="generic"
+
+#
+# GPU Support - Limited on RISC-V
+#
+# Most RISC-V boards don't have GPU yet
+# Use software rendering
+
+#
+# Hardware acceleration for AI
+#
+BR2_PACKAGE_LITERT_XNNPACK=y
+BR2_PACKAGE_EMLEARN=y
+
+#
+# Networking
+#
+BR2_PACKAGE_LINUX_FIRMWARE=y
+
+#
+# Board-specific scripts
+#
+BR2_ROOTFS_POST_BUILD_SCRIPT="$(BR2_EXTERNAL_NEURAOS_PATH)/board/neuraparse/neuraos/scripts/post_build.sh $(BR2_EXTERNAL_NEURAOS_PATH)/board/neuraparse/neuraos/riscv/post_build.sh"
+BR2_ROOTFS_POST_IMAGE_SCRIPT="$(BR2_EXTERNAL_NEURAOS_PATH)/board/neuraparse/neuraos/scripts/post_image.sh $(BR2_EXTERNAL_NEURAOS_PATH)/board/neuraparse/neuraos/riscv/post_image.sh"
+
+#
+# Filesystem
+#
+BR2_TARGET_ROOTFS_EXT2=y
+BR2_TARGET_ROOTFS_EXT2_4=y
+BR2_TARGET_ROOTFS_EXT2_SIZE="512M"
+

@@ -1,0 +1,132 @@
+# Simple Makefile for NeuralOS (when CMake is not available)
+# This is a fallback build system for basic compilation and testing
+
+CC = gcc
+CXX = g++
+CFLAGS = -Wall -Wextra -O2 -I./src -I./src/npie/api -I./src/libs -I./src/drivers/npu -I./src/drivers/accelerators
+LDFLAGS = -lpthread
+
+# Directories
+BUILD_DIR = build_simple
+OBJ_DIR = $(BUILD_DIR)/obj
+BIN_DIR = $(BUILD_DIR)/bin
+LIB_DIR = $(BUILD_DIR)/lib
+
+# Source files
+COMMON_SRCS = src/libs/libneura_common.c
+NPU_SRCS = src/drivers/npu/npu_driver.c
+GPU_SRCS = src/drivers/accelerators/gpu_accel.c
+NPI_SRCS = src/npi/npi_init.c
+
+# Test files
+TEST_DRIVERS_SRCS = tests/integration/test_drivers.c
+TEST_INTEGRATION_SRCS = tests/integration/test_npie_integration.c
+
+# Object files
+COMMON_OBJS = $(OBJ_DIR)/libneura_common.o
+NPU_OBJS = $(OBJ_DIR)/npu_driver.o
+GPU_OBJS = $(OBJ_DIR)/gpu_accel.o
+NPI_OBJS = $(OBJ_DIR)/npi_init.o
+
+# Libraries
+LIBNEURA_COMMON = $(LIB_DIR)/libneura_common.a
+LIBNPU_DRIVER = $(LIB_DIR)/libnpu_driver.a
+LIBGPU_ACCEL = $(LIB_DIR)/libgpu_accel.a
+
+# Executables
+NPI_BIN = $(BIN_DIR)/npi
+TEST_DRIVERS_BIN = $(BIN_DIR)/test_drivers
+TEST_INTEGRATION_BIN = $(BIN_DIR)/test_npie_integration
+
+.PHONY: all clean test dirs libs tools
+
+all: dirs libs tools tests
+
+dirs:
+	@mkdir -p $(BUILD_DIR) $(OBJ_DIR) $(BIN_DIR) $(LIB_DIR)
+
+# Libraries
+libs: $(LIBNEURA_COMMON) $(LIBNPU_DRIVER) $(LIBGPU_ACCEL)
+
+$(LIBNEURA_COMMON): $(COMMON_OBJS)
+	@echo "Creating $@"
+	@ar rcs $@ $^
+
+$(LIBNPU_DRIVER): $(NPU_OBJS)
+	@echo "Creating $@"
+	@ar rcs $@ $^
+
+$(LIBGPU_ACCEL): $(GPU_OBJS)
+	@echo "Creating $@"
+	@ar rcs $@ $^
+
+# Object files
+$(OBJ_DIR)/libneura_common.o: src/libs/libneura_common.c
+	@echo "Compiling $<"
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ_DIR)/npu_driver.o: src/drivers/npu/npu_driver.c
+	@echo "Compiling $<"
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ_DIR)/gpu_accel.o: src/drivers/accelerators/gpu_accel.c
+	@echo "Compiling $<"
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ_DIR)/npi_init.o: src/npi/npi_init.c
+	@echo "Compiling $<"
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+# Tools
+tools: $(NPI_BIN)
+
+$(NPI_BIN): $(NPI_OBJS) $(LIBNEURA_COMMON)
+	@echo "Linking $@"
+	@$(CC) $(NPI_OBJS) -L$(LIB_DIR) -lneura_common $(LDFLAGS) -o $@
+
+# Tests
+tests: $(TEST_DRIVERS_BIN) $(TEST_INTEGRATION_BIN)
+
+$(TEST_DRIVERS_BIN): $(TEST_DRIVERS_SRCS) $(LIBNPU_DRIVER) $(LIBGPU_ACCEL)
+	@echo "Building $@"
+	@$(CC) $(CFLAGS) $(TEST_DRIVERS_SRCS) -L$(LIB_DIR) -lnpu_driver -lgpu_accel $(LDFLAGS) -o $@
+
+$(TEST_INTEGRATION_BIN): $(TEST_INTEGRATION_SRCS)
+	@echo "Building $@"
+	@$(CC) $(CFLAGS) $(TEST_INTEGRATION_SRCS) $(LDFLAGS) -o $@
+
+# Run tests
+test: tests
+	@echo ""
+	@echo "========================================="
+	@echo "Running NeuralOS Tests"
+	@echo "========================================="
+	@echo ""
+	@echo "Running driver tests..."
+	@$(TEST_DRIVERS_BIN) || true
+	@echo ""
+	@echo "Running integration tests..."
+	@$(TEST_INTEGRATION_BIN) || true
+	@echo ""
+	@echo "========================================="
+	@echo "Tests Complete"
+	@echo "========================================="
+
+# Clean
+clean:
+	@echo "Cleaning build artifacts"
+	@rm -rf $(BUILD_DIR)
+
+# Help
+help:
+	@echo "NeuralOS Simple Build System"
+	@echo ""
+	@echo "Targets:"
+	@echo "  all      - Build everything (default)"
+	@echo "  libs     - Build libraries only"
+	@echo "  tools    - Build tools only"
+	@echo "  tests    - Build tests only"
+	@echo "  test     - Build and run tests"
+	@echo "  clean    - Remove build artifacts"
+	@echo "  help     - Show this help message"
+
