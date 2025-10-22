@@ -104,6 +104,7 @@ include_directories(
 )
 
 # Find required packages
+set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
 # Find optional packages
