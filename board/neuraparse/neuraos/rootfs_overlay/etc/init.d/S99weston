@@ -1,0 +1,28 @@
+#!/bin/sh
+#
+# Start Weston and AI Dashboard
+#
+
+case "$1" in
+    start)
+        echo "Starting Weston compositor and AI Dashboard..."
+        /usr/bin/start-weston.sh &
+        ;;
+    stop)
+        echo "Stopping Weston..."
+        killall weston
+        killall neuraos-dashboard
+        ;;
+    restart)
+        $0 stop
+        sleep 1
+        $0 start
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+        ;;
+esac
+
+exit 0
+

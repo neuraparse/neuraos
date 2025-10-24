@@ -1,7 +1,9 @@
 menu "NeuralOS (NeuraParse) external packages"
 
 # Include all NeuraParse package menus
-rsource "package/neuraparse/*/Config.in"
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/npie/Config.in"
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/npi-init/Config.in"
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/neuraos-dashboard/Config.in"
 
 endmenu
 

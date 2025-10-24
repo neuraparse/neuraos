@@ -1,5 +1,8 @@
 # NeuralOS - .gitignore (GitHub open-source ready)
 
+buildroot-*/
+
+
 # OS / Editor junk
 .DS_Store
 .AppleDouble

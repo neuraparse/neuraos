@@ -1,0 +1,16 @@
+config BR2_PACKAGE_NEURAOS_DASHBOARD
+	bool "neuraos-dashboard"
+	depends on BR2_PACKAGE_QT5
+	depends on BR2_PACKAGE_QT5BASE
+	depends on BR2_PACKAGE_QT5CHARTS
+	depends on BR2_PACKAGE_NPIE
+	help
+	  NeuralOS AI Dashboard - Qt5-based visual interface
+	  for AI inference monitoring and model management.
+	  
+	  Provides real-time visualization of:
+	  - AI model inference performance
+	  - Hardware accelerator utilization
+	  - System resource usage
+	  - Model loading and management
+

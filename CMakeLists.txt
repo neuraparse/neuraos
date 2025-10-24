@@ -65,13 +65,19 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic")
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -DNDEBUG")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -DNDEBUG")
-    
-    # ARM NEON optimizations
-    if(NEURAOS_ARM_NEON)
+
+    # ARM32 NEON optimizations (armv7)
+    if(NEURAOS_ARCH STREQUAL "arm32")
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mfpu=neon -mfloat-abi=hard")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mfpu=neon -mfloat-abi=hard")
     endif()
-    
+
+    # ARM64 optimizations (aarch64) - NEON is always available
+    if(NEURAOS_ARCH STREQUAL "arm64")
+        # NEON is enabled by default on ARM64, no flags needed
+        # Optionally enable specific features if needed
+    endif()
+
     # x86_64 optimizations
     if(NEURAOS_ARCH STREQUAL "x86_64")
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -march=native -mtune=native")
@@ -105,6 +111,11 @@ include_directories(
 
 # Find required packages
 set(THREADS_PREFER_PTHREAD_FLAG ON)
+set(CMAKE_THREAD_LIBS_INIT "-lpthread")
+set(CMAKE_HAVE_THREADS_LIBRARY 1)
+set(CMAKE_USE_WIN32_THREADS_INIT 0)
+set(CMAKE_USE_PTHREADS_INIT 1)
+set(THREADS_FOUND TRUE)
 find_package(Threads REQUIRED)
 
 # Find optional packages
@@ -176,6 +187,9 @@ endif()
 if(BUILD_TOOLS)
     add_subdirectory(tools)
 endif()
+
+# AI Dashboard (Qt5-based GUI)
+add_subdirectory(src/dashboard)
 
 if(BUILD_EXAMPLES)
     add_subdirectory(examples)

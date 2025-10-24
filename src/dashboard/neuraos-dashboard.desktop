@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=NeuralOS AI Dashboard
+Comment=AI Inference Monitoring and Model Management
+Exec=/usr/bin/neuraos-dashboard
+Icon=computer
+Terminal=false
+Categories=System;Monitor;
+

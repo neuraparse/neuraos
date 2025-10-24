@@ -10,6 +10,11 @@ RUN apt-get update && apt-get install -y \
     git \
     clang-format \
     libc6-dev \
+    libpthread-stubs0-dev \
+    linux-libc-dev \
+    cpio \
+    qemu-system-arm \
+    qemu-system-aarch64 \
     && rm -rf /var/lib/apt/lists/*
 
 # Set working directory
@@ -27,6 +32,9 @@ RUN rm -rf build && \
         -DNEURAOS_ENABLE_ONNX=OFF \
         -DNEURAOS_ENABLE_WASMEDGE=OFF && \
     cmake --build build -j$(nproc)
+
+# Create minimal rootfs
+RUN ./scripts/create_minimal_rootfs.sh
 
 # Default command: run tests
 CMD ["sh", "-c", "cd build && ctest --output-on-failure --verbose"]
