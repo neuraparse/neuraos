@@ -1,0 +1,30 @@
+config BR2_PACKAGE_ZEROMQ
+	bool "zeromq"
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	help
+	  ZeroMQ (ØMQ) is a high-performance asynchronous messaging library
+	  aimed at use in distributed or concurrent applications.
+	  
+	  Features:
+	  - Multiple messaging patterns (pub-sub, req-rep, push-pull)
+	  - Asynchronous I/O for scalable multicore applications
+	  - Language-agnostic wire protocol
+	  - Runs on most operating systems
+	  - Supports multiple transport protocols (TCP, IPC, inproc)
+	  
+	  https://zeromq.org
+
+if BR2_PACKAGE_ZEROMQ
+
+config BR2_PACKAGE_ZEROMQ_CURVE
+	bool "CURVE security"
+	select BR2_PACKAGE_LIBSODIUM
+	help
+	  Enable CURVE security mechanism for encrypted communication.
+
+endif
+
+comment "zeromq needs a toolchain w/ C++, threads"
+	depends on !BR2_INSTALL_LIBSTDCPP || !BR2_TOOLCHAIN_HAS_THREADS
+

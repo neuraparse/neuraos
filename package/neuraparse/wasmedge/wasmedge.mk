@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-WASMEDGE_VERSION = 0.14.1
+WASMEDGE_VERSION = 0.15.0
 WASMEDGE_SITE = $(call github,WasmEdge,WasmEdge,$(WASMEDGE_VERSION))
 WASMEDGE_LICENSE = Apache-2.0
 WASMEDGE_LICENSE_FILES = LICENSE

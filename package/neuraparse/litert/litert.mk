@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LITERT_VERSION = 2.18.0
+LITERT_VERSION = 2.0.2
 LITERT_SITE = $(call github,google-ai-edge,LiteRT,v$(LITERT_VERSION))
 LITERT_LICENSE = Apache-2.0
 LITERT_LICENSE_FILES = LICENSE

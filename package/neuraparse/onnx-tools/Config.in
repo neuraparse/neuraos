@@ -1,0 +1,19 @@
+config BR2_PACKAGE_ONNX_TOOLS
+	bool "onnx-tools"
+	depends on BR2_PACKAGE_PYTHON3
+	select BR2_PACKAGE_PYTHON_NUMPY
+	help
+	  ONNX (Open Neural Network Exchange) tools for model conversion,
+	  optimization, and deployment.
+	  
+	  Features:
+	  - Model conversion from PyTorch, TensorFlow, etc.
+	  - Model optimization (quantization, pruning)
+	  - Model validation and visualization
+	  - ONNX Runtime integration
+	  
+	  https://github.com/onnx/onnx
+
+comment "onnx-tools needs Python 3"
+	depends on !BR2_PACKAGE_PYTHON3
+

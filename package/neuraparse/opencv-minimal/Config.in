@@ -1,0 +1,39 @@
+config BR2_PACKAGE_OPENCV_MINIMAL
+	bool "opencv-minimal"
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	depends on !BR2_STATIC_LIBS
+	help
+	  OpenCV (Open Source Computer Vision Library) is an open source
+	  computer vision and machine learning software library. This is
+	  a minimal build optimized for embedded systems.
+
+	  Features included:
+	  - Core module (basic data structures)
+	  - Image processing (imgproc)
+	  - Image codecs (imgcodecs)
+	  - Video I/O (videoio)
+	  - DNN module (deep neural networks)
+
+	  https://opencv.org
+
+if BR2_PACKAGE_OPENCV_MINIMAL
+
+config BR2_PACKAGE_OPENCV_MINIMAL_DNN
+	bool "DNN module"
+	default y
+	help
+	  Enable Deep Neural Networks (DNN) module for running
+	  pre-trained models (Caffe, TensorFlow, ONNX, etc.)
+
+config BR2_PACKAGE_OPENCV_MINIMAL_VIDEOIO
+	bool "Video I/O support"
+	default y
+	help
+	  Enable video capture and encoding/decoding support.
+
+endif
+
+comment "opencv-minimal needs a toolchain w/ C++, threads, dynamic library"
+	depends on !BR2_INSTALL_LIBSTDCPP || !BR2_TOOLCHAIN_HAS_THREADS || BR2_STATIC_LIBS
+

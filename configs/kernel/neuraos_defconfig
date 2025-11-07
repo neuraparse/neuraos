@@ -1,10 +1,19 @@
-# NeuralOS Minimal Kernel Config for QEMU ARM64
+# NeuralOS Kernel Config - Linux 6.12 LTS with PREEMPT_RT
 CONFIG_ARM64=y
 CONFIG_ARCH_VIRT=y
 CONFIG_SMP=y
 CONFIG_NR_CPUS=8
-CONFIG_PREEMPT=y
-CONFIG_LOCALVERSION="-neuraos"
+
+# Real-time preemption (native in 6.12 LTS!)
+CONFIG_PREEMPT_RT=y
+CONFIG_PREEMPT_COUNT=y
+CONFIG_PREEMPTION=y
+CONFIG_LOCALVERSION="-neuraos-rt"
+
+# High-resolution timers for real-time
+CONFIG_HIGH_RES_TIMERS=y
+CONFIG_NO_HZ_FULL=y
+CONFIG_HZ_1000=y
 
 # Networking
 CONFIG_NET=y

@@ -1,0 +1,39 @@
+config BR2_PACKAGE_PYTORCH_EXECUTORCH
+	bool "pytorch-executorch"
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	depends on BR2_USE_WCHAR
+	select BR2_PACKAGE_FLATBUFFERS
+	help
+	  ExecuTorch is PyTorch's solution for efficient AI inference
+	  on edge devices - from mobile phones to embedded systems.
+
+	  ExecuTorch provides:
+	  - Portability across diverse hardware
+	  - Productivity via PyTorch ecosystem integration
+	  - Performance optimized for edge devices
+	  - Support for quantization and model optimization
+
+	  https://github.com/pytorch/executorch
+
+if BR2_PACKAGE_PYTORCH_EXECUTORCH
+
+config BR2_PACKAGE_PYTORCH_EXECUTORCH_XNNPACK
+	bool "XNNPACK backend"
+	default y
+	help
+	  Enable XNNPACK backend for optimized CPU inference
+
+config BR2_PACKAGE_PYTORCH_EXECUTORCH_VULKAN
+	bool "Vulkan backend"
+	help
+	  Enable Vulkan backend for GPU acceleration
+
+config BR2_PACKAGE_PYTORCH_EXECUTORCH_COREML
+	bool "CoreML backend"
+	depends on BR2_PACKAGE_HAS_COREML
+	help
+	  Enable CoreML backend for Apple hardware
+
+endif
+

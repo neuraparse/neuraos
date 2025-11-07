@@ -1,0 +1,26 @@
+config BR2_PACKAGE_MAVLINK
+	bool "mavlink"
+	help
+	  MAVLink (Micro Air Vehicle Link) is a lightweight messaging
+	  protocol for communicating with drones and between onboard
+	  drone components.
+	  
+	  Features:
+	  - Lightweight and efficient binary protocol
+	  - Used by PX4, ArduPilot, and other autopilots
+	  - Support for multiple vehicles and systems
+	  - Extensible message definitions
+	  - C, C++, Python, and other language bindings
+	  
+	  https://mavlink.io
+
+if BR2_PACKAGE_MAVLINK
+
+config BR2_PACKAGE_MAVLINK_V2
+	bool "MAVLink v2 protocol"
+	default y
+	help
+	  Enable MAVLink v2 protocol with signing and extensions.
+
+endif
+

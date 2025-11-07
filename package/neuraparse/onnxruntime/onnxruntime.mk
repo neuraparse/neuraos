@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-ONNXRUNTIME_VERSION = 1.20.1
+ONNXRUNTIME_VERSION = 1.23.2
 ONNXRUNTIME_SITE = $(call github,microsoft,onnxruntime,v$(ONNXRUNTIME_VERSION))
 ONNXRUNTIME_LICENSE = MIT
 ONNXRUNTIME_LICENSE_FILES = LICENSE

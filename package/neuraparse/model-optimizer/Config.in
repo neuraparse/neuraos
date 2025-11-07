@@ -1,0 +1,21 @@
+config BR2_PACKAGE_MODEL_OPTIMIZER
+	bool "model-optimizer"
+	depends on BR2_PACKAGE_PYTHON3
+	select BR2_PACKAGE_PYTHON_NUMPY
+	select BR2_PACKAGE_ONNX_TOOLS
+	help
+	  NeuralOS AI Model Optimizer - Tools for optimizing AI models
+	  for edge deployment.
+	  
+	  Features:
+	  - Quantization (INT8, FP16)
+	  - Pruning and compression
+	  - Model conversion (PyTorch → ONNX → TFLite)
+	  - Benchmarking and profiling
+	  - Automated optimization pipelines
+	  
+	  https://neuraparse.com
+
+comment "model-optimizer needs Python 3"
+	depends on !BR2_PACKAGE_PYTHON3
+

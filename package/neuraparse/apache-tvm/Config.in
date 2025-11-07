@@ -1,0 +1,41 @@
+config BR2_PACKAGE_APACHE_TVM
+	bool "apache-tvm"
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	depends on BR2_USE_WCHAR
+	select BR2_PACKAGE_LLVM
+	select BR2_PACKAGE_PYTHON3
+	help
+	  Apache TVM is an open deep learning compiler stack for CPUs,
+	  GPUs, and specialized accelerators. It aims to close the gap
+	  between the productivity-focused deep learning frameworks and
+	  the performance- or efficiency-oriented hardware backends.
+
+	  TVM provides:
+	  - End-to-end compilation from deep learning frameworks
+	  - Automated optimization for diverse hardware backends
+	  - Support for CPUs, GPUs, and specialized accelerators
+	  - Cross-level design with TensorIR and Relax
+
+	  https://github.com/apache/tvm
+
+if BR2_PACKAGE_APACHE_TVM
+
+config BR2_PACKAGE_APACHE_TVM_LLVM_BACKEND
+	bool "LLVM backend"
+	default y
+	help
+	  Enable LLVM backend for CPU code generation
+
+config BR2_PACKAGE_APACHE_TVM_OPENCL_BACKEND
+	bool "OpenCL backend"
+	help
+	  Enable OpenCL backend for GPU acceleration
+
+config BR2_PACKAGE_APACHE_TVM_VULKAN_BACKEND
+	bool "Vulkan backend"
+	help
+	  Enable Vulkan backend for GPU acceleration
+
+endif
+

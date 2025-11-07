@@ -1,0 +1,38 @@
+config BR2_PACKAGE_LLAMA_CPP
+	bool "llama-cpp"
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	depends on BR2_USE_WCHAR
+	help
+	  LLM inference in C/C++. Efficient inference of large language
+	  models (LLMs) on consumer hardware with minimal dependencies.
+
+	  llama.cpp provides:
+	  - Pure C/C++ implementation with no dependencies
+	  - Optimized for Apple Silicon, x86, ARM NEON, RISC-V
+	  - Support for GGUF model format
+	  - Quantization support (4-bit, 5-bit, 8-bit)
+	  - KleidiAI integration for ARM optimization
+
+	  https://github.com/ggml-org/llama.cpp
+
+if BR2_PACKAGE_LLAMA_CPP
+
+config BR2_PACKAGE_LLAMA_CPP_OPENCL
+	bool "OpenCL backend"
+	help
+	  Enable OpenCL backend for GPU acceleration
+
+config BR2_PACKAGE_LLAMA_CPP_VULKAN
+	bool "Vulkan backend"
+	help
+	  Enable Vulkan backend for GPU acceleration
+
+config BR2_PACKAGE_LLAMA_CPP_METAL
+	bool "Metal backend"
+	depends on BR2_PACKAGE_HAS_METAL
+	help
+	  Enable Metal backend for Apple GPU acceleration
+
+endif
+

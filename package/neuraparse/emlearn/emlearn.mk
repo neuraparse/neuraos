@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-EMLEARN_VERSION = 0.18.0
-EMLEARN_SITE = $(call github,emlearn,emlearn,v$(EMLEARN_VERSION))
+EMLEARN_VERSION = 0.21.1
+EMLEARN_SITE = $(call github,emlearn,emlearn,$(EMLEARN_VERSION))
 EMLEARN_LICENSE = MIT
 EMLEARN_LICENSE_FILES = LICENSE
 EMLEARN_INSTALL_STAGING = YES

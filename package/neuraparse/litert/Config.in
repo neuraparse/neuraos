@@ -23,9 +23,6 @@ config BR2_PACKAGE_LITERT_XNNPACK
 
 config BR2_PACKAGE_LITERT_GPU_DELEGATE
 	bool "GPU delegate"
-	depends on BR2_PACKAGE_HAS_LIBGLES
-	select BR2_PACKAGE_MESA3D
-	select BR2_PACKAGE_LIBDRM
 	help
 	  Enable GPU delegate for hardware-accelerated inference
 	  using OpenGL ES or Vulkan.

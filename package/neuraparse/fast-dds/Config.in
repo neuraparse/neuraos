@@ -1,0 +1,41 @@
+config BR2_PACKAGE_FAST_DDS
+	bool "fast-dds"
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	depends on !BR2_STATIC_LIBS
+	select BR2_PACKAGE_OPENSSL
+	help
+	  eProsima Fast DDS (formerly Fast RTPS) is a C++ implementation
+	  of the DDS (Data Distribution Service) specification of the OMG.
+	  
+	  Fast DDS provides:
+	  - Real-time publish-subscribe communication
+	  - Quality of Service (QoS) policies
+	  - Discovery mechanisms
+	  - Security features (DDS Security)
+	  - High performance and low latency
+	  
+	  Used by ROS 2 as default middleware for robotics applications.
+	  
+	  https://github.com/eProsima/Fast-DDS
+
+if BR2_PACKAGE_FAST_DDS
+
+config BR2_PACKAGE_FAST_DDS_SECURITY
+	bool "DDS Security support"
+	default y
+	help
+	  Enable DDS Security features for secure communication.
+
+config BR2_PACKAGE_FAST_DDS_SHM
+	bool "Shared memory transport"
+	default y
+	help
+	  Enable shared memory transport for high-performance
+	  local communication.
+
+endif
+
+comment "fast-dds needs a toolchain w/ C++, threads, dynamic library"
+	depends on !BR2_INSTALL_LIBSTDCPP || !BR2_TOOLCHAIN_HAS_THREADS || BR2_STATIC_LIBS
+

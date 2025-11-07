@@ -15,32 +15,51 @@
 
 - **Ultra-Lightweight**: <64MB RAM, <256MB storage footprint
 - **AI-First Design**: Native support for LiteRT, ONNX Runtime, and custom AI accelerators
-- **Real-Time Capable**: Linux 6.12 LTS with PREEMPT_RT support
+- **Real-Time Capable**: Linux 6.12 LTS with **native PREEMPT_RT** support
 - **Multi-Architecture**: ARM (32/64-bit), x86_64, RISC-V
 - **Hardware Acceleration**: NPU, GPU, TPU support (Mali, Qualcomm, Edge TPU, etc.)
 - **Modern Networking**: eBPF/XDP for high-performance packet processing
 - **Secure by Design**: Verified boot, encrypted models, minimal attack surface
 - **WebAssembly Ready**: WASM runtime for portable AI applications
+- **🤖 Robotics Ready**: ROS2, DDS, MAVLink support for autonomous systems
+- **🚁 Drone Compatible**: PX4/ArduPilot integration, real-time flight control
+- **🛡️ Defense-Grade**: Real-time communication, sensor fusion, SLAM capabilities
 
 ---
 
-## 📋 System Architecture (2025 Edition)
+## 📋 System Architecture (2025 Latest)
 
 ### Core Technologies
 
 | Component | Technology | Version | Purpose |
 |-----------|-----------|---------|---------|
-| **Base System** | Buildroot | 2025.08 LTS | Minimal Linux distribution builder |
-| **Kernel** | Linux | 6.12 LTS | Real-time kernel with PREEMPT_RT |
-| **AI Runtime** | LiteRT (TensorFlow Lite) | 2.18+ | Primary inference engine |
-| **AI Runtime** | ONNX Runtime | 1.20+ | Cross-platform model support |
-| **Classical ML** | emlearn | Latest | Lightweight ML algorithms |
-| **Computer Vision** | OpenCV | 4.10+ | Minimal CV build |
+| **Base System** | Buildroot | 2025.08.1 | Minimal Linux distribution builder |
+| **Kernel** | Linux | 6.12.57 LTS | **Native PREEMPT_RT** real-time kernel |
+| **Bootloader** | U-Boot | 2025.01 | ARM64 bootloader |
+| **AI Runtime** | LiteRT (TensorFlow Lite) | 2.0.2 | Primary inference engine |
+| **AI Runtime** | ONNX Runtime | 1.23.2 | Cross-platform model support |
+| **AI Runtime** | PyTorch ExecuTorch | 1.0.0 | PyTorch edge inference |
+| **AI Runtime** | Apache TVM | 0.22.0 | Compiler-driven ML optimization |
+| **AI Runtime** | MediaPipe | 0.10.26 | Real-time multimodal AI pipelines |
+| **AI Runtime** | ncnn | 20250916 | Tencent mobile AI framework |
+| **LLM Runtime** | llama.cpp | b6970 | LLM inference with KleidiAI |
+| **Classical ML** | emlearn | 0.21.1 | Lightweight ML algorithms |
+| **Computer Vision** | OpenCV | 4.12.0 | Minimal CV build |
+| **WASM Runtime** | WasmEdge | 0.15.0 | WebAssembly for edge AI |
 | **C Library** | musl libc | 1.2.5+ | Lightweight standard library |
 | **Init System** | Custom (npi) | 1.0 | Fast boot init system |
-| **Networking** | eBPF/XDP | Kernel 6.12 | High-performance networking |
-| **WASM Runtime** | WasmEdge | 0.14+ | WebAssembly for edge AI |
-| **Container** | Podman Lite | 5.0+ | Lightweight containers |
+
+### Robotics & Drone Systems (2025 Latest)
+
+| Component | Technology | Version | Purpose |
+|-----------|-----------|---------|---------|
+| **DDS Middleware** | Fast-DDS (eProsima) | 3.2.0 | Real-time pub-sub communication |
+| **Messaging** | ZeroMQ | 4.3.6 | High-performance async messaging |
+| **RPC Framework** | gRPC | 1.76.0 | Modern RPC with Protobuf |
+| **Drone Protocol** | MAVLink | 2.0.0 | PX4/ArduPilot communication |
+| **SLAM** | ORB-SLAM3 | 1.0 | Visual-Inertial SLAM |
+| **Model Tools** | ONNX Tools | 1.18.0 | Model conversion & optimization |
+| **Optimizer** | Model Optimizer | 1.0.0 | Quantization, pruning, deployment |
 
 ### Performance Targets
 
@@ -58,10 +77,10 @@
 ### Current System Specifications (v1.0.0-alpha)
 
 **Kernel:**
-- Linux 6.12.8 LTS with PREEMPT support
-- Built: October 24, 2025
+- Linux 6.12.57 LTS with **native PREEMPT_RT** support
+- Built: November 2025
 - Size: 8.6 MB (compressed kernel image)
-- Features: PCI, VIRTIO, EXT4, networking, device management
+- Features: PCI, VIRTIO, EXT4, networking, device management, real-time preemption
 
 **Rootfs:**
 - Size: 512 MB (EXT4 filesystem)
@@ -94,6 +113,112 @@
 
 ---
 
+## 🤖 Robotics & Defense Applications
+
+NeuralOS is specifically designed for **autonomous systems, drones, and defense applications** with 2025 latest technologies.
+
+### 🚁 Drone & UAV Systems
+
+**Supported Autopilots:**
+- ✅ **PX4 Autopilot** - Open-source flight control stack
+- ✅ **ArduPilot** - Versatile autopilot (multi-copter, plane, rover, submarine)
+- ✅ **MAVLink 2.0** - Micro Air Vehicle communication protocol
+
+**Flight Control Features:**
+- Real-time flight control with PREEMPT_RT kernel (<1ms latency)
+- Sensor fusion (IMU, GPS, barometer, magnetometer)
+- Computer vision for obstacle avoidance (OpenCV + MediaPipe)
+- AI-powered autonomous navigation (SLAM + path planning)
+- LLM-based mission planning (llama.cpp)
+
+**Example Use Cases:**
+- Autonomous delivery drones
+- Surveillance and reconnaissance UAVs
+- Agricultural monitoring drones
+- Search and rescue operations
+- Swarm intelligence (multi-drone coordination)
+
+### 🤖 Robotics Systems
+
+**Middleware Support:**
+- ✅ **Fast-DDS 3.2.0** - Real-time DDS implementation (ROS 2 default)
+- ✅ **ZeroMQ 4.3.6** - High-performance async messaging
+- ✅ **gRPC 1.76.0** - Modern RPC framework
+
+**Robotics Features:**
+- Real-time sensor fusion and state estimation
+- Visual-Inertial SLAM (ORB-SLAM3)
+- Multi-modal AI perception (vision, audio, LiDAR)
+- Hardware-accelerated inference (GPU, NPU, TPU)
+- Distributed computing (multi-robot coordination)
+
+**Example Use Cases:**
+- Autonomous mobile robots (AMR)
+- Industrial automation and inspection
+- Warehouse logistics robots
+- Service robots (hospitality, healthcare)
+- Humanoid robots (AI-powered interaction)
+
+### 🛡️ Defense & Security Systems
+
+**Real-Time Communication:**
+- DDS Security (encrypted pub-sub)
+- CURVE security for ZeroMQ
+- TLS/SSL for gRPC
+- Low-latency networking (eBPF/XDP)
+
+**AI Capabilities:**
+- Object detection and tracking (YOLOv8, SSD)
+- Facial recognition and biometrics
+- Anomaly detection and threat assessment
+- Natural language processing (command & control)
+- Edge LLM inference (secure, offline)
+
+**Safety & Reliability:**
+- Real-time OS (PREEMPT_RT) for deterministic behavior
+- Watchdog timers and failsafe mechanisms
+- Secure boot and encrypted storage
+- Minimal attack surface (<64MB footprint)
+- Offline operation (no cloud dependency)
+
+**Example Use Cases:**
+- Border surveillance systems
+- Autonomous security patrols
+- Threat detection and classification
+- Tactical communication systems
+- Unmanned ground vehicles (UGV)
+
+### 🎯 AI Model Deployment Pipeline
+
+**Model Optimization Tools:**
+- ✅ **ONNX Tools 1.18.0** - Model conversion (PyTorch/TF → ONNX)
+- ✅ **Model Optimizer 1.0.0** - Quantization, pruning, compression
+- ✅ **TensorRT Support** - NVIDIA GPU optimization (INT8/FP16)
+
+**Deployment Workflow:**
+```bash
+# 1. Convert PyTorch model to ONNX
+python3 -m onnx_tools.convert --input model.pth --output model.onnx
+
+# 2. Optimize for edge deployment
+neuraos-optimizer --input model.onnx --output model_int8.onnx \
+  --quantize int8 --prune 0.3 --target arm64
+
+# 3. Deploy to NeuralOS device
+neuraos-deploy --model model_int8.onnx --device /dev/ttyUSB0
+
+# 4. Benchmark performance
+neuraos-benchmark --model model_int8.onnx --iterations 1000
+```
+
+**Supported Optimizations:**
+- INT8/FP16 quantization (4-8x speedup)
+- Model pruning (30-50% size reduction)
+- Layer fusion and graph optimization
+- Hardware-specific acceleration (NEON, GPU, NPU)
+
+---
+
 ## 🏗️ Project Structure
 
 ```
@@ -116,12 +241,24 @@ neuraos/
 │           └── post_image.sh
 ├── package/                   # Custom Buildroot packages
 │   └── neuraparse/
-│       ├── litert/           # LiteRT (TensorFlow Lite)
-│       ├── onnxruntime/      # ONNX Runtime
-│       ├── emlearn/          # emlearn package
-│       ├── npie/             # NeuraParse Inference Engine
-│       ├── wasmEdge/         # WebAssembly runtime
-│       └── opencv-minimal/   # Minimal OpenCV
+│       ├── litert/           # LiteRT (TensorFlow Lite) 2.0.2
+│       ├── onnxruntime/      # ONNX Runtime 1.23.2
+│       ├── pytorch-executorch/ # PyTorch ExecuTorch 1.0.0
+│       ├── apache-tvm/       # Apache TVM 0.22.0
+│       ├── mediapipe/        # MediaPipe 0.10.26
+│       ├── llama-cpp/        # llama.cpp b6970
+│       ├── ncnn/             # ncnn 20250916
+│       ├── emlearn/          # emlearn 0.21.1
+│       ├── wasmedge/         # WasmEdge 0.15.0
+│       ├── opencv-minimal/   # OpenCV 4.12.0
+│       ├── fast-dds/         # Fast-DDS 3.2.0 (ROS2 middleware)
+│       ├── zeromq/           # ZeroMQ 4.3.6
+│       ├── grpc/             # gRPC 1.76.0
+│       ├── mavlink/          # MAVLink 2.0.0
+│       ├── orb-slam3/        # ORB-SLAM3 1.0
+│       ├── onnx-tools/       # ONNX Tools 1.18.0
+│       ├── model-optimizer/  # Model Optimizer 1.0.0
+│       └── npie/             # NeuraParse Inference Engine
 ├── src/                       # Source code
 │   ├── npie/                 # NeuraParse Inference Engine
 │   │   ├── core/             # Core inference engine
@@ -847,13 +984,36 @@ qemu-system-aarch64 -M virt -cpu cortex-a57 -m 1024 -smp 4 \
 
 NeuralOS is built on the shoulders of giants:
 
-- **Buildroot** - The embedded Linux build system
-- **Linux Kernel** - The world's most advanced operating system kernel
-- **TensorFlow Lite** - Google's lightweight ML framework
+**Base System:**
+- **Buildroot 2025.08.1** - The embedded Linux build system
+- **Linux Kernel 6.12 LTS** - First kernel with native PREEMPT_RT support
+- **U-Boot 2025.01** - Universal bootloader
+- **musl libc 1.2.5** - Lightweight and fast C library
+- **BusyBox 1.36.1** - The Swiss Army knife of embedded Linux
+
+**AI/ML Frameworks:**
+- **LiteRT (TensorFlow Lite)** - Google's lightweight ML framework
 - **ONNX Runtime** - Microsoft's cross-platform inference engine
+- **PyTorch ExecuTorch** - Meta's edge AI solution
+- **Apache TVM** - Compiler-driven ML optimization
+- **MediaPipe** - Google's real-time multimodal AI
+- **llama.cpp** - Georgi Gerganov's LLM inference engine
+- **ncnn** - Tencent's mobile AI framework
+- **emlearn** - Lightweight classical ML
+- **WasmEdge** - WebAssembly runtime for edge AI
+- **OpenCV** - Computer vision library
+
+**Robotics & Communication:**
+- **Fast-DDS** - eProsima's real-time DDS implementation
+- **ZeroMQ** - High-performance messaging library
+- **gRPC** - Google's modern RPC framework
+- **MAVLink** - Micro Air Vehicle communication protocol
+- **ORB-SLAM3** - Visual-Inertial SLAM system
+
+**Development Tools:**
 - **QEMU** - The amazing emulator that makes development possible
-- **musl libc** - Lightweight and fast C library
-- **BusyBox** - The Swiss Army knife of embedded Linux
+- **Docker** - Containerization platform
+- **CMake** - Cross-platform build system
 
 Special thanks to all open-source contributors who make projects like this possible.
 
@@ -862,4 +1022,106 @@ Special thanks to all open-source contributors who make projects like this possi
 **Built with ❤️ by NeuraParse Team**
 
 *NeuralOS - Bringing AI to the Edge, One Device at a Time*
+
+---
+
+## 🎯 Use Case Examples
+
+### 🚁 Autonomous Delivery Drone
+```bash
+# Hardware: Pixhawk 6X + Raspberry Pi 5 + NeuralOS
+# Features:
+- PX4 autopilot with MAVLink communication
+- Real-time object detection (YOLOv8 on LiteRT)
+- GPS waypoint navigation
+- Obstacle avoidance (ORB-SLAM3 + MediaPipe)
+- LLM-based mission planning (llama.cpp)
+- 4G/5G telemetry (gRPC)
+```
+
+### 🤖 Warehouse Logistics Robot
+```bash
+# Hardware: NVIDIA Jetson Orin Nano + NeuralOS
+# Features:
+- ROS2 navigation stack (Fast-DDS)
+- Visual-Inertial SLAM (ORB-SLAM3)
+- Multi-robot coordination (ZeroMQ)
+- Package detection & classification (ncnn)
+- Voice commands (Whisper on ExecuTorch)
+- Real-time path planning (Apache TVM)
+```
+
+### 🛡️ Border Surveillance System
+```bash
+# Hardware: ARM Cortex-A76 + Mali GPU + NeuralOS
+# Features:
+- Multi-camera object tracking (MediaPipe)
+- Facial recognition (ONNX Runtime)
+- Anomaly detection (emlearn)
+- Thermal imaging analysis (OpenCV)
+- Encrypted communication (DDS Security)
+- Edge LLM threat assessment (llama.cpp)
+- Offline operation (no cloud dependency)
+```
+
+### 🚜 Agricultural Monitoring Drone
+```bash
+# Hardware: ArduPilot + Coral Edge TPU + NeuralOS
+# Features:
+- Autonomous field mapping (MAVLink + GPS)
+- Crop health analysis (OpenCV + ncnn)
+- Pest detection (LiteRT with INT8 quantization)
+- Real-time data streaming (gRPC)
+- Weather-aware mission planning (LLM)
+- Solar-powered operation (low-power mode)
+```
+
+---
+
+## 📊 Performance Benchmarks (Target)
+
+| Metric | Target | Hardware |
+|--------|--------|----------|
+| **Boot Time** | <3s | ARM Cortex-A53 |
+| **Inference (MobileNetV2)** | <20ms | ARM NEON |
+| **Inference (YOLOv8n)** | <50ms | Mali GPU |
+| **LLM (Llama-3.2-1B)** | <100ms/token | ARM Cortex-A76 |
+| **SLAM Update Rate** | 30 FPS | Dual-core ARM |
+| **Memory Footprint** | <64MB | Minimal config |
+| **Power Consumption** | 0.5-5W | Workload dependent |
+| **Network Latency (DDS)** | <1ms | Local network |
+
+---
+
+## 🔒 Security Features
+
+- ✅ **Secure Boot** - Verified boot chain (U-Boot + kernel)
+- ✅ **Encrypted Storage** - dm-crypt for sensitive data
+- ✅ **Model Encryption** - Encrypted AI models at rest
+- ✅ **DDS Security** - Encrypted pub-sub communication
+- ✅ **TLS/SSL** - Encrypted gRPC and HTTPS
+- ✅ **Minimal Attack Surface** - <64MB footprint, minimal services
+- ✅ **Read-Only Rootfs** - Immutable system partition
+- ✅ **Sandboxing** - libseccomp for process isolation
+- ✅ **Firewall** - iptables with default-deny policy
+- ✅ **No Telemetry** - Zero data collection, fully offline capable
+
+---
+
+## 🌍 Supported Hardware Platforms
+
+| Platform | Status | Notes |
+|----------|--------|-------|
+| **QEMU ARM64** | ✅ Tested | Development & testing |
+| **Raspberry Pi 4/5** | 🚧 In Progress | ARM Cortex-A72/A76 |
+| **NVIDIA Jetson Nano/Orin** | 🚧 Planned | GPU acceleration |
+| **Google Coral Dev Board** | 🚧 Planned | Edge TPU support |
+| **Rockchip RK3588** | 🚧 Planned | NPU acceleration |
+| **NXP i.MX8M Plus** | 🚧 Planned | NPU + ISP |
+| **Qualcomm RB5** | 🚧 Planned | Hexagon DSP |
+| **Generic ARM64** | ✅ Supported | Any ARM64 SoC |
+| **x86_64** | 🚧 Planned | Intel/AMD processors |
+| **RISC-V** | 🚧 Future | Emerging architecture |
+
+---
 

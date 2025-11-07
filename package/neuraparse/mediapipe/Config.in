@@ -1,0 +1,35 @@
+config BR2_PACKAGE_MEDIAPIPE
+	bool "mediapipe"
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	depends on BR2_USE_WCHAR
+	select BR2_PACKAGE_OPENCV_MINIMAL
+	select BR2_PACKAGE_PROTOBUF
+	help
+	  MediaPipe is a cross-platform framework for building multimodal
+	  applied machine learning pipelines. It provides ready-to-use
+	  ML solutions for face detection, hand tracking, pose estimation,
+	  object detection, and more.
+
+	  MediaPipe provides:
+	  - Real-time multimodal AI pipelines
+	  - Cross-platform support (Android, iOS, Web, Desktop)
+	  - Pre-built ML solutions for vision, audio, and text
+	  - Optimized for on-device inference
+
+	  https://github.com/google-ai-edge/mediapipe
+
+if BR2_PACKAGE_MEDIAPIPE
+
+config BR2_PACKAGE_MEDIAPIPE_GPU
+	bool "GPU support"
+	help
+	  Enable GPU acceleration for MediaPipe
+
+config BR2_PACKAGE_MEDIAPIPE_AUDIO
+	bool "Audio support"
+	help
+	  Enable audio processing capabilities
+
+endif
+

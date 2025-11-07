@@ -1,9 +1,53 @@
 menu "NeuralOS (NeuraParse) external packages"
 
-# Include all NeuraParse package menus
+# AI/ML Frameworks
+menu "AI/ML Frameworks"
+# Core Inference Engines
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/litert/Config.in"
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/onnxruntime/Config.in"
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/emlearn/Config.in"
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/wasmedge/Config.in"
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/ncnn/Config.in"
+
+# Advanced AI Frameworks
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/apache-tvm/Config.in"
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/mediapipe/Config.in"
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/pytorch-executorch/Config.in"
+
+# LLM Inference
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/llama-cpp/Config.in"
+
+# Computer Vision
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/opencv-minimal/Config.in"
+endmenu
+
+# Robotics & Drone Systems
+menu "Robotics & Drone Systems"
+# Real-time Communication
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/fast-dds/Config.in"
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/zeromq/Config.in"
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/grpc/Config.in"
+
+# Drone Autopilot
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/mavlink/Config.in"
+
+# SLAM & Perception
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/orb-slam3/Config.in"
+endmenu
+
+# AI Model Deployment Tools
+menu "AI Model Deployment Tools"
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/onnx-tools/Config.in"
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/model-optimizer/Config.in"
+endmenu
+
+# NeuralOS Core Components
+menu "NeuralOS Core Components"
 source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/npie/Config.in"
 source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/npi-init/Config.in"
 source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/neuraos-dashboard/Config.in"
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/neuraos-tests/Config.in"
+endmenu
 
 endmenu
 

@@ -1,0 +1,40 @@
+config BR2_PACKAGE_NCNN
+	bool "ncnn"
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	depends on BR2_USE_WCHAR
+	select BR2_PACKAGE_PROTOBUF
+	help
+	  ncnn is a high-performance neural network inference framework
+	  optimized for mobile platforms. Developed by Tencent.
+
+	  ncnn provides:
+	  - High performance on mobile/embedded devices
+	  - Optimized for ARM, x86, RISC-V, LoongArch
+	  - Vulkan GPU acceleration support
+	  - INT8 quantization support
+	  - Minimal external dependencies
+
+	  https://github.com/Tencent/ncnn
+
+if BR2_PACKAGE_NCNN
+
+config BR2_PACKAGE_NCNN_VULKAN
+	bool "Vulkan support"
+	help
+	  Enable Vulkan GPU acceleration
+
+config BR2_PACKAGE_NCNN_OPENMP
+	bool "OpenMP support"
+	default y
+	help
+	  Enable OpenMP for multi-threading
+
+config BR2_PACKAGE_NCNN_INT8
+	bool "INT8 quantization"
+	default y
+	help
+	  Enable INT8 quantization support
+
+endif
+

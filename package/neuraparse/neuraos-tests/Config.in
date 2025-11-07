@@ -1,0 +1,12 @@
+config BR2_PACKAGE_NEURAOS_TESTS
+	bool "neuraos-tests"
+	help
+	  NeuralOS test suite for validating AI stack components.
+	  
+	  Includes tests for:
+	  - emlearn headers
+	  - OpenCV library
+	  - NPIE library
+	  - Hardware accelerators
+	  - System resources
+
