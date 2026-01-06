@@ -1,6 +1,19 @@
 # NeuralOS - .gitignore (GitHub open-source ready)
 
+# Build directories and output
 buildroot-*/
+neuraos-images/
+build-output/
+
+# Local development documentation (not for public repo)
+BUILD_SUCCESS.md
+DEVELOPMENT.md
+STATUS.txt
+TEST_RESULTS.md
+
+# Package backups (disabled packages)
+*.disabled
+*.disabled/
 
 
 # OS / Editor junk
