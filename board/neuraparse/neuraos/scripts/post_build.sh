@@ -173,6 +173,41 @@ if [ -f /etc/motd ]; then
 fi
 EOF
 
+# Create hostname file
+echo "neuraos" > "$TARGET_DIR/etc/hostname"
+
+# Create hosts file
+cat > "$TARGET_DIR/etc/hosts" << 'EOF'
+127.0.0.1       localhost
+127.0.1.1       neuraos
+::1             localhost ip6-localhost ip6-loopback
+EOF
+
+# Create chrony configuration for NTP
+mkdir -p "$TARGET_DIR/etc"
+cat > "$TARGET_DIR/etc/chrony.conf" << 'EOF'
+# NeuralOS Chrony NTP Configuration
+
+# Use public NTP servers
+pool pool.ntp.org iburst
+pool time.google.com iburst
+
+# Record the rate at which the system clock gains/loses time
+driftfile /var/lib/chrony/drift
+
+# Allow the system clock to be stepped during the first updates
+makestep 1.0 3
+
+# Enable kernel synchronization of the real-time clock (RTC)
+rtcsync
+
+# Log files location
+logdir /var/log/chrony
+EOF
+
+# Create chrony state directory
+mkdir -p "$TARGET_DIR/var/lib/chrony"
+
 # Create NPIE configuration
 cat > "$TARGET_DIR/etc/npie/config.json" << 'EOF'
 {

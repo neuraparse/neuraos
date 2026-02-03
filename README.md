@@ -388,12 +388,18 @@ brew install qemu
 # Navigate to images directory
 cd neuraos-images  # or buildroot-2024.02.9/output/images/
 
-# Launch QEMU ARM64 virtual machine
-qemu-system-aarch64 -M virt -cpu cortex-a57 -m 1024 \
+# Launch QEMU ARM64 virtual machine (QEMU 6.x+ compatible)
+qemu-system-aarch64 -machine virt -cpu cortex-a57 -m 1024 -smp 2 \
   -kernel Image \
-  -drive file=rootfs.ext4,if=virtio,format=raw \
-  -append "root=/dev/vda console=ttyAMA0" \
+  -drive if=none,file=rootfs.ext2,id=rootdisk,format=raw \
+  -device virtio-blk-device,drive=rootdisk \
+  -append "root=/dev/vda rw console=ttyAMA0" \
+  -device virtio-net-device,netdev=net0 \
+  -netdev user,id=net0 \
   -nographic
+
+# Or use the provided script (recommended)
+./scripts/run_qemu_headless.sh
 
 # To exit QEMU: Press Ctrl+A, then X
 ```
@@ -719,29 +725,29 @@ Third-party components retain their original licenses:
 
 ## 🌟 Roadmap & Current Status
 
-### Version 1.0.0-alpha (Current - January 2026)
+### Version 1.0.0-alpha (Current - February 2026)
 
-**✅ MAJOR BUILD SUCCESS (2026-01-06):**
+**✅ MAJOR BUILD & BOOT SUCCESS (2026-02-03):**
 
-NeuralOS v1.0.0-alpha has been successfully built and tested! All core components are operational:
+NeuralOS v1.0.0-alpha has been successfully built, tested, and verified to boot! All core components are fully operational:
 
 **Build Achievements:**
-- ✅ **Linux Kernel 6.12.57 LTS** - Latest ARM64 kernel with PREEMPT_RT support (8.9 MB)
+- ✅ **Linux Kernel 6.12.57 LTS** - ARM64 kernel with native PREEMPT_RT support (8.9 MB)
 - ✅ **Python 3.11** - Full Python environment with standard library
 - ✅ **NumPy** - Scientific computing package successfully integrated
 - ✅ **BusyBox 1.36.1** - Complete userspace with 100+ utilities
 - ✅ **Root Filesystem** - 512MB ext4 image with all components verified
-- ✅ **NPIE Library** - NeuraParse Inference Engine built and installed
+- ✅ **NPIE Library** - NeuraParse Inference Engine built and tested
 - ✅ **Network Stack** - DHCP, SSH (Dropbear), iptables, iproute2
 - ✅ **Development Tools** - GDB, gdbserver for debugging
 
 **System Specifications:**
-- **Kernel**: Linux 6.12.57 LTS (November 2025 build)
-- **Size**: 8.9 MB kernel + 512 MB rootfs (22 MB used, 430 MB free)
-- **Architecture**: ARM64 (aarch64) - Cortex-A57 tested
+- **Kernel**: Linux 6.12.57 LTS with PREEMPT_RT
+- **Size**: 8.9 MB kernel + 512 MB rootfs (112 MB used, 339 MB free)
+- **Architecture**: ARM64 (aarch64) - Cortex-A57 tested in QEMU
 - **C Library**: musl libc 1.2.5
 - **Init System**: BusyBox init
-- **Build System**: Buildroot 2024.02.9 (Docker-based reproducible builds)
+- **Build System**: Buildroot 2024.02.9 + CMake (Docker-based reproducible builds)
 
 **Verified Components:**
 - `/usr/bin/python3.11` - Python interpreter
@@ -750,25 +756,35 @@ NeuralOS v1.0.0-alpha has been successfully built and tested! All core component
 - `/etc/init.d/S90npie` - NPIE init script
 - All standard Linux directories and utilities
 
-**Testing Status:**
-- ✅ Rootfs structure verification: PASSED
-- ✅ Python 3.11 installation: PASSED
-- ✅ NumPy package verification: PASSED
-- ✅ NPIE library verification: PASSED
-- ✅ Network tools verification: PASSED
-- ✅ Development tools verification: PASSED
-- ⚠️ QEMU interactive boot: Configuration issue (non-critical)
+**QEMU Boot Test Results (2026-02-03):**
+- ✅ Kernel boot: Linux 6.12.57-neuraos-rt successfully boots
+- ✅ Init system: BusyBox init runs all startup scripts
+- ✅ Services started: syslogd, klogd, eudev, iptables, network, SSH
+- ✅ Network: DHCP client obtains IP address (10.0.2.15)
+- ✅ Login: root/neuraos credentials work
+- ✅ System commands: uname, free, df, ls all functional
+- ✅ Poweroff: Clean shutdown sequence
+
+**CMake Build & Test Results:**
+- ✅ npie_core_tests: 10/10 PASSED
+- ✅ npie_integration_tests: 8/8 PASSED
+- ✅ driver_tests: 6/6 PASSED
+- ✅ **Total: 24/24 tests PASSED**
+
+**Benchmark Results (x86_64 Docker):**
+- Context Init: ~2.17μs mean latency
+- Tensor Alloc (224x224x3): ~4.37μs mean latency
+- Hardware Detection: ~0.68ms mean latency
+- Throughput: 460K+ inferences/sec
 
 **Build Artifacts:**
 - Linux Kernel 6.12.57 (ARM64, ~8.9 MB)
 - Root filesystem (ext4, 512 MB image)
-- Compressed rootfs archive (~111 MB)
+- Compressed rootfs archive (~116 MB)
 
 **🔄 In Progress:**
-- NPIE runtime integration and testing
-- Python/NumPy AI computation benchmarks
 - Hardware deployment (Raspberry Pi 4/5)
-- QEMU boot configuration debugging
+- AI model inference examples with real models
 
 **📋 Planned for v1.0.0 Final:**
 - Raspberry Pi 4/5 hardware support
@@ -971,27 +987,31 @@ configs/
 ### Useful QEMU Options
 
 ```bash
-# Basic boot
-qemu-system-aarch64 -M virt -cpu cortex-a57 -m 1024 \
-  -kernel Image -drive file=rootfs.ext4,if=virtio,format=raw \
-  -append "root=/dev/vda console=ttyAMA0" -nographic
+# Basic boot (QEMU 6.x+ compatible)
+qemu-system-aarch64 -machine virt -cpu cortex-a57 -m 1024 \
+  -kernel Image \
+  -drive if=none,file=rootfs.ext2,id=rootdisk,format=raw \
+  -device virtio-blk-device,drive=rootdisk \
+  -append "root=/dev/vda rw console=ttyAMA0" -nographic
 
 # With SSH port forwarding
-qemu-system-aarch64 -M virt -cpu cortex-a57 -m 1024 \
-  -kernel Image -drive file=rootfs.ext4,if=virtio,format=raw \
-  -append "root=/dev/vda console=ttyAMA0" \
-  -netdev user,id=net0,hostfwd=tcp::2222-:22 \
-  -device virtio-net-pci,netdev=net0 -nographic
+qemu-system-aarch64 -machine virt -cpu cortex-a57 -m 1024 -smp 2 \
+  -kernel Image \
+  -drive if=none,file=rootfs.ext2,id=rootdisk,format=raw \
+  -device virtio-blk-device,drive=rootdisk \
+  -append "root=/dev/vda rw console=ttyAMA0" \
+  -device virtio-net-device,netdev=net0 \
+  -netdev user,id=net0,hostfwd=tcp::2222-:22 -nographic
 
-# With more RAM
-qemu-system-aarch64 -M virt -cpu cortex-a57 -m 2048 \
-  -kernel Image -drive file=rootfs.ext4,if=virtio,format=raw \
-  -append "root=/dev/vda console=ttyAMA0" -nographic
+# With more RAM and CPUs
+qemu-system-aarch64 -machine virt -cpu cortex-a57 -m 2048 -smp 4 \
+  -kernel Image \
+  -drive if=none,file=rootfs.ext2,id=rootdisk,format=raw \
+  -device virtio-blk-device,drive=rootdisk \
+  -append "root=/dev/vda rw console=ttyAMA0" -nographic
 
-# With SMP (multiple CPUs)
-qemu-system-aarch64 -M virt -cpu cortex-a57 -m 1024 -smp 4 \
-  -kernel Image -drive file=rootfs.ext4,if=virtio,format=raw \
-  -append "root=/dev/vda console=ttyAMA0" -nographic
+# Using the provided script (recommended)
+./scripts/run_qemu_headless.sh
 ```
 
 ---

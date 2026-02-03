@@ -1,30 +1,53 @@
 #!/bin/bash
 #
 # Run NeuralOS in QEMU (headless mode - no GUI)
+# Updated: February 2026
 #
 
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
-BUILDROOT_DIR="$PROJECT_ROOT/buildroot-2024.02.9"
-OUTPUT_DIR="$BUILDROOT_DIR/output/images"
+
+# Try multiple image locations
+if [ -d "$PROJECT_ROOT/neuraos-images" ] && [ -f "$PROJECT_ROOT/neuraos-images/Image" ]; then
+    OUTPUT_DIR="$PROJECT_ROOT/neuraos-images"
+elif [ -d "$PROJECT_ROOT/buildroot-2024.02.9/output/images" ]; then
+    OUTPUT_DIR="$PROJECT_ROOT/buildroot-2024.02.9/output/images"
+else
+    OUTPUT_DIR="$PROJECT_ROOT/output/images"
+fi
+
+# Memory size (default 1024MB)
+MEMORY="${MEMORY:-1024}"
+# CPU count (default 2)
+CPUS="${CPUS:-2}"
+# SSH port forward (default 2222)
+SSH_PORT="${SSH_PORT:-2222}"
 
 echo "╔════════════════════════════════════════════════════════════════╗"
 echo "║          NeuralOS QEMU Boot (Headless Mode)                   ║"
+echo "║          Version: 1.0.0-alpha                                 ║"
 echo "╚════════════════════════════════════════════════════════════════╝"
 echo ""
 
 # Check if images exist
 if [ ! -f "$OUTPUT_DIR/Image" ]; then
-    echo "Error: Kernel image not found at $OUTPUT_DIR/Image"
+    echo "Error: Kernel image not found"
+    echo "Searched in: $OUTPUT_DIR/Image"
     echo "Please run ./scripts/build_neuraos.sh first"
     exit 1
 fi
 
-if [ ! -f "$OUTPUT_DIR/rootfs.ext4" ]; then
-    echo "Error: Root filesystem not found at $OUTPUT_DIR/rootfs.ext4"
-    echo "Please run ./scripts/build_neuraos.sh first"
+# Support both ext2 and ext4 rootfs
+ROOTFS=""
+if [ -f "$OUTPUT_DIR/rootfs.ext4" ]; then
+    ROOTFS="$OUTPUT_DIR/rootfs.ext4"
+elif [ -f "$OUTPUT_DIR/rootfs.ext2" ]; then
+    ROOTFS="$OUTPUT_DIR/rootfs.ext2"
+else
+    echo "Error: Root filesystem not found"
+    echo "Searched in: $OUTPUT_DIR/rootfs.ext4 or rootfs.ext2"
     exit 1
 fi
 
@@ -36,24 +59,29 @@ if ! command -v qemu-system-aarch64 &> /dev/null; then
 fi
 
 echo "Starting NeuralOS in QEMU (headless)..."
-echo "Architecture: ARM64 (aarch64)"
-echo "Memory: 1GB"
+echo "  Kernel:    $OUTPUT_DIR/Image"
+echo "  Rootfs:    $ROOTFS"
+echo "  Arch:      ARM64 (aarch64, Cortex-A57)"
+echo "  Memory:    ${MEMORY}MB"
+echo "  CPUs:      $CPUS"
+echo "  SSH Port:  localhost:$SSH_PORT -> guest:22"
 echo ""
 echo "Press Ctrl+A then X to exit QEMU"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 
-# Run QEMU without display
+# Run QEMU without display (compatible with QEMU 6.x+)
 qemu-system-aarch64 \
-    -M virt \
+    -machine virt \
     -cpu cortex-a57 \
-    -m 1024 \
-    -smp 2 \
+    -m "$MEMORY" \
+    -smp "$CPUS" \
     -kernel "$OUTPUT_DIR/Image" \
-    -drive file="$OUTPUT_DIR/rootfs.ext4",if=virtio,format=raw \
-    -append "root=/dev/vda rw console=ttyAMA0 init=/sbin/init" \
-    -device virtio-net-pci,netdev=net0 \
-    -netdev user,id=net0,hostfwd=tcp::2222-:22 \
+    -drive if=none,file="$ROOTFS",id=rootdisk,format=raw \
+    -device virtio-blk-device,drive=rootdisk \
+    -append "root=/dev/vda rw console=ttyAMA0 init=/sbin/init loglevel=5" \
+    -device virtio-net-device,netdev=net0 \
+    -netdev user,id=net0,hostfwd=tcp::${SSH_PORT}-:22 \
     -nographic \
     -no-reboot
 
