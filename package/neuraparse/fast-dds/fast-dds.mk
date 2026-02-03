@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-FAST_DDS_VERSION = 3.2.0
+FAST_DDS_VERSION = 3.4.1
 FAST_DDS_SITE = $(call github,eProsima,Fast-DDS,v$(FAST_DDS_VERSION))
 FAST_DDS_LICENSE = Apache-2.0
 FAST_DDS_LICENSE_FILES = LICENSE

@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# llama.cpp b6970 (06 Nov 2024) - Latest with KleidiAI, DeepSeek, Phi-4, TTS support
-LLAMA_CPP_VERSION = b6970
+# llama.cpp b7746 (15 Jan 2026) - Latest with KleidiAI, Router Mode, improved backends
+LLAMA_CPP_VERSION = b7746
 LLAMA_CPP_SITE = $(call github,ggml-org,llama.cpp,$(LLAMA_CPP_VERSION))
 LLAMA_CPP_LICENSE = MIT
 LLAMA_CPP_LICENSE_FILES = LICENSE

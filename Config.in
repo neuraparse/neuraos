@@ -24,8 +24,10 @@ source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/wasmedge/Config.in"
 source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/llama-cpp/Config.in"
 
 # Computer Vision
-# NOTE: opencv-minimal disabled - use Buildroot's opencv3 or opencv4 instead
-# source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/opencv-minimal/Config.in"
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/opencv5/Config.in"
+
+# Intel AI Toolkit
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/openvino/Config.in"
 endmenu
 
 # Robotics & Drone Systems
@@ -33,11 +35,13 @@ menu "Robotics & Drone Systems"
 # Real-time Communication
 # NOTE: Using Buildroot's built-in zeromq and grpc packages
 source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/fast-dds/Config.in"
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/zenoh/Config.in"
 # zeromq - use Buildroot's BR2_PACKAGE_ZEROMQ
 # grpc - use Buildroot's BR2_PACKAGE_GRPC
 
 # Drone Autopilot
 source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/mavlink/Config.in"
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/px4-autopilot/Config.in"
 
 # SLAM & Perception
 source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/orb-slam3/Config.in"

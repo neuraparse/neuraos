@@ -41,11 +41,12 @@
 | **AI Runtime** | PyTorch ExecuTorch | 1.0.0 | PyTorch edge inference |
 | **AI Runtime** | Apache TVM | 0.22.0 | Compiler-driven ML optimization |
 | **AI Runtime** | MediaPipe | 0.10.26 | Real-time multimodal AI pipelines |
-| **AI Runtime** | ncnn | 20250916 | Tencent mobile AI framework |
-| **LLM Runtime** | llama.cpp | b6970 | LLM inference with KleidiAI |
+| **AI Runtime** | ncnn | 20260114 | Tencent mobile AI framework |
+| **AI Runtime** | Intel OpenVINO | 2024.6.0 | Intel AI inference toolkit |
+| **LLM Runtime** | llama.cpp | b7746 | LLM inference with KleidiAI, Router Mode |
 | **Classical ML** | emlearn | 0.21.1 | Lightweight ML algorithms |
-| **Computer Vision** | OpenCV | 4.12.0 | Minimal CV build |
-| **WASM Runtime** | WasmEdge | 0.15.0 | WebAssembly for edge AI |
+| **Computer Vision** | OpenCV | 5.0.0-alpha | Next-gen CV with KleidiCV |
+| **WASM Runtime** | WasmEdge | 0.16.0 | WebAssembly for edge AI |
 | **C Library** | musl libc | 1.2.5+ | Lightweight standard library |
 | **Init System** | Custom (npi) | 1.0 | Fast boot init system |
 
@@ -53,10 +54,12 @@
 
 | Component | Technology | Version | Purpose |
 |-----------|-----------|---------|---------|
-| **DDS Middleware** | Fast-DDS (eProsima) | 3.2.0 | Real-time pub-sub communication |
+| **DDS Middleware** | Fast-DDS (eProsima) | 3.4.1 | Real-time pub-sub communication |
+| **Pub/Sub** | Zenoh | 1.1.0 | Next-gen ROS2 middleware |
 | **Messaging** | ZeroMQ | 4.3.6 | High-performance async messaging |
 | **RPC Framework** | gRPC | 1.76.0 | Modern RPC with Protobuf |
 | **Drone Protocol** | MAVLink | 2.0.0 | PX4/ArduPilot communication |
+| **Drone Autopilot** | PX4 Autopilot | 1.15.2 | Professional drone autopilot |
 | **SLAM** | ORB-SLAM3 | 1.0 | Visual-Inertial SLAM |
 | **Model Tools** | ONNX Tools | 1.18.0 | Model conversion & optimization |
 | **Optimizer** | Model Optimizer | 1.0.0 | Quantization, pruning, deployment |

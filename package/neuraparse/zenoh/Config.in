@@ -1,0 +1,22 @@
+config BR2_PACKAGE_ZENOH
+	bool "zenoh"
+	depends on BR2_PACKAGE_HOST_RUSTC
+	help
+	  Zenoh is a pub/sub/query protocol unifying data in motion,
+	  data at rest and computations. It is designed for robotics,
+	  IoT, and edge computing.
+
+	  Zenoh is the recommended ROS2 middleware for ROS 2 Kilted
+	  and later, replacing DDS in many use cases.
+
+	  Features:
+	  - Ultra-low latency pub/sub (<10us)
+	  - Works over any network (LAN, WAN, WiFi, 5G)
+	  - Minimal footprint for embedded systems
+	  - Native ROS2 rmw_zenoh support
+	  - Automatic peer discovery
+
+	  https://zenoh.io/
+
+comment "zenoh requires host Rust toolchain"
+	depends on !BR2_PACKAGE_HOST_RUSTC

@@ -1,0 +1,33 @@
+config BR2_PACKAGE_OPENCV5
+	bool "opencv5"
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	depends on BR2_TOOLCHAIN_GCC_AT_LEAST_10
+	help
+	  OpenCV 5.0 - Next generation computer vision library.
+
+	  New in OpenCV 5.0:
+	  - C++17 minimum requirement
+	  - Improved ARM/RISC-V support
+	  - KleidiCV integration for ARM SIMD
+	  - Better embedded system support
+	  - Revised modern API
+
+	  https://opencv.org/
+
+if BR2_PACKAGE_OPENCV5
+
+config BR2_PACKAGE_OPENCV5_DNN
+	bool "Enable DNN module"
+	default y
+	help
+	  Enable the Deep Neural Network module for AI inference.
+	  Supports ONNX, TensorFlow, Caffe, and other formats.
+
+config BR2_PACKAGE_OPENCV5_PYTHON
+	bool "Enable Python bindings"
+	depends on BR2_PACKAGE_PYTHON3
+	help
+	  Enable Python 3 bindings for OpenCV.
+
+endif

@@ -1,0 +1,35 @@
+config BR2_PACKAGE_PX4_AUTOPILOT
+	bool "px4-autopilot"
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	select BR2_PACKAGE_MAVLINK
+	help
+	  PX4 is the Professional Autopilot for drones. Powers all
+	  kinds of vehicles from racing and cargo drones through to
+	  ground vehicles and submersibles.
+
+	  Features:
+	  - Open-source flight control solution
+	  - MAVLink communication protocol
+	  - ROS 2 integration support
+	  - SITL and HITL simulation
+	  - Hardware support: Pixhawk, CUAV, Holybro, etc.
+
+	  https://px4.io/
+
+if BR2_PACKAGE_PX4_AUTOPILOT
+
+config BR2_PACKAGE_PX4_AUTOPILOT_ROS2
+	bool "Enable ROS2 integration"
+	select BR2_PACKAGE_FAST_DDS
+	help
+	  Enable ROS 2 middleware integration for advanced
+	  robotics applications using Fast-DDS.
+
+config BR2_PACKAGE_PX4_AUTOPILOT_SIMULATION
+	bool "Enable simulation support"
+	help
+	  Enable SITL (Software In The Loop) simulation
+	  for development and testing.
+
+endif

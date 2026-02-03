@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# ncnn 20250916 (16 Sep 2024) - Tencent mobile AI framework
-NCNN_VERSION = 20250916
+# ncnn 20260114 (14 Jan 2026) - Tencent mobile AI framework
+NCNN_VERSION = 20260114
 NCNN_SITE = $(call github,Tencent,ncnn,$(NCNN_VERSION))
 NCNN_LICENSE = BSD-3-Clause
 NCNN_LICENSE_FILES = LICENSE.txt
