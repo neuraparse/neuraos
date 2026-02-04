@@ -124,6 +124,9 @@ models/**/*.zip
 # Node (in case of examples)
 node_modules/
 
+# Web Control Panel (development)
+web/
+
 # Misc temp
 .tmp/
 .temp/
