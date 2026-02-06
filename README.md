@@ -1,14 +1,4 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/neuraparse/neuraos/main/docs/assets/neuraos-banner.png" alt="NeuralOS Banner" width="800"/>
-</p>
-
-<h1 align="center">
-  <br>
-  <img src="https://raw.githubusercontent.com/neuraparse/neuraos/main/docs/assets/neuraos-logo.svg" alt="NeuralOS" width="120"/>
-  <br>
-  NeuralOS
-  <br>
-</h1>
+<h1 align="center">NeuralOS</h1>
 
 <h3 align="center">AI-Native Embedded Linux for Edge Computing, Robotics & Quantum</h3>
 
@@ -26,10 +16,6 @@
   <a href="#-packages">Packages</a> •
   <a href="#-benchmarks">Benchmarks</a> •
   <a href="#-docs">Docs</a>
-</p>
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/neuraparse/neuraos/main/docs/assets/demo.gif" alt="NeuralOS Demo" width="700"/>
 </p>
 
 ---
@@ -231,10 +217,6 @@ ssh -p 2222 root@localhost
 http://localhost:8080
 ```
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/neuraparse/neuraos/main/docs/assets/web-panel.png" alt="Web Panel" width="600"/>
-</p>
-
 ---
 
 ## 📊 Benchmarks
@@ -382,6 +364,3 @@ See <a href="LICENSE">LICENSE</a> for details.
   <sub>Built with ❤️ by <b>NeuraParse Team</b> • 2026</sub>
 </p>
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/neuraparse/neuraos/main/docs/assets/footer-wave.svg" alt="Footer" width="100%"/>
-</p>
