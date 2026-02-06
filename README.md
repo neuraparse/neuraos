@@ -1,76 +1,218 @@
-# NeuralOS
+<p align="center">
+  <img src="https://raw.githubusercontent.com/neuraparse/neuraos/main/docs/assets/neuraos-banner.png" alt="NeuralOS Banner" width="800"/>
+</p>
 
-**AI-Native Embedded Linux for Edge Computing, Robotics & Quantum Applications**
+<h1 align="center">
+  <br>
+  <img src="https://raw.githubusercontent.com/neuraparse/neuraos/main/docs/assets/neuraos-logo.svg" alt="NeuralOS" width="120"/>
+  <br>
+  NeuralOS
+  <br>
+</h1>
 
-[![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-2.0.0-green.svg)](https://github.com/neuraparse/neuraos/releases)
-[![Build](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/neuraparse/neuraos/actions)
+<h3 align="center">AI-Native Embedded Linux for Edge Computing, Robotics & Quantum</h3>
 
----
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPL%20v2-blue.svg?style=for-the-badge&logo=gnu" alt="License"/></a>
+  <a href="https://github.com/neuraparse/neuraos/releases"><img src="https://img.shields.io/badge/Version-2.0.0-green.svg?style=for-the-badge&logo=v" alt="Version"/></a>
+  <a href="https://github.com/neuraparse/neuraos/actions"><img src="https://img.shields.io/badge/Build-Passing-brightgreen.svg?style=for-the-badge&logo=githubactions" alt="Build"/></a>
+  <a href="https://github.com/neuraparse/neuraos/stargazers"><img src="https://img.shields.io/github/stars/neuraparse/neuraos?style=for-the-badge&logo=github" alt="Stars"/></a>
+</p>
 
-## Overview
+<p align="center">
+  <a href="#-features">Features</a> •
+  <a href="#-quick-start">Quick Start</a> •
+  <a href="#-architecture">Architecture</a> •
+  <a href="#-packages">Packages</a> •
+  <a href="#-benchmarks">Benchmarks</a> •
+  <a href="#-docs">Docs</a>
+</p>
 
-NeuralOS is a lightweight, production-ready embedded Linux distribution optimized for AI inference, robotics, drone systems, and quantum computing research. Built on Buildroot 2024.02.9 with Linux 6.12 LTS kernel featuring native PREEMPT_RT support.
-
-### Key Specifications
-
-| Component | Details |
-|-----------|---------|
-| **Kernel** | Linux 6.12.57 LTS (PREEMPT_RT) |
-| **Architectures** | x86_64, ARM64 |
-| **Memory** | 64MB minimum, 1GB recommended |
-| **Storage** | 512MB rootfs |
-| **Boot Time** | <5 seconds |
-
----
-
-## Included Packages
-
-### AI/ML Stack
-- **llama.cpp** - LLM inference engine
-- **emlearn** - Embedded ML algorithms
-- **NumPy** - Scientific computing
-- **Python 3.11** - Runtime environment
-
-### Robotics & Drones
-- **Fast-DDS 3.4.1** - Real-time pub/sub (ROS2 middleware)
-- **MAVLink 2.0** - Drone communication protocol
-- **FastCDR** - Serialization library
-
-### Quantum Computing
-- **QuEST** - Quantum circuit simulator
-
-### System
-- **Dropbear** - SSH server
-- **BusyBox** - Core utilities
-- **iptables** - Firewall
-- **chrony** - NTP client
+<p align="center">
+  <img src="https://raw.githubusercontent.com/neuraparse/neuraos/main/docs/assets/demo.gif" alt="NeuralOS Demo" width="700"/>
+</p>
 
 ---
 
-## Quick Start
+## ✨ Features
+
+<table>
+<tr>
+<td width="50%">
+
+### 🚀 Ultra-Lightweight
+```
+┌─────────────────────────┐
+│  Memory:     64MB min   │
+│  Storage:    512MB      │
+│  Boot Time:  <5 sec     │
+└─────────────────────────┘
+```
+Minimal footprint for resource-constrained edge devices.
+
+</td>
+<td width="50%">
+
+### ⚡ Real-Time Performance
+```
+┌─────────────────────────┐
+│  Kernel:  6.12 LTS      │
+│  RT:      PREEMPT_RT    │
+│  Latency: <1ms          │
+└─────────────────────────┘
+```
+Native real-time support for robotics and drones.
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+### 🤖 AI-First Design
+```
+┌─────────────────────────┐
+│  LLM:     llama.cpp     │
+│  ML:      emlearn       │
+│  Python:  3.11 + NumPy  │
+└─────────────────────────┘
+```
+Built-in AI inference engines for edge deployment.
+
+</td>
+<td width="50%">
+
+### 🔒 Security-Hardened
+```
+┌─────────────────────────┐
+│  Firewall:  iptables    │
+│  SSH:       Dropbear    │
+│  Offline:   100%        │
+└─────────────────────────┘
+```
+Zero telemetry, minimal attack surface.
+
+</td>
+</tr>
+</table>
+
+---
+
+## 🏗️ Architecture
+
+```
+┌──────────────────────────────────────────────────────────────────────────┐
+│                              NEURAOS v2.0                                 │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│   ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐   │
+│   │   LLM AI    │  │  Robotics   │  │   Quantum   │  │   Vision    │   │
+│   │  llama.cpp  │  │  Fast-DDS   │  │    QuEST    │  │   OpenCV    │   │
+│   └──────┬──────┘  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘   │
+│          │                │                │                │          │
+│   ┌──────┴────────────────┴────────────────┴────────────────┴──────┐   │
+│   │                     Python 3.11 + NumPy                         │   │
+│   └─────────────────────────────┬───────────────────────────────────┘   │
+│                                 │                                        │
+│   ┌─────────────────────────────┴───────────────────────────────────┐   │
+│   │                      BusyBox + Core Utils                        │   │
+│   └─────────────────────────────┬───────────────────────────────────┘   │
+│                                 │                                        │
+│   ┌─────────────────────────────┴───────────────────────────────────┐   │
+│   │              Linux 6.12 LTS Kernel (PREEMPT_RT)                  │   │
+│   └─────────────────────────────────────────────────────────────────┘   │
+│                                                                          │
+└──────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 📦 Packages
+
+<table>
+<tr>
+<th align="center">🤖 AI/ML</th>
+<th align="center">🚁 Robotics</th>
+<th align="center">⚛️ Quantum</th>
+<th align="center">🛡️ System</th>
+</tr>
+<tr>
+<td>
+
+| Package | Version |
+|---------|---------|
+| llama.cpp | b7746 |
+| emlearn | 0.21.1 |
+| NumPy | 1.25.0 |
+| Python | 3.11.10 |
+
+</td>
+<td>
+
+| Package | Version |
+|---------|---------|
+| Fast-DDS | 3.4.1 |
+| MAVLink | 2.0.0 |
+| FastCDR | 2.2.0 |
+| Asio | 1.30.2 |
+
+</td>
+<td>
+
+| Package | Version |
+|---------|---------|
+| QuEST | 4.2.0 |
+| Qiskit* | 0.14.2 |
+| PennyLane* | 0.38.0 |
+
+</td>
+<td>
+
+| Package | Version |
+|---------|---------|
+| Kernel | 6.12.57 |
+| BusyBox | 1.36.1 |
+| Dropbear | 2024.86 |
+| iptables | 1.8.10 |
+
+</td>
+</tr>
+</table>
+
+<sub>* Disabled by default due to complex dependencies</sub>
+
+---
+
+## 🚀 Quick Start
 
 ### Prerequisites
-- Docker (recommended) or Linux build environment
-- 30GB free disk space
-- 4GB RAM minimum
-
-### Build (Docker)
 
 ```bash
+# Required
+Docker >= 20.0
+QEMU >= 6.0 (for testing)
+
+# System
+RAM: 4GB minimum
+Disk: 30GB free space
+```
+
+### 📥 Build
+
+```bash
+# Clone repository
 git clone https://github.com/neuraparse/neuraos.git
 cd neuraos
 
-# Build x86_64 image
+# Build with Docker
 docker build -f Dockerfile.x86_64 -t neuraos-builder .
 docker run --name neuraos-build neuraos-builder
 docker cp neuraos-build:/neuraos/buildroot-2024.02.9/output/images ./neuraos-images
 ```
 
-### Run with QEMU/KVM
+### ▶️ Run
 
 ```bash
-# x86_64 with KVM acceleration
+# Launch with KVM acceleration
 qemu-system-x86_64 -enable-kvm -cpu host -m 1024 -smp 2 \
   -kernel neuraos-images/bzImage \
   -drive file=neuraos-images/rootfs.ext2,format=raw,if=virtio \
@@ -79,114 +221,167 @@ qemu-system-x86_64 -enable-kvm -cpu host -m 1024 -smp 2 \
   -device virtio-net-pci,netdev=net0 -nographic
 
 # SSH access
-ssh -p 2222 root@localhost  # Password: neuraos
+ssh -p 2222 root@localhost
+# Password: neuraos
 ```
 
-### Web Control Panel
+### 🌐 Web Panel
 
-Access system metrics and terminal via web browser:
 ```
 http://localhost:8080
 ```
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/neuraparse/neuraos/main/docs/assets/web-panel.png" alt="Web Panel" width="600"/>
+</p>
+
 ---
 
-## Project Structure
+## 📊 Benchmarks
+
+<table>
+<tr>
+<td align="center">
+<h3>4.55</h3>
+<sub>GFLOPS</sub>
+<br/>
+<b>Matrix Ops</b>
+</td>
+<td align="center">
+<h3>5,325</h3>
+<sub>inf/sec</sub>
+<br/>
+<b>Neural Network</b>
+</td>
+<td align="center">
+<h3>28.37</h3>
+<sub>GB/s</sub>
+<br/>
+<b>Memory BW</b>
+</td>
+<td align="center">
+<h3><5</h3>
+<sub>seconds</sub>
+<br/>
+<b>Boot Time</b>
+</td>
+</tr>
+</table>
+
+<sub>Tested on AMD EPYC 9355P 32-Core • 1GB RAM • KVM</sub>
+
+---
+
+## 🖥️ Supported Platforms
+
+| Platform | Status | Architecture | Notes |
+|:--------:|:------:|:------------:|:------|
+| <img src="https://img.shields.io/badge/x86__64-KVM-blue?style=flat-square&logo=intel" /> | ✅ Ready | x86_64 | Production |
+| <img src="https://img.shields.io/badge/ARM64-QEMU-orange?style=flat-square&logo=arm" /> | ✅ Ready | aarch64 | Development |
+| <img src="https://img.shields.io/badge/RPi_4/5-Planned-yellow?style=flat-square&logo=raspberrypi" /> | 🔄 Q2 2026 | ARM64 | Cortex-A72/A76 |
+| <img src="https://img.shields.io/badge/Jetson-Planned-yellow?style=flat-square&logo=nvidia" /> | 🔄 Q3 2026 | ARM64 | GPU Accel |
+
+---
+
+## 📁 Project Structure
 
 ```
 neuraos/
-├── board/                    # Board support files
-│   └── neuraparse/neuraos/
-│       ├── rootfs_overlay/   # Filesystem overlay
-│       └── scripts/          # Build scripts
-├── configs/                  # Buildroot configurations
-│   ├── neuraos_x86_64_defconfig
-│   └── kernel/
-├── package/neuraparse/       # Custom packages
-│   ├── llama-cpp/
-│   ├── fast-dds/
-│   ├── quest/
-│   └── ...
-├── scripts/                  # Utility scripts
-│   └── run_qemu_kvm.sh
-├── Dockerfile.x86_64         # Docker build environment
-└── Config.in                 # Package menu
+├── 📂 board/neuraparse/neuraos/
+│   ├── 📂 rootfs_overlay/     # Filesystem customizations
+│   └── 📂 scripts/            # Build hooks
+├── 📂 configs/
+│   ├── 📄 neuraos_x86_64_defconfig
+│   └── 📂 kernel/
+├── 📂 package/neuraparse/     # Custom packages
+│   ├── 📦 llama-cpp/
+│   ├── 📦 fast-dds/
+│   ├── 📦 quest/
+│   └── 📦 ...
+├── 📂 scripts/
+│   └── 🔧 run_qemu_kvm.sh
+├── 🐳 Dockerfile.x86_64
+└── 📄 Config.in
 ```
 
 ---
 
-## Supported Platforms
+## 🔐 Security
 
-| Platform | Status | Notes |
-|----------|--------|-------|
-| x86_64 (KVM) | Tested | Production ready |
-| ARM64 (QEMU) | Tested | Development/CI |
-| Raspberry Pi 4/5 | Planned | Q2 2026 |
-| NVIDIA Jetson | Planned | Q3 2026 |
+| Feature | Status |
+|---------|:------:|
+| Minimal Attack Surface (<100MB) | ✅ |
+| iptables Firewall | ✅ |
+| SSH Key Authentication | ✅ |
+| No Telemetry | ✅ |
+| Offline Operation | ✅ |
+| Read-Only Rootfs (optional) | ✅ |
 
 ---
 
-## Development
+## 📖 Documentation
 
-### Adding Custom Packages
+| Document | Description |
+|----------|-------------|
+| [Getting Started](docs/getting_started.md) | First steps guide |
+| [Hardware Support](docs/hardware_support.md) | Supported devices |
+| [Package Guide](docs/packages.md) | Adding custom packages |
+| [API Reference](docs/api_reference.md) | Web API documentation |
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ```bash
-# Create package directory
-mkdir -p package/neuraparse/mypackage
+# Fork & Clone
+git clone https://github.com/YOUR_USERNAME/neuraos.git
 
-# Add Config.in and mypackage.mk files
-# See existing packages for examples
+# Create branch
+git checkout -b feature/amazing-feature
 
-# Rebuild
-make mypackage-rebuild
-```
+# Commit & Push
+git commit -m "Add amazing feature"
+git push origin feature/amazing-feature
 
-### Kernel Configuration
-
-```bash
-cd buildroot-2024.02.9
-make linux-menuconfig
-make linux-update-defconfig
+# Open Pull Request
 ```
 
 ---
 
-## Performance
+## 📜 License
 
-Benchmarks on AMD EPYC 9355P:
-
-| Test | Result |
-|------|--------|
-| Matrix Operations | 4.55 GFLOPS |
-| Neural Network (MLP) | 5,325 inf/sec |
-| Memory Bandwidth | 28.37 GB/s |
-
----
-
-## Security
-
-- Minimal attack surface (<100MB footprint)
-- SSH with key-based authentication
-- iptables firewall enabled by default
-- No telemetry or cloud dependencies
-- Offline operation capable
+<table>
+<tr>
+<td>
+<img src="https://www.gnu.org/graphics/gplv2-88x31.png" alt="GPL v2"/>
+</td>
+<td>
+This project is licensed under the <b>GNU General Public License v2</b>.<br/>
+See <a href="LICENSE">LICENSE</a> for details.
+</td>
+</tr>
+</table>
 
 ---
 
-## License
+<p align="center">
+  <a href="https://neuraparse.com">
+    <img src="https://img.shields.io/badge/Website-neuraparse.com-blue?style=for-the-badge&logo=google-chrome" alt="Website"/>
+  </a>
+  <a href="https://github.com/neuraparse/neuraos">
+    <img src="https://img.shields.io/badge/GitHub-neuraparse/neuraos-black?style=for-the-badge&logo=github" alt="GitHub"/>
+  </a>
+  <a href="https://github.com/neuraparse/neuraos/issues">
+    <img src="https://img.shields.io/badge/Issues-Report%20Bug-red?style=for-the-badge&logo=github" alt="Issues"/>
+  </a>
+</p>
 
-GPL v2. See [LICENSE](LICENSE) for details.
+<p align="center">
+  <sub>Built with ❤️ by <b>NeuraParse Team</b> • 2026</sub>
+</p>
 
-Third-party components retain their original licenses (Apache 2.0, MIT, etc.).
-
----
-
-## Links
-
-- **Documentation**: [docs/](docs/)
-- **Issues**: [GitHub Issues](https://github.com/neuraparse/neuraos/issues)
-- **Website**: [neuraparse.com](https://neuraparse.com)
-
----
-
-*Built by NeuraParse Team - 2026*
+<p align="center">
+  <img src="https://raw.githubusercontent.com/neuraparse/neuraos/main/docs/assets/footer-wave.svg" alt="Footer" width="100%"/>
+</p>
