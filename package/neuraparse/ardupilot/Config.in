@@ -1,0 +1,80 @@
+config BR2_PACKAGE_ARDUPILOT
+	bool "ardupilot"
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	select BR2_PACKAGE_MAVLINK
+	help
+	  ArduPilot - Open Source Autopilot
+
+	  ArduPilot is a trusted, versatile, and open source autopilot
+	  system supporting multi-copters, helicopters, fixed-wing
+	  aircraft, rovers, boats, and submarines.
+
+	  Key Features:
+	  - Supports 20+ vehicle types
+	  - Advanced flight modes (Auto, Guided, RTL, etc.)
+	  - Terrain following
+	  - Object avoidance
+	  - Precision landing
+	  - Companion computer integration
+	  - Lua scripting support
+	  - EKF3 state estimation
+	  - MAVLink 2.0 support
+
+	  Vehicle Types:
+	  - Copter: Multi-rotors, helicopters
+	  - Plane: Fixed-wing aircraft
+	  - Rover: Ground vehicles
+	  - Sub: Underwater vehicles
+	  - Blimp: Lighter-than-air vehicles
+
+	  Hardware Support:
+	  - Pixhawk family
+	  - CubePilot
+	  - Holybro
+	  - mRobotics
+	  - BeagleBone Blue
+	  - Linux-based companions
+
+	  https://ardupilot.org
+
+if BR2_PACKAGE_ARDUPILOT
+
+choice
+	prompt "Vehicle type"
+	default BR2_PACKAGE_ARDUPILOT_COPTER
+
+config BR2_PACKAGE_ARDUPILOT_COPTER
+	bool "ArduCopter (multi-rotor)"
+	help
+	  ArduCopter for multi-rotor and helicopter vehicles.
+
+config BR2_PACKAGE_ARDUPILOT_PLANE
+	bool "ArduPlane (fixed-wing)"
+	help
+	  ArduPlane for fixed-wing aircraft.
+
+config BR2_PACKAGE_ARDUPILOT_ROVER
+	bool "ArduRover (ground vehicle)"
+	help
+	  ArduRover for ground vehicles and boats.
+
+config BR2_PACKAGE_ARDUPILOT_SUB
+	bool "ArduSub (underwater)"
+	help
+	  ArduSub for underwater vehicles/ROVs.
+
+endchoice
+
+config BR2_PACKAGE_ARDUPILOT_SITL
+	bool "SITL simulation support"
+	help
+	  Enable Software-In-The-Loop simulation for testing.
+
+config BR2_PACKAGE_ARDUPILOT_LUA
+	bool "Lua scripting support"
+	default y
+	help
+	  Enable Lua scripting for custom behaviors.
+
+endif

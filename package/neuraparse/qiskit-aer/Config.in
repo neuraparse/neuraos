@@ -1,0 +1,42 @@
+config BR2_PACKAGE_QISKIT_AER
+	bool "qiskit-aer"
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	depends on BR2_PACKAGE_PYTHON3
+	select BR2_PACKAGE_PYTHON_NUMPY
+	help
+	  Qiskit Aer - High performance quantum computing simulators
+	  with realistic noise models.
+
+	  Qiskit Aer provides high-performance quantum circuit simulation
+	  for Qiskit. It includes multiple simulation methods:
+	  - Statevector: Full wavefunction simulation
+	  - Density matrix: Noisy quantum simulation
+	  - Matrix Product State (MPS): Efficient simulation
+	  - Stabilizer: Clifford circuit simulation
+	  - Extended stabilizer: Near-Clifford simulation
+
+	  Key Features:
+	  - GPU acceleration (CUDA, ROCm)
+	  - Multi-threading with OpenMP
+	  - Realistic noise models
+	  - Pulse-level simulation
+
+	  https://github.com/Qiskit/qiskit-aer
+
+if BR2_PACKAGE_QISKIT_AER
+
+config BR2_PACKAGE_QISKIT_AER_GPU
+	bool "GPU acceleration (CUDA)"
+	help
+	  Enable CUDA GPU acceleration for quantum simulation.
+	  Requires NVIDIA GPU with CUDA support.
+
+config BR2_PACKAGE_QISKIT_AER_MPI
+	bool "MPI support for distributed simulation"
+	select BR2_PACKAGE_OPENMPI
+	help
+	  Enable MPI for distributed quantum simulation
+	  across multiple nodes.
+
+endif

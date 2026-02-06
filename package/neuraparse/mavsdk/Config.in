@@ -1,0 +1,54 @@
+config BR2_PACKAGE_MAVSDK
+	bool "mavsdk"
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	select BR2_PACKAGE_MAVLINK
+	select BR2_PACKAGE_JSONCPP
+	select BR2_PACKAGE_TINYXML2
+	select BR2_PACKAGE_XZ
+	help
+	  MAVSDK - MAVLink SDK for drones and robotics
+
+	  MAVSDK is the modern SDK for MAVLink, providing easy-to-use
+	  APIs for controlling drones and other MAVLink-enabled vehicles.
+
+	  Key Features:
+	  - Clean, simple API for drone control
+	  - Multiple language bindings (C++, Python, Swift, Java)
+	  - Automatic connection handling
+	  - Mission planning and execution
+	  - Telemetry data streaming
+	  - Camera and gimbal control
+	  - Geofencing support
+	  - Follow-me mode
+	  - Offboard control for custom flight modes
+
+	  Supported Autopilots:
+	  - PX4
+	  - ArduPilot
+	  - Any MAVLink-compatible system
+
+	  Use Cases:
+	  - Autonomous drone applications
+	  - Ground control stations
+	  - Swarm coordination
+	  - Computer vision integration
+	  - Research and development
+
+	  https://mavsdk.mavlink.io
+
+if BR2_PACKAGE_MAVSDK
+
+config BR2_PACKAGE_MAVSDK_PYTHON
+	bool "Python bindings"
+	depends on BR2_PACKAGE_PYTHON3
+	help
+	  Enable Python bindings for MAVSDK.
+
+config BR2_PACKAGE_MAVSDK_SERVER
+	bool "MAVSDK Server"
+	default y
+	help
+	  Build MAVSDK server for gRPC-based communication.
+
+endif

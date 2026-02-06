@@ -1,0 +1,17 @@
+config BR2_PACKAGE_QUEST
+	bool "quest"
+	help
+	  QuEST (Quantum Exact Simulation Toolkit) is a high-performance
+	  quantum computer simulator with zero external dependencies.
+
+	  Features:
+	  - Pure C implementation with C++ wrappers
+	  - Zero mandatory dependencies
+	  - Supports OpenMP multithreading
+	  - Supports MPI distributed computing
+	  - Over 140 quantum operations
+	  - Configurable numerical precision
+
+	  Ideal for embedded systems due to minimal footprint.
+
+	  https://quest.qtechtheory.org/

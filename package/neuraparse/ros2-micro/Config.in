@@ -1,0 +1,50 @@
+config BR2_PACKAGE_ROS2_MICRO
+	bool "ros2-micro"
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	help
+	  micro-ROS - ROS 2 for microcontrollers and embedded systems
+
+	  micro-ROS brings the ROS 2 ecosystem to resource-constrained
+	  devices, enabling robotics applications on embedded platforms.
+
+	  Key Features:
+	  - Full ROS 2 compatibility
+	  - Minimal resource footprint
+	  - Real-time capable
+	  - Multiple RTOS support (FreeRTOS, Zephyr, NuttX)
+	  - DDS-XRCE communication
+	  - Agent-based architecture
+	  - Standard ROS 2 message types
+	  - Service and action support
+
+	  Components:
+	  - micro-ROS Agent: Bridge to ROS 2 network
+	  - micro-ROS Client: Embedded library
+	  - rcl/rclc: ROS Client Library for C
+	  - rmw_microxrcedds: Middleware implementation
+
+	  Use Cases:
+	  - Sensor nodes
+	  - Motor controllers
+	  - Edge computing
+	  - Swarm robotics
+	  - Industrial IoT
+
+	  https://micro.ros.org
+
+if BR2_PACKAGE_ROS2_MICRO
+
+config BR2_PACKAGE_ROS2_MICRO_AGENT
+	bool "micro-ROS Agent"
+	default y
+	help
+	  Build the micro-ROS Agent that bridges embedded
+	  devices to the ROS 2 network.
+
+config BR2_PACKAGE_ROS2_MICRO_DEMOS
+	bool "Demo applications"
+	help
+	  Include micro-ROS demo applications.
+
+endif

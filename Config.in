@@ -23,6 +23,13 @@ source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/wasmedge/Config.in"
 # LLM Inference
 source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/llama-cpp/Config.in"
 
+# Speech & Audio AI
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/whisper-cpp/Config.in"
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/piper-tts/Config.in"
+
+# Image Generation
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/stable-diffusion-cpp/Config.in"
+
 # Computer Vision
 source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/opencv5/Config.in"
 
@@ -30,10 +37,22 @@ source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/opencv5/Config.in"
 source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/openvino/Config.in"
 endmenu
 
+# Quantum Computing
+menu "Quantum Computing"
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/qiskit-aer/Config.in"
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/pennylane/Config.in"
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/xacc/Config.in"
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/quest/Config.in"
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/qulacs/Config.in"
+endmenu
+
 # Robotics & Drone Systems
 menu "Robotics & Drone Systems"
 # Real-time Communication
 # NOTE: Using Buildroot's built-in zeromq and grpc packages
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/fastcdr/Config.in"
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/asio/Config.in"
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/foonathan-memory/Config.in"
 source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/fast-dds/Config.in"
 source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/zenoh/Config.in"
 # zeromq - use Buildroot's BR2_PACKAGE_ZEROMQ
@@ -42,6 +61,11 @@ source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/zenoh/Config.in"
 # Drone Autopilot
 source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/mavlink/Config.in"
 source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/px4-autopilot/Config.in"
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/mavsdk/Config.in"
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/ardupilot/Config.in"
+
+# ROS 2 Support
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/ros2-micro/Config.in"
 
 # SLAM & Perception
 source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/orb-slam3/Config.in"
@@ -51,6 +75,11 @@ endmenu
 menu "AI Model Deployment Tools"
 source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/onnx-tools/Config.in"
 source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/model-optimizer/Config.in"
+endmenu
+
+# Defense & Security
+menu "Defense & Security"
+source "$BR2_EXTERNAL_NEURAOS_PATH/package/neuraparse/defense-tools/Config.in"
 endmenu
 
 # NeuralOS Core Components

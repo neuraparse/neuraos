@@ -4,20 +4,23 @@
 #
 ################################################################################
 
-FAST_DDS_VERSION = 3.4.1
+# Fast-DDS v3.4.2 (January 2025) - includes security fixes
+FAST_DDS_VERSION = 3.4.2
 FAST_DDS_SITE = $(call github,eProsima,Fast-DDS,v$(FAST_DDS_VERSION))
 FAST_DDS_LICENSE = Apache-2.0
 FAST_DDS_LICENSE_FILES = LICENSE
 FAST_DDS_INSTALL_STAGING = YES
 FAST_DDS_INSTALL_TARGET = YES
 
-FAST_DDS_DEPENDENCIES = host-cmake openssl
+# Complete dependency list for Fast-DDS
+FAST_DDS_DEPENDENCIES = host-cmake openssl fastcdr foonathan-memory asio tinyxml2
 
 FAST_DDS_CONF_OPTS = \
 	-DBUILD_SHARED_LIBS=ON \
 	-DCOMPILE_EXAMPLES=OFF \
-	-DCOMPILE_TOOLS=ON \
-	-DCMAKE_BUILD_TYPE=Release
+	-DCOMPILE_TOOLS=OFF \
+	-DCMAKE_BUILD_TYPE=Release \
+	-DTHIRDPARTY=OFF
 
 # Enable DDS Security
 ifeq ($(BR2_PACKAGE_FAST_DDS_SECURITY),y)

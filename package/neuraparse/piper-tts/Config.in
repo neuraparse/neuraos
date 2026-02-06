@@ -1,0 +1,41 @@
+config BR2_PACKAGE_PIPER_TTS
+	bool "piper-tts"
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	help
+	  Piper - Fast, local neural text-to-speech system
+
+	  Piper is a fast, local neural text-to-speech system that
+	  sounds great and is optimized for embedded devices like
+	  Raspberry Pi 4.
+
+	  Key Features:
+	  - Completely offline TTS
+	  - Low latency, real-time synthesis
+	  - Multiple voices and languages
+	  - ONNX Runtime backend
+	  - Optimized for ARM and x86
+	  - eSpeak-ng phonemization
+	  - SSML support
+
+	  Performance:
+	  - Raspberry Pi 4: ~1.5x real-time
+	  - Desktop CPU: ~10-20x real-time
+	  - GPU: ~100x real-time
+
+	  Voices available for 30+ languages including
+	  English, German, French, Spanish, Chinese, etc.
+
+	  https://github.com/rhasspy/piper
+
+if BR2_PACKAGE_PIPER_TTS
+
+config BR2_PACKAGE_PIPER_TTS_PHONEMIZE
+	bool "Include phonemization support"
+	default y
+	select BR2_PACKAGE_ESPEAK_NG
+	help
+	  Enable text phonemization using espeak-ng for
+	  better pronunciation accuracy.
+
+endif

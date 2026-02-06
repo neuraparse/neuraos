@@ -1,0 +1,8 @@
+config BR2_PACKAGE_FOONATHAN_MEMORY
+	bool "foonathan-memory"
+	depends on BR2_INSTALL_LIBSTDCPP
+	help
+	  foonathan/memory is a memory allocator library used by
+	  eProsima Fast-DDS.
+
+	  https://github.com/eProsima/foonathan_memory_vendor

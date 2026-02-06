@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LITERT_VERSION = 2.0.2
+# LiteRT v2.1.2 (January 2026)
+LITERT_VERSION = 2.1.2
 LITERT_SITE = $(call github,google-ai-edge,LiteRT,v$(LITERT_VERSION))
 LITERT_LICENSE = Apache-2.0
 LITERT_LICENSE_FILES = LICENSE
@@ -12,6 +13,9 @@ LITERT_INSTALL_STAGING = YES
 LITERT_INSTALL_TARGET = YES
 
 LITERT_DEPENDENCIES = host-cmake host-python3 flatbuffers
+
+# LiteRT CMakeLists.txt is in tensorflow/lite subdirectory
+LITERT_SUBDIR = tensorflow/lite
 
 # Build with CMake
 LITERT_CONF_OPTS = \

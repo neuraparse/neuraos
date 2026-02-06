@@ -1,61 +1,80 @@
-# NeuralOS - .gitignore (GitHub open-source ready)
+# NeuralOS .gitignore
 
-# Build directories and output
+# ===================
+# Build Output
+# ===================
 buildroot-*/
 neuraos-images/
+neuraos-images-*/
 build-output/
+output/
 
-# Local development documentation (not for public repo)
-BUILD_SUCCESS.md
-DEVELOPMENT.md
-STATUS.txt
-TEST_RESULTS.md
+# ===================
+# Sensitive Files
+# ===================
+.env
+.env.*
+*.env
+*.key
+*.pem
+*.crt
+*.p12
+*.pfx
+*credentials*
+*secret*
+*.keystore
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+known_hosts
 
-# Package backups (disabled packages)
-*.disabled
-*.disabled/
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+users.db
 
+# ===================
+# Web Panel (Dev)
+# ===================
+web/
+neuraos-web/
 
-# OS / Editor junk
+# ===================
+# OS/Editor
+# ===================
 .DS_Store
 .AppleDouble
-.LSOverride
 Thumbs.db
-ehthumbs.db
 *.swp
 *.swo
 *.tmp
 *.bak
 *.orig
-*.rej
+*~
 
-# Environment / secrets
-.env
-.env.*
-*.key
-*.pem
-*.crt
+# ===================
+# IDE
+# ===================
+.idea/
+.vscode/
+*.code-workspace
+.project
+.settings/
+*.sublime-*
 
-# Logs
-*.log
-logs/
-
-# Build artifacts (CMake, Make, local builds)
+# ===================
+# Build Artifacts
+# ===================
 /build/
-/build_*/
-/build-simple/
-/build_simple/
+/build-*/
 cmake-build-*/
 CMakeCache.txt
 CMakeFiles/
-CMakeScripts/
-CTestTestfile.cmake
-cmake_install.cmake
-install_manifest.txt
-_compile_commands.json
 compile_commands.json
 
-# Object and binary files
+# Object files
 *.o
 *.obj
 *.lo
@@ -66,45 +85,11 @@ compile_commands.json
 *.dll
 *.exe
 *.out
-*.app
-*.bin
 *.elf
-*.map
 
-# Tool outputs and reports
-*.sarif
-coverage/
-*.gcno
-*.gcda
-*.gcov
-
-# Python caches (for tools directory)
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.pytest_cache/
-.mypy_cache/
-.tox/
-.venv/
-venv/
-
-# Documentation (generated)
-docs/html/
-docs/_build/
-site/
-
-# Models and large artifacts (keep dirs, ignore binaries)
-models/**/*.tflite
-models/**/*.onnx
-models/**/*.pb
-models/**/*.pt
-models/**/*.pth
-models/**/*.bin
-models/**/*.npz
-models/**/*.zip
-
-# Images/archives produced by builds
+# ===================
+# Archives/Images
+# ===================
 *.img
 *.iso
 *.tar
@@ -115,20 +100,63 @@ models/**/*.zip
 *.xz
 *.bz2
 *.gz
+!*.mk
 
-# IDE / Project files
-.idea/
-.vscode/
-*.code-workspace
+# ===================
+# Logs
+# ===================
+*.log
+logs/
+/tmp/
 
-# Node (in case of examples)
+# ===================
+# Python
+# ===================
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+
+# ===================
+# Node.js
+# ===================
 node_modules/
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
 
-# Web Control Panel (development)
-web/
+# ===================
+# AI Models (large)
+# ===================
+models/**/*.tflite
+models/**/*.onnx
+models/**/*.pb
+models/**/*.pt
+models/**/*.pth
+models/**/*.bin
+models/**/*.gguf
+models/**/*.safetensors
 
-# Misc temp
-.tmp/
-.temp/
-cache/
+# ===================
+# Local Dev Files
+# ===================
+BUILD_SUCCESS.md
+DEVELOPMENT.md
+STATUS.txt
+TEST_RESULTS.md
+*.disabled
+*.disabled/
+.claude/
 
+# ===================
+# Coverage/Test
+# ===================
+coverage/
+*.gcno
+*.gcda
+*.gcov
+htmlcov/
+.coverage

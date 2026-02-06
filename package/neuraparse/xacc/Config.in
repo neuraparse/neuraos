@@ -1,0 +1,43 @@
+config BR2_PACKAGE_XACC
+	bool "xacc"
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	help
+	  XACC - eXtreme-scale ACCelerator programming framework
+
+	  XACC is a system-level software infrastructure for
+	  heterogeneous quantum-classical computing. It provides
+	  a hardware-agnostic programming model.
+
+	  Key Features:
+	  - Hardware-agnostic quantum programming
+	  - Plugin architecture for multiple backends
+	  - Quantum circuit optimization passes
+	  - VQE, QAOA, and other hybrid algorithms
+	  - Integration with IBM, Rigetti, IonQ, D-Wave
+	  - QASM, Quil, and other IR support
+
+	  Components:
+	  - XACC Core: IR and compilation framework
+	  - TNQVM: Tensor network quantum simulator
+	  - QCOR: C++ quantum language extension
+	  - ExaTN: Exascale tensor networks
+
+	  https://github.com/eclipse/xacc
+
+if BR2_PACKAGE_XACC
+
+config BR2_PACKAGE_XACC_TNQVM
+	bool "TNQVM tensor network simulator"
+	default y
+	help
+	  Enable TNQVM - tensor network quantum virtual machine
+	  for efficient simulation of quantum circuits.
+
+config BR2_PACKAGE_XACC_QCOR
+	bool "QCOR quantum C++ compiler"
+	help
+	  Enable QCOR - quantum-classical C++ compiler extension
+	  for writing quantum programs in C++.
+
+endif

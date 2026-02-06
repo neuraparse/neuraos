@@ -1,0 +1,48 @@
+config BR2_PACKAGE_WHISPER_CPP
+	bool "whisper-cpp"
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	help
+	  whisper.cpp - High-performance speech recognition in C/C++
+
+	  Port of OpenAI's Whisper model in C/C++ for efficient
+	  automatic speech recognition on edge devices.
+
+	  Key Features:
+	  - No dependencies, pure C/C++ implementation
+	  - Supports multiple model sizes (tiny to large-v3)
+	  - Real-time transcription capability
+	  - Multi-language support (99+ languages)
+	  - Voice activity detection (VAD)
+	  - Speaker diarization
+	  - GPU acceleration (CUDA, Metal, Vulkan)
+	  - ARM NEON and x86 AVX optimizations
+
+	  Model Sizes:
+	  - tiny: 39M params, ~1GB RAM
+	  - base: 74M params, ~1GB RAM
+	  - small: 244M params, ~2GB RAM
+	  - medium: 769M params, ~5GB RAM
+	  - large-v3: 1.5B params, ~10GB RAM
+
+	  https://github.com/ggerganov/whisper.cpp
+
+if BR2_PACKAGE_WHISPER_CPP
+
+config BR2_PACKAGE_WHISPER_CPP_CUDA
+	bool "CUDA acceleration"
+	help
+	  Enable NVIDIA CUDA GPU acceleration.
+
+config BR2_PACKAGE_WHISPER_CPP_VULKAN
+	bool "Vulkan acceleration"
+	help
+	  Enable Vulkan GPU acceleration for cross-platform support.
+
+config BR2_PACKAGE_WHISPER_CPP_COREML
+	bool "CoreML acceleration (Apple)"
+	depends on BR2_PACKAGE_HAS_COREML
+	help
+	  Enable Apple CoreML acceleration for Mac/iOS.
+
+endif

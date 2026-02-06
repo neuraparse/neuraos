@@ -1,0 +1,15 @@
+config BR2_PACKAGE_QULACS
+	bool "qulacs"
+	depends on BR2_INSTALL_LIBSTDCPP
+	select BR2_PACKAGE_BOOST
+	help
+	  Qulacs is a fast quantum circuit simulator for simulating
+	  large, noisy, or parametric quantum circuits.
+
+	  Features:
+	  - C++ with static library architecture
+	  - SIMD optimizations (AVX2)
+	  - OpenMP parallelization
+	  - Optional CUDA/ROCm GPU support
+
+	  https://github.com/qulacs/qulacs

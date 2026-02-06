@@ -20,8 +20,8 @@ config BR2_PACKAGE_PX4_AUTOPILOT
 if BR2_PACKAGE_PX4_AUTOPILOT
 
 config BR2_PACKAGE_PX4_AUTOPILOT_ROS2
-	bool "Enable ROS2 integration"
-	select BR2_PACKAGE_FAST_DDS
+	bool "Enable ROS2 integration (requires Fast-DDS)"
+	depends on BR2_PACKAGE_FAST_DDS
 	help
 	  Enable ROS 2 middleware integration for advanced
 	  robotics applications using Fast-DDS.

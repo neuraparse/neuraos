@@ -1,0 +1,46 @@
+config BR2_PACKAGE_PENNYLANE
+	bool "pennylane"
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	depends on BR2_PACKAGE_PYTHON3
+	select BR2_PACKAGE_PYTHON_NUMPY
+	help
+	  PennyLane - Quantum Machine Learning Library
+
+	  PennyLane is a cross-platform Python library for quantum
+	  machine learning, automatic differentiation, and optimization
+	  of hybrid quantum-classical computations.
+
+	  Key Features:
+	  - Hybrid quantum-classical workflows
+	  - Automatic differentiation of quantum circuits
+	  - Support for multiple quantum hardware backends
+	  - Integration with PyTorch, TensorFlow, JAX
+	  - Built-in quantum chemistry support
+	  - Device-agnostic programming
+
+	  Supported Backends:
+	  - PennyLane Lightning (high-perf C++ simulator)
+	  - IBM Qiskit
+	  - Google Cirq
+	  - AWS Braket
+	  - IonQ, Rigetti, and more
+
+	  https://pennylane.ai
+
+if BR2_PACKAGE_PENNYLANE
+
+config BR2_PACKAGE_PENNYLANE_LIGHTNING
+	bool "PennyLane Lightning (fast C++ simulator)"
+	default y
+	help
+	  Enable PennyLane Lightning - a fast state-vector quantum
+	  simulator written in C++ with OpenMP parallelization.
+
+config BR2_PACKAGE_PENNYLANE_LIGHTNING_GPU
+	bool "Lightning GPU (CUDA acceleration)"
+	depends on BR2_PACKAGE_PENNYLANE_LIGHTNING
+	help
+	  Enable GPU-accelerated simulation using CUDA.
+
+endif

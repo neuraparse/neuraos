@@ -4,15 +4,15 @@
 #
 ################################################################################
 
-# PX4 Autopilot v1.15.2 (2026) - Latest stable release
-PX4_AUTOPILOT_VERSION = 1.15.2
+# PX4 Autopilot v1.16.0 (2026) - Latest stable release
+PX4_AUTOPILOT_VERSION = 1.16.0
 PX4_AUTOPILOT_SITE = $(call github,PX4,PX4-Autopilot,v$(PX4_AUTOPILOT_VERSION))
 PX4_AUTOPILOT_LICENSE = BSD-3-Clause
 PX4_AUTOPILOT_LICENSE_FILES = LICENSE
 PX4_AUTOPILOT_INSTALL_STAGING = YES
 PX4_AUTOPILOT_INSTALL_TARGET = YES
 
-PX4_AUTOPILOT_DEPENDENCIES = host-cmake mavlink fast-dds
+PX4_AUTOPILOT_DEPENDENCIES = host-cmake mavlink
 
 PX4_AUTOPILOT_CONF_OPTS = \
 	-DCONFIG=px4_sitl_default \

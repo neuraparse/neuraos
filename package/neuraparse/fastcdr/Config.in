@@ -1,0 +1,7 @@
+config BR2_PACKAGE_FASTCDR
+	bool "fastcdr"
+	depends on BR2_INSTALL_LIBSTDCPP
+	help
+	  Fast CDR serialization library for eProsima Fast DDS.
+
+	  https://github.com/eProsima/Fast-CDR

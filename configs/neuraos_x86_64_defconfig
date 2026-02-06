@@ -1,6 +1,7 @@
-# NeuralOS x86_64 Configuration
+# NeuralOS x86_64 Advanced Configuration
 # Buildroot 2024.02.9 + Linux 6.12 LTS
-# Optimized for KVM virtualization on production servers
+# Enhanced with AI, Quantum, Drone, and Defense capabilities
+# Updated: February 2026
 
 #
 # Target Architecture - x86_64
@@ -12,15 +13,15 @@ BR2_x86_corei7=y
 # Build Options
 #
 BR2_OPTIMIZE_2=y
-BR2_ENABLE_LTO=y
 BR2_TOOLCHAIN_BUILDROOT_WCHAR=y
 BR2_TOOLCHAIN_BUILDROOT_CXX=y
+BR2_TOOLCHAIN_BUILDROOT_LOCALE=y
 
 #
 # System Configuration
 #
 BR2_TARGET_GENERIC_HOSTNAME="neuraos"
-BR2_TARGET_GENERIC_ISSUE="Welcome to NeuralOS x86_64 - AI-Native Embedded OS"
+BR2_TARGET_GENERIC_ISSUE="Welcome to NeuralOS x86_64 v2.0 - AI/Quantum/Robotics Platform"
 BR2_ROOTFS_DEVICE_CREATION_DYNAMIC_EUDEV=y
 BR2_TARGET_GENERIC_ROOT_PASSWD="neuraos"
 BR2_SYSTEM_DHCP="eth0"
@@ -40,12 +41,7 @@ BR2_LINUX_KERNEL_NEEDS_HOST_OPENSSL=y
 #
 BR2_TARGET_ROOTFS_EXT2=y
 BR2_TARGET_ROOTFS_EXT2_4=y
-BR2_TARGET_ROOTFS_EXT2_SIZE="512M"
-
-#
-# Bootloader - Disabled (direct kernel boot for QEMU/KVM)
-#
-# BR2_TARGET_UBOOT is not set
+BR2_TARGET_ROOTFS_EXT2_SIZE="2G"
 
 #
 # Essential Packages
@@ -59,6 +55,10 @@ BR2_PACKAGE_BUSYBOX_SHOW_OTHERS=y
 BR2_PACKAGE_DROPBEAR=y
 BR2_PACKAGE_IPTABLES=y
 BR2_PACKAGE_IPROUTE2=y
+BR2_PACKAGE_TCPDUMP=y
+BR2_PACKAGE_ETHTOOL=y
+BR2_PACKAGE_LIBCURL=y
+BR2_PACKAGE_LIBCURL_CURL=y
 
 #
 # Development Tools
@@ -71,6 +71,8 @@ BR2_PACKAGE_GDB_SERVER=y
 #
 BR2_PACKAGE_HTOP=y
 BR2_PACKAGE_PROCPS_NG=y
+BR2_PACKAGE_UTIL_LINUX=y
+BR2_PACKAGE_UTIL_LINUX_BINARIES=y
 
 #
 # Filesystem Tools
@@ -86,6 +88,7 @@ BR2_PACKAGE_GZIP=y
 BR2_PACKAGE_XZ=y
 BR2_PACKAGE_ZLIB=y
 BR2_PACKAGE_ZSTD=y
+BR2_PACKAGE_LZ4=y
 
 #
 # Security & SSL/TLS
@@ -100,7 +103,7 @@ BR2_PACKAGE_LIBSECCOMP=y
 BR2_PACKAGE_CHRONY=y
 
 #
-# Python Runtime (for AI tools)
+# Python Runtime (for AI/Quantum tools)
 #
 BR2_PACKAGE_PYTHON3=y
 BR2_PACKAGE_PYTHON3_PY_PYC=y
@@ -112,15 +115,117 @@ BR2_PACKAGE_PYTHON_NUMPY=y
 BR2_PACKAGE_PROTOBUF=y
 BR2_PACKAGE_FLATBUFFERS=y
 BR2_PACKAGE_JSON_C=y
+BR2_PACKAGE_JSONCPP=y
+BR2_PACKAGE_BOOST=y
+BR2_PACKAGE_BOOST_FILESYSTEM=y
+BR2_PACKAGE_BOOST_SYSTEM=y
+BR2_PACKAGE_ZEROMQ=y
 
 #
-# AI/ML Frameworks
+# ========================================
+# AI/ML Frameworks (NeuraParse Custom)
+# ========================================
 #
+
+# Classical ML
 BR2_PACKAGE_EMLEARN=y
 
+# LLM Inference (llama.cpp for local AI)
+BR2_PACKAGE_LLAMA_CPP=y
+
+# Speech Recognition (whisper.cpp) - disabled due to FetchContent issues
+# BR2_PACKAGE_WHISPER_CPP=y
+
+# Text-to-Speech (Piper) - disabled due to FetchContent issues
+# BR2_PACKAGE_PIPER_TTS=y
+
+# Image Generation (Stable Diffusion) - disabled due to FetchContent issues
+# BR2_PACKAGE_STABLE_DIFFUSION_CPP=y
+
+# ONNX Runtime (disabled - complex CMake FetchContent dependencies)
+# BR2_PACKAGE_ONNXRUNTIME=y
+
 #
-# NeuraParse Custom Packages (disabled - source dirs not in Docker)
+# ========================================
+# Quantum Computing Tools
+# ========================================
+# (Most disabled due to CMake FetchContent/libcurl HTTPS issues)
 #
-# BR2_PACKAGE_NPIE is not set
-# BR2_PACKAGE_NPI_INIT is not set
-# BR2_PACKAGE_NEURAOS_TESTS is not set
+
+# Qiskit Aer - Quantum Simulator (disabled - complex build deps)
+# BR2_PACKAGE_QISKIT_AER=y
+
+# PennyLane - Quantum ML (disabled - FetchContent issues)
+# BR2_PACKAGE_PENNYLANE=y
+
+# XACC - Quantum Programming Framework (disabled - complex deps)
+# BR2_PACKAGE_XACC=y
+
+# QuEST - Quantum Simulator (zero dependencies, embedded-friendly)
+BR2_PACKAGE_QUEST=y
+
+# Qulacs - Fast Quantum Circuit Simulator (disabled - complex deps)
+# BR2_PACKAGE_QULACS=y
+
+#
+# ========================================
+# Drone & Robotics Systems
+# ========================================
+# (Most disabled due to complex dependencies - can be added later)
+#
+
+# MAVLink Protocol (header-only, simple)
+BR2_PACKAGE_MAVLINK=y
+
+# MAVSDK - Modern Drone SDK (disabled - complex CMake dependencies)
+# BR2_PACKAGE_MAVSDK=y
+
+# PX4 Autopilot (disabled - needs kconfiglib)
+# BR2_PACKAGE_PX4_AUTOPILOT=y
+
+# ArduPilot (disabled - complex deps)
+# BR2_PACKAGE_ARDUPILOT=y
+
+# micro-ROS (disabled - complex deps)
+# BR2_PACKAGE_ROS2_MICRO=y
+
+# Fast-CDR (Fast-DDS dependency)
+BR2_PACKAGE_FASTCDR=y
+
+# Asio (Fast-DDS dependency)
+BR2_PACKAGE_ASIO=y
+
+# Foonathan Memory (Fast-DDS dependency)
+BR2_PACKAGE_FOONATHAN_MEMORY=y
+
+# Fast-DDS - Real-time pub/sub middleware
+BR2_PACKAGE_FAST_DDS=y
+BR2_PACKAGE_FAST_DDS_SECURITY=y
+BR2_PACKAGE_FAST_DDS_SHM=y
+
+# ORB-SLAM3 (disabled - requires OpenCV which is large)
+# BR2_PACKAGE_ORB_SLAM3=y
+
+#
+# ========================================
+# Defense & Security Tools
+# ========================================
+#
+
+BR2_PACKAGE_DEFENSE_TOOLS=y
+
+#
+# ========================================
+# Multimedia (for AI vision/audio)
+# ========================================
+#
+
+BR2_PACKAGE_ALSA_UTILS=y
+BR2_PACKAGE_FFMPEG=y
+BR2_PACKAGE_FFMPEG_SWSCALE=y
+BR2_PACKAGE_V4L_UTILS=y
+
+#
+# External Options
+#
+BR2_EXTERNAL_NEURAOS_PATH="$(TOPDIR)/../"

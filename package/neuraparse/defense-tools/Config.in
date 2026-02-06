@@ -1,0 +1,61 @@
+config BR2_PACKAGE_DEFENSE_TOOLS
+	bool "defense-tools"
+	help
+	  Defense and Security Tools for Embedded Systems
+
+	  A collection of security and defense tools for embedded
+	  systems, drones, and robotic platforms.
+
+	  Components include:
+	  - Network security monitoring
+	  - Intrusion detection
+	  - Secure communications
+	  - Encryption utilities
+	  - Vulnerability assessment
+
+	  This is a meta-package that selects commonly needed
+	  security tools for defense applications.
+
+if BR2_PACKAGE_DEFENSE_TOOLS
+
+config BR2_PACKAGE_DEFENSE_TOOLS_NETWORK
+	bool "Network security tools"
+	default y
+	select BR2_PACKAGE_TCPDUMP
+	select BR2_PACKAGE_IPTABLES
+	select BR2_PACKAGE_NFTABLES
+	help
+	  Network monitoring and security tools.
+	  - tcpdump: Packet analyzer
+	  - iptables/nftables: Firewall
+
+config BR2_PACKAGE_DEFENSE_TOOLS_CRYPTO
+	bool "Cryptography tools"
+	default y
+	select BR2_PACKAGE_OPENSSL
+	select BR2_PACKAGE_GNUPG2
+	help
+	  Encryption and cryptography tools.
+	  - OpenSSL: SSL/TLS and crypto library
+	  - GnuPG: OpenPGP implementation
+
+config BR2_PACKAGE_DEFENSE_TOOLS_IDS
+	bool "Intrusion detection"
+	select BR2_PACKAGE_SNORT
+	help
+	  Intrusion detection and prevention.
+	  - Snort: Network IDS/IPS
+
+config BR2_PACKAGE_DEFENSE_TOOLS_AUDIT
+	bool "Security auditing"
+	select BR2_PACKAGE_AUDIT
+	help
+	  System security auditing tools.
+	  - Linux Audit framework
+
+config BR2_PACKAGE_DEFENSE_TOOLS_SECURE_BOOT
+	bool "Secure boot support"
+	help
+	  Tools for secure boot and verified boot.
+
+endif
