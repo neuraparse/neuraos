@@ -24,7 +24,8 @@ typedef enum {
     NPU_TYPE_HAILO,         /* Hailo AI Processor */
     NPU_TYPE_ROCKCHIP_NPU,  /* Rockchip NPU */
     NPU_TYPE_AMLOGIC_NPU,   /* Amlogic NPU */
-    NPU_TYPE_CUSTOM         /* Custom NPU */
+    NPU_TYPE_CUSTOM,        /* Custom NPU */
+    NPU_TYPE_SIMULATED      /* Software-simulated NPU for testing */
 } npu_type_t;
 
 /* NPU capabilities */

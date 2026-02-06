@@ -2,7 +2,7 @@
 FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV BUILDROOT_VERSION=2024.02.9
+ENV BUILDROOT_VERSION=2025.08
 
 # Install Buildroot dependencies
 RUN apt-get update && apt-get install -y \
@@ -36,15 +36,14 @@ COPY external.mk external.mk
 COPY external.desc external.desc
 COPY Config.in Config.in
 
-# Download and extract Buildroot
-RUN wget -q "https://buildroot.org/downloads/buildroot-${BUILDROOT_VERSION}.tar.gz" \
-    && tar xzf "buildroot-${BUILDROOT_VERSION}.tar.gz" \
-    && rm "buildroot-${BUILDROOT_VERSION}.tar.gz"
+# Clone Buildroot (matching setup_environment.sh)
+RUN git clone --depth 1 --branch ${BUILDROOT_VERSION} \
+    https://gitlab.com/buildroot.org/buildroot.git buildroot
 
-WORKDIR /neuraos/buildroot-${BUILDROOT_VERSION}
+WORKDIR /neuraos/buildroot
 
 # Configure for x86_64
 RUN make BR2_EXTERNAL="/neuraos" neuraos_x86_64_defconfig
 
 # Build (this takes a while)
-CMD ["make", "-j$(nproc)"]
+CMD ["/bin/bash", "-c", "make -j$(nproc)"]

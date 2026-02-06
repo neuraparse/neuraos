@@ -11,8 +11,10 @@
 #include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <math.h>
 #include <sys/ioctl.h>
 #include <sys/mman.h>
+#include <sys/time.h>
 
 /* Internal device structure */
 struct npu_device {
@@ -21,7 +23,18 @@ struct npu_device {
     npu_type_t type;
     npu_capabilities_t caps;
     bool initialized;
+    /* Runtime statistics */
+    uint64_t inference_count;
+    uint64_t total_inference_us;
+    uint32_t current_frequency_mhz;
+    bool power_enabled;
 };
+
+static uint64_t npu_get_time_us(void) {
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    return (uint64_t)tv.tv_sec * 1000000 + tv.tv_usec;
+}
 
 /* Global state */
 static bool g_driver_initialized = false;
@@ -136,37 +149,68 @@ static int detect_rockchip_npu(struct npu_device* dev) {
 }
 
 /**
+ * @brief Detect simulated NPU (always available, no hardware needed)
+ */
+static int detect_simulated_npu(struct npu_device* dev) {
+    dev->fd = -1;  /* No real device file */
+    dev->type = NPU_TYPE_SIMULATED;
+    strcpy(dev->caps.name, "NeuralOS Simulated NPU");
+    strcpy(dev->caps.version, "1.0-sim");
+    dev->caps.type = NPU_TYPE_SIMULATED;
+    dev->caps.max_frequency_mhz = 1000;
+    dev->caps.num_cores = 4;
+    dev->caps.memory_size = 64 * 1024 * 1024; /* 64 MB */
+    dev->caps.supports_int8 = true;
+    dev->caps.supports_int16 = true;
+    dev->caps.supports_float16 = true;
+    dev->caps.supports_float32 = true;
+    dev->caps.max_batch_size = 16;
+    dev->current_frequency_mhz = 1000;
+    dev->power_enabled = true;
+    return 0;
+}
+
+/**
  * @brief Detect available NPUs
  */
 int npu_detect_devices(npu_device_t* devices, int max_devices) {
     if (!g_driver_initialized) {
         npu_driver_init();
     }
-    
+
     g_num_devices = 0;
-    
-    /* Try to detect different NPU types */
+
+    /* Try to detect real hardware NPUs first */
     if (g_num_devices < max_devices && detect_edge_tpu(&g_devices[g_num_devices]) == 0) {
         g_devices[g_num_devices].device_id = g_num_devices;
         g_devices[g_num_devices].initialized = true;
         if (devices) devices[g_num_devices] = &g_devices[g_num_devices];
         g_num_devices++;
     }
-    
+
     if (g_num_devices < max_devices && detect_ethos_u(&g_devices[g_num_devices]) == 0) {
         g_devices[g_num_devices].device_id = g_num_devices;
         g_devices[g_num_devices].initialized = true;
         if (devices) devices[g_num_devices] = &g_devices[g_num_devices];
         g_num_devices++;
     }
-    
+
     if (g_num_devices < max_devices && detect_rockchip_npu(&g_devices[g_num_devices]) == 0) {
         g_devices[g_num_devices].device_id = g_num_devices;
         g_devices[g_num_devices].initialized = true;
         if (devices) devices[g_num_devices] = &g_devices[g_num_devices];
         g_num_devices++;
     }
-    
+
+    /* Always register a simulated NPU as fallback for testing */
+    if (g_num_devices < max_devices) {
+        detect_simulated_npu(&g_devices[g_num_devices]);
+        g_devices[g_num_devices].device_id = g_num_devices;
+        g_devices[g_num_devices].initialized = true;
+        if (devices) devices[g_num_devices] = &g_devices[g_num_devices];
+        g_num_devices++;
+    }
+
     return g_num_devices;
 }
 
@@ -299,6 +343,60 @@ void npu_unload_model(npu_device_t device, void* model_handle) {
 }
 
 /**
+ * @brief Simulated inference: CPU-based matrix multiply + activation
+ *
+ * Performs actual computation on CPU to simulate NPU workload.
+ * Uses input buffer data as weights for a dense layer simulation.
+ */
+static int npu_execute_simulated(npu_device_t device, void* model_handle,
+                                  npu_buffer_t** inputs, int num_inputs,
+                                  npu_buffer_t** outputs, int num_outputs) {
+    uint64_t t0 = npu_get_time_us();
+
+    /* Simulate a dense layer: output = ReLU(input * weights) */
+    for (int o = 0; o < num_outputs; o++) {
+        if (!outputs[o] || !outputs[o]->data) continue;
+
+        float* out = (float*)outputs[o]->data;
+        size_t out_elems = outputs[o]->size / sizeof(float);
+
+        /* Initialize output to zero */
+        memset(out, 0, outputs[o]->size);
+
+        /* Accumulate from each input: matrix-vector style */
+        for (int inp = 0; inp < num_inputs; inp++) {
+            if (!inputs[inp] || !inputs[inp]->data) continue;
+
+            const float* in_data = (const float*)inputs[inp]->data;
+            size_t in_elems = inputs[inp]->size / sizeof(float);
+
+            /* Use model_handle bytes as pseudo-weight seed */
+            const uint8_t* weights = (const uint8_t*)model_handle;
+
+            for (size_t i = 0; i < out_elems; i++) {
+                float sum = 0.0f;
+                for (size_t j = 0; j < in_elems && j < 256; j++) {
+                    float w = ((float)weights[(i + j) % 64] - 128.0f) / 128.0f;
+                    sum += in_data[j] * w;
+                }
+                out[i] += sum;
+            }
+        }
+
+        /* ReLU activation */
+        for (size_t i = 0; i < out_elems; i++) {
+            if (out[i] < 0.0f) out[i] = 0.0f;
+        }
+    }
+
+    uint64_t elapsed = npu_get_time_us() - t0;
+    device->inference_count++;
+    device->total_inference_us += elapsed;
+
+    return 0;
+}
+
+/**
  * @brief Execute inference on NPU
  */
 int npu_execute(npu_device_t device, void* model_handle,
@@ -307,13 +405,18 @@ int npu_execute(npu_device_t device, void* model_handle,
     if (!device || !model_handle || !inputs || !outputs) {
         return -1;
     }
-    
+
+    /* Simulated NPU: do real CPU computation */
+    if (device->type == NPU_TYPE_SIMULATED) {
+        return npu_execute_simulated(device, model_handle,
+                                      inputs, num_inputs,
+                                      outputs, num_outputs);
+    }
+
+    /* Real hardware: device-specific APIs would go here */
     (void)num_inputs;
     (void)num_outputs;
 
-    /* This is a stub implementation */
-    /* Real implementation would use device-specific APIs */
-    
     return 0;
 }
 
@@ -321,12 +424,11 @@ int npu_execute(npu_device_t device, void* model_handle,
  * @brief Set NPU power state
  */
 int npu_set_power_state(npu_device_t device, bool enabled) {
-    (void)enabled;
     if (!device) {
         return -1;
     }
-    
-    /* Device-specific power management */
+
+    device->power_enabled = enabled;
     return 0;
 }
 
@@ -337,12 +439,12 @@ int npu_set_frequency(npu_device_t device, uint32_t frequency_mhz) {
     if (!device) {
         return -1;
     }
-    
+
     if (frequency_mhz > device->caps.max_frequency_mhz) {
         return -1;
     }
-    
-    /* Device-specific frequency scaling */
+
+    device->current_frequency_mhz = frequency_mhz;
     return 0;
 }
 
@@ -354,12 +456,21 @@ int npu_get_stats(npu_device_t device, uint64_t* inferences,
     if (!device) {
         return -1;
     }
-    
-    /* Return dummy stats for now */
-    if (inferences) *inferences = 0;
-    if (total_time_us) *total_time_us = 0;
-    if (power_mw) *power_mw = 0;
-    
+
+    if (inferences) *inferences = device->inference_count;
+    if (total_time_us) *total_time_us = device->total_inference_us;
+    if (power_mw) {
+        /* Simulated power: proportional to frequency and activity */
+        if (device->type == NPU_TYPE_SIMULATED && device->power_enabled) {
+            double freq_ratio = (double)device->current_frequency_mhz /
+                                (double)device->caps.max_frequency_mhz;
+            /* Base 500mW + frequency-scaled 1500mW = max 2000mW at full freq */
+            *power_mw = (uint64_t)(500.0 + 1500.0 * freq_ratio);
+        } else {
+            *power_mw = 0;
+        }
+    }
+
     return 0;
 }
 

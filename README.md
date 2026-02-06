@@ -98,11 +98,16 @@ Zero telemetry, minimal attack surface.
 │         └────────────────┴────────────────┴───────────────┘        │
 │                          │                                         │
 │  ┌─────────────────────────────────────────────────────────────┐   │
-│  │                   Python 3.11 + NumPy                       │   │
+│  │         NPIE - NeuraParse Inference Engine                  │   │
+│  │    LiteRT │ ONNX Runtime │ emlearn │ WasmEdge              │   │
 │  └─────────────────────────────────────────────────────────────┘   │
 │                          │                                         │
 │  ┌─────────────────────────────────────────────────────────────┐   │
-│  │                   BusyBox + Core Utils                      │   │
+│  │       NPU / GPU Drivers  │  Python 3.11 + NumPy            │   │
+│  └─────────────────────────────────────────────────────────────┘   │
+│                          │                                         │
+│  ┌─────────────────────────────────────────────────────────────┐   │
+│  │           NPI Init  │  BusyBox + Core Utils                 │   │
 │  └─────────────────────────────────────────────────────────────┘   │
 │                          │                                         │
 │  ┌─────────────────────────────────────────────────────────────┐   │
@@ -128,6 +133,7 @@ Zero telemetry, minimal attack surface.
 
 | Package | Version |
 |---------|---------|
+| NPIE | 1.0.0 |
 | llama.cpp | b7746 |
 | emlearn | 0.21.1 |
 | NumPy | 1.25.0 |
@@ -194,16 +200,19 @@ cd neuraos
 # Build with Docker
 docker build -f Dockerfile.x86_64 -t neuraos-builder .
 docker run --name neuraos-build neuraos-builder
-docker cp neuraos-build:/neuraos/buildroot-2024.02.9/output/images ./neuraos-images
+docker cp neuraos-build:/neuraos/buildroot-2025.08/output/images ./neuraos-images
 ```
 
 ### ▶️ Run
 
 ```bash
-# Launch with KVM acceleration
+# Quick start (VM + Web Dashboard)
+./scripts/start_neuraos.sh x86_64    # or: arm64
+
+# Or launch manually with KVM
 qemu-system-x86_64 -enable-kvm -cpu host -m 1024 -smp 2 \
-  -kernel neuraos-images/bzImage \
-  -drive file=neuraos-images/rootfs.ext2,format=raw,if=virtio \
+  -kernel neuraos-images-x86_64/bzImage \
+  -drive file=neuraos-images-x86_64/rootfs.ext2,format=raw,if=virtio \
   -append "root=/dev/vda rw console=ttyS0" \
   -netdev user,id=net0,hostfwd=tcp::2222-:22,hostfwd=tcp::8080-:8080 \
   -device virtio-net-pci,netdev=net0 -nographic
@@ -211,12 +220,16 @@ qemu-system-x86_64 -enable-kvm -cpu host -m 1024 -smp 2 \
 # SSH access
 ssh -p 2222 root@localhost
 # Password: neuraos
+
+# Stop everything
+./scripts/stop_neuraos.sh
 ```
 
-### 🌐 Web Panel
+### 🌐 Web Dashboard
 
 ```
-http://localhost:8080
+VM API:    http://localhost:8080
+Dashboard: http://localhost:8082
 ```
 
 ---
@@ -271,21 +284,30 @@ http://localhost:8080
 
 ```
 neuraos/
-├── 📂 board/neuraparse/neuraos/
-│   ├── 📂 rootfs_overlay/     # Filesystem customizations
-│   └── 📂 scripts/            # Build hooks
+├── 📂 src/
+│   ├── 📂 npie/               # NPIE inference engine (4 backends)
+│   ├── 📂 drivers/npu/        # NPU driver (hw + simulated)
+│   ├── 📂 drivers/accelerators/# GPU acceleration
+│   ├── 📂 npi/                # NPI init system
+│   └── 📂 dashboard/          # Qt5 native dashboard
+├── 📂 tools/
+│   └── 📂 npie_bench/         # Multi-backend benchmark tool
+├── 📂 web/
+│   ├── 📂 frontend/           # React + Vite + TypeScript
+│   └── 📂 backend/            # Node.js + Express API
 ├── 📂 configs/
+│   ├── 📄 neuraos_defconfig   # ARM64 (aarch64)
 │   ├── 📄 neuraos_x86_64_defconfig
 │   └── 📂 kernel/
-├── 📂 package/neuraparse/     # Custom packages
-│   ├── 📦 llama-cpp/
-│   ├── 📦 fast-dds/
-│   ├── 📦 quest/
-│   └── 📦 ...
+├── 📂 package/neuraparse/     # 44 custom Buildroot packages
 ├── 📂 scripts/
-│   └── 🔧 run_qemu_kvm.sh
+│   ├── 🔧 start_neuraos.sh   # Quick start (VM + Dashboard)
+│   ├── 🔧 stop_neuraos.sh    # Stop all services
+│   ├── 🔧 run_qemu_kvm.sh    # x86_64 with KVM
+│   └── 🔧 run_qemu_headless.sh # ARM64 headless
+├── 📂 tests/                  # Unit, integration & benchmarks
 ├── 🐳 Dockerfile.x86_64
-└── 📄 Config.in
+└── 📄 CMakeLists.txt
 ```
 
 ---
@@ -300,6 +322,26 @@ neuraos/
 | No Telemetry | ✅ |
 | Offline Operation | ✅ |
 | Read-Only Rootfs (optional) | ✅ |
+
+---
+
+## 🛠️ Development Tools
+
+| Tool | Description |
+|------|-------------|
+| `npie-bench` | Multi-backend inference benchmark (JSON + human-readable) |
+| `npconvert` | Model format converter |
+| `npprofiler` | Performance profiler |
+| `npsim` | System simulator |
+| `npie-cli` | NPIE command-line interface |
+
+```bash
+# Build native components & run tests
+make npie && make tools && make test
+
+# Benchmark all backends
+npie-bench --iterations 500 --json
+```
 
 ---
 
