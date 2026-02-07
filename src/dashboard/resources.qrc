@@ -1,0 +1,95 @@
+<RCC>
+    <qresource prefix="/">
+        <!-- QML directory metadata -->
+        <file>qml/qmldir</file>
+        <file>qml/components/qmldir</file>
+
+        <!-- Main QML files -->
+        <file>qml/main.qml</file>
+        <file>qml/Theme.qml</file>
+
+        <!-- Legacy shell (not loaded by new main.qml) -->
+        <file>qml/TopPanel.qml</file>
+        <file>qml/BottomDock.qml</file>
+
+        <!-- Legacy pages (not loaded by new main.qml) -->
+        <file>qml/pages/HomePage.qml</file>
+        <file>qml/pages/AIDashboard.qml</file>
+        <file>qml/pages/SystemMonitor.qml</file>
+        <file>qml/pages/TerminalPage.qml</file>
+        <file>qml/pages/FileManager.qml</file>
+        <file>qml/pages/SettingsPage.qml</file>
+        <file>qml/pages/AppLauncher.qml</file>
+
+        <!-- Shell -->
+        <file>qml/shell/WindowManager.js</file>
+        <file>qml/shell/WindowFrame.qml</file>
+        <file>qml/shell/TaskBar.qml</file>
+        <file>qml/shell/StartMenu.qml</file>
+        <file>qml/shell/Desktop.qml</file>
+        <file>qml/shell/NotificationCenter.qml</file>
+        <file>qml/shell/ContextMenu.qml</file>
+
+        <!-- Shell Widgets -->
+        <file>qml/shell/widgets/ClockWidget.qml</file>
+        <file>qml/shell/widgets/SystemStatsWidget.qml</file>
+        <file>qml/shell/widgets/AIStatusWidget.qml</file>
+        <file>qml/shell/widgets/QuickActionsWidget.qml</file>
+        <file>qml/shell/widgets/WeatherWidget.qml</file>
+        <file>qml/shell/widgets/MediaWidget.qml</file>
+        <file>qml/shell/widgets/CalendarWidget.qml</file>
+
+        <!-- Apps (window-ready) -->
+        <file>qml/apps/SystemMonitorApp.qml</file>
+        <file>qml/apps/TerminalApp.qml</file>
+        <file>qml/apps/FileManagerApp.qml</file>
+        <file>qml/apps/SettingsApp.qml</file>
+        <file>qml/apps/NeuralStudio.qml</file>
+        <file>qml/apps/AIAgentHub.qml</file>
+        <file>qml/apps/NPUControlCenter.qml</file>
+        <file>qml/apps/DroneCommandCenter.qml</file>
+        <file>qml/apps/DefenseMonitor.qml</file>
+        <file>qml/apps/QuantumLab.qml</file>
+        <file>qml/apps/NetworkCenter.qml</file>
+        <file>qml/apps/PackageManager.qml</file>
+        <file>qml/apps/AppStore.qml</file>
+        <file>qml/apps/CalculatorApp.qml</file>
+        <file>qml/apps/TextEditorApp.qml</file>
+        <file>qml/apps/WebBrowserApp.qml</file>
+        <file>qml/apps/ImageViewerApp.qml</file>
+        <file>qml/apps/MusicPlayerApp.qml</file>
+        <file>qml/apps/TaskManagerApp.qml</file>
+        <file>qml/apps/NotesApp.qml</file>
+        <file>qml/apps/CalendarApp.qml</file>
+        <file>qml/apps/AIAssistantApp.qml</file>
+        <file>qml/apps/WeatherApp.qml</file>
+        <file>qml/apps/PhotosApp.qml</file>
+        <file>qml/apps/ClockApp.qml</file>
+        <file>qml/apps/VideoPlayerApp.qml</file>
+
+        <!-- Fonts -->
+        <file>fonts/remixicon.ttf</file>
+
+        <!-- Components -->
+        <file>qml/components/GlassCard.qml</file>
+        <file>qml/components/CircularGauge.qml</file>
+        <file>qml/components/MetricCard.qml</file>
+        <file>qml/components/IconButton.qml</file>
+        <file>qml/components/StatusBadge.qml</file>
+        <file>qml/components/SectionHeader.qml</file>
+        <file>qml/components/ToggleSwitch.qml</file>
+        <file>qml/components/SearchBar.qml</file>
+        <file>qml/components/AppIcon.qml</file>
+        <file>qml/components/SliderControl.qml</file>
+        <file>qml/components/MiniChart.qml</file>
+        <file>qml/components/DesktopWidgetFrame.qml</file>
+        <file>qml/components/NotificationItem.qml</file>
+        <file>qml/components/DroneIndicator.qml</file>
+        <file>qml/components/RadarView.qml</file>
+        <file>qml/components/QuantumGate.qml</file>
+        <file>qml/components/CanvasIcon.qml</file>
+        <file>qml/components/GlassPanel.qml</file>
+        <file>qml/components/ProgressBar.qml</file>
+        <file>qml/components/ToastNotification.qml</file>
+    </qresource>
+</RCC>

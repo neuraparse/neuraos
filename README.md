@@ -4,13 +4,14 @@
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPL%20v2-blue.svg?style=for-the-badge&logo=gnu" alt="License"/></a>
-  <a href="https://github.com/neuraparse/neuraos/releases"><img src="https://img.shields.io/badge/Version-2.0.0-green.svg?style=for-the-badge&logo=v" alt="Version"/></a>
+  <a href="https://github.com/neuraparse/neuraos/releases"><img src="https://img.shields.io/badge/Version-4.0.0-green.svg?style=for-the-badge&logo=v" alt="Version"/></a>
   <a href="https://github.com/neuraparse/neuraos/actions"><img src="https://img.shields.io/badge/Build-Passing-brightgreen.svg?style=for-the-badge&logo=githubactions" alt="Build"/></a>
   <a href="https://github.com/neuraparse/neuraos/stargazers"><img src="https://img.shields.io/github/stars/neuraparse/neuraos?style=for-the-badge&logo=github" alt="Stars"/></a>
 </p>
 
 <p align="center">
   <a href="#-features">Features</a> •
+  <a href="#-desktop-shell">Desktop Shell</a> •
   <a href="#-quick-start">Quick Start</a> •
   <a href="#-architecture">Architecture</a> •
   <a href="#-packages">Packages</a> •
@@ -83,11 +84,45 @@ Zero telemetry, minimal attack surface.
 
 ---
 
+## 🖥️ Desktop Shell
+
+NeuralOS includes a Qt5 QML desktop environment with glassmorphism design, floating dock taskbar, and 26 built-in applications.
+
+**Shell Components:**
+- Floating dock taskbar with app indicators
+- Start menu with search, pinned apps, and app grid
+- Notification center with quick toggles and sliders
+- Desktop widgets (clock, system stats, weather, media, calendar)
+- Window manager with drag, resize, minimize, maximize, close
+
+**Applications:**
+
+| Category | Apps |
+|----------|------|
+| System | System Monitor, Terminal, File Manager, Settings, Task Manager, Package Manager, Network Center |
+| AI & ML | Neural Studio, AI Agent Hub, AI Assistant, NPU Control Center |
+| Utilities | Calculator, Text Editor, Notes, Calendar, Clock, Weather, Photos |
+| Media | Music Player, Video Player, Image Viewer |
+| Internet | Web Browser, App Store |
+| Defense | Drone Command Center, Defense Monitor |
+| Quantum | Quantum Lab |
+
+```bash
+# Build the desktop shell (requires Qt5)
+cd src/dashboard
+cmake -B build && cmake --build build
+
+# Run
+./build/neuraos-dashboard
+```
+
+---
+
 ## 🏗️ Architecture
 
 ```
 ┌────────────────────────────────────────────────────────────────────┐
-│                          NEURAOS v2.0                              │
+│                          NEURAOS v4.0                              │
 ├────────────────────────────────────────────────────────────────────┤
 │                                                                    │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌────────────┐ │
@@ -289,7 +324,7 @@ neuraos/
 │   ├── 📂 drivers/npu/        # NPU driver (hw + simulated)
 │   ├── 📂 drivers/accelerators/# GPU acceleration
 │   ├── 📂 npi/                # NPI init system
-│   └── 📂 dashboard/          # Qt5 native dashboard
+│   └── 📂 dashboard/          # Qt5 QML desktop shell (26 apps)
 ├── 📂 tools/
 │   └── 📂 npie_bench/         # Multi-backend benchmark tool
 ├── 📂 web/
