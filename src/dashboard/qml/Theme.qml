@@ -101,4 +101,31 @@ QtObject {
     /* ─── Hover / Active helpers ─── */
     property color hoverBg:  darkMode ? Qt.rgba(1, 1, 1, 0.06) : Qt.rgba(0, 0, 0, 0.04)
     property color activeBg: darkMode ? Qt.rgba(1, 1, 1, 0.10) : Qt.rgba(0, 0, 0, 0.07)
+
+    /* ─── AI Bus & Orchestration (CosmOS-inspired) ─── */
+    readonly property color aiBus:      "#06B6D4"
+    readonly property color aiBusDim:   "#0891B2"
+
+    /* ─── AI Memory (Steve OS-inspired) ─── */
+    readonly property color aiMemory:    "#A78BFA"
+    readonly property color aiMemoryDim: "#8B6FE0"
+
+    /* ─── Automation (WarmWind OS-inspired) ─── */
+    readonly property color automation:    "#F59E0B"
+    readonly property color automationDim: "#D97706"
+
+    /* ─── Command Palette (Bytebot-inspired) ─── */
+    property color commandPaletteBg: darkMode ? Qt.rgba(0.06, 0.06, 0.09, 0.95) : Qt.rgba(0.97, 0.97, 0.98, 0.95)
+    readonly property int commandPaletteW: 620
+    readonly property int commandPaletteH: 420
+
+    /* ─── MCP & Knowledge (Archon OS-inspired) ─── */
+    readonly property color mcp:         "#10B981"
+    readonly property color mcpDim:      "#059669"
+    readonly property color knowledge:   "#3B82F6"
+    readonly property color knowledgeDim:"#2563EB"
+
+    /* ─── Ecosystem (Fuchsia/CosmOS-inspired) ─── */
+    readonly property color ecosystem:    "#EC4899"
+    readonly property color ecosystemDim: "#DB2777"
 }

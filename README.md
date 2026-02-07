@@ -86,12 +86,13 @@ Zero telemetry, minimal attack surface.
 
 ## 🖥️ Desktop Shell
 
-NeuralOS includes a Qt5 QML desktop environment with glassmorphism design, floating dock taskbar, and 26 built-in applications.
+NeuralOS includes a Qt5 QML desktop environment with glassmorphism design, floating dock taskbar, and 32 built-in applications.
 
 **Shell Components:**
 - Floating dock taskbar with app indicators
 - Start menu with search, pinned apps, and app grid
 - Notification center with quick toggles and sliders
+- **Command Palette** (Ctrl+K) — Natural language OS control
 - Desktop widgets (clock, system stats, weather, media, calendar)
 - Window manager with drag, resize, minimize, maximize, close
 
@@ -99,13 +100,25 @@ NeuralOS includes a Qt5 QML desktop environment with glassmorphism design, float
 
 | Category | Apps |
 |----------|------|
-| System | System Monitor, Terminal, File Manager, Settings, Task Manager, Package Manager, Network Center |
-| AI & ML | Neural Studio, AI Agent Hub, AI Assistant, NPU Control Center |
+| System | System Monitor, Terminal, File Manager, Settings, Task Manager, Package Manager, Network Center, **Ecosystem** |
+| AI & ML | Neural Studio, AI Agent Hub, AI Assistant, NPU Control Center, **AI Bus**, **AI Memory**, **Automation Studio**, **MCP Hub**, **Knowledge Base** |
 | Utilities | Calculator, Text Editor, Notes, Calendar, Clock, Weather, Photos |
 | Media | Music Player, Video Player, Image Viewer |
 | Internet | Web Browser, App Store |
 | Defense | Drone Command Center, Defense Monitor |
 | Quantum | Quantum Lab |
+
+**New AI-Inspired Features** (inspired by Archon OS, Kuse AI, Fuchsia, WarmWind, Bytebot, Steve OS, CosmOS):
+
+| Feature | Inspiration | Description |
+|---------|-------------|-------------|
+| AI Bus Orchestration | CosmOS | Multi-model pipeline coordination and agent management |
+| Shared AI Memory | Steve OS | Cross-application contextual AI memory system |
+| Command Palette | Bytebot OS | Natural language OS control (Ctrl+K) |
+| Automation Studio | WarmWind OS | Record and replay workflow automations |
+| MCP Hub | Archon OS | Model Context Protocol server for AI assistant connectivity |
+| Knowledge Base | Archon + Kuse AI | RAG-based document indexing and AI-powered search |
+| Ecosystem Manager | CosmOS + Fuchsia | Multi-device management and task distribution |
 
 ```bash
 # Build the desktop shell (requires Qt5)

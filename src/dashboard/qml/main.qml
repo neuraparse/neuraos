@@ -19,6 +19,7 @@ ApplicationWindow {
 
     property bool startMenuOpen: false
     property bool notifCenterOpen: false
+    property bool cmdPaletteOpen: false
     property int windowUpdateTick: 0
     property var recentApps: []
 
@@ -49,7 +50,13 @@ ApplicationWindow {
         { source: "WeatherApp.qml", title: "Weather", icon: "weather", color: "#38BDF8", category: "Utilities", width: 650, height: 500, singleton: true },
         { source: "PhotosApp.qml", title: "Photos", icon: "photo", color: "#F472B6", category: "Media", width: 850, height: 600, singleton: true },
         { source: "ClockApp.qml", title: "Clock", icon: "clock", color: "#A78BFA", category: "Utilities", width: 600, height: 500, singleton: true },
-        { source: "VideoPlayerApp.qml", title: "Video Player", icon: "video", color: "#EF4444", category: "Media", width: 900, height: 600, singleton: true }
+        { source: "VideoPlayerApp.qml", title: "Video Player", icon: "video", color: "#EF4444", category: "Media", width: 900, height: 600, singleton: true },
+        { source: "AIBusApp.qml", title: "AI Bus", icon: "hub", color: "#06B6D4", category: "AI & ML", width: 950, height: 650, singleton: true },
+        { source: "AIMemoryApp.qml", title: "AI Memory", icon: "brain", color: "#A78BFA", category: "AI & ML", width: 900, height: 600, singleton: true },
+        { source: "AutomationStudioApp.qml", title: "Automation Studio", icon: "automation", color: "#F59E0B", category: "AI & ML", width: 950, height: 600, singleton: true },
+        { source: "MCPHubApp.qml", title: "MCP Hub", icon: "plug", color: "#10B981", category: "AI & ML", width: 950, height: 600, singleton: true },
+        { source: "KnowledgeBaseApp.qml", title: "Knowledge Base", icon: "book", color: "#3B82F6", category: "AI & ML", width: 900, height: 600, singleton: true },
+        { source: "EcosystemApp.qml", title: "Ecosystem", icon: "network", color: "#EC4899", category: "System", width: 950, height: 650, singleton: true }
     ]
 
     /* ─── Open App Function ─── */
@@ -262,11 +269,12 @@ ApplicationWindow {
     /* ─── Overlay Backdrop ─── */
     MouseArea {
         anchors.fill: parent
-        visible: startMenuOpen || notifCenterOpen
+        visible: startMenuOpen || notifCenterOpen || cmdPaletteOpen
         z: 199
         onClicked: {
             startMenuOpen = false
             notifCenterOpen = false
+            cmdPaletteOpen = false
         }
     }
 
@@ -306,6 +314,41 @@ ApplicationWindow {
         Behavior on opacity { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
 
         onClosePanel: root.notifCenterOpen = false
+    }
+
+    /* ─── Command Palette (Bytebot-inspired, Ctrl+K) ─── */
+    Shell.CommandPalette {
+        id: cmdPalette
+        anchors.horizontalCenter: parent.horizontalCenter
+        y: root.cmdPaletteOpen ? (root.height * 0.15) : (root.height * 0.12)
+        opacity: root.cmdPaletteOpen ? 1.0 : 0.0
+        scale: root.cmdPaletteOpen ? 1.0 : 0.95
+        visible: opacity > 0
+        z: 300
+
+        Behavior on y { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+        Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+        Behavior on scale { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+
+        onCommandSelected: {
+            root.cmdPaletteOpen = false
+            if (action === "open_app") {
+                /* Map target to app source */
+                var appMap = {
+                    "terminal": "TerminalApp.qml", "file manager": "FileManagerApp.qml",
+                    "settings": "SettingsApp.qml", "system monitor": "SystemMonitorApp.qml",
+                    "neural studio": "NeuralStudio.qml", "ai assistant": "AIAssistantApp.qml",
+                    "ai bus": "AIBusApp.qml", "ai memory": "AIMemoryApp.qml",
+                    "automation": "AutomationStudioApp.qml", "mcp hub": "MCPHubApp.qml",
+                    "knowledge base": "KnowledgeBaseApp.qml", "ecosystem": "EcosystemApp.qml",
+                    "calculator": "CalculatorApp.qml", "browser": "WebBrowserApp.qml",
+                    "notes": "NotesApp.qml", "music": "MusicPlayerApp.qml"
+                }
+                var src = appMap[target.toLowerCase()]
+                if (src) root.openAppBySource(src)
+            }
+        }
+        onClosed: root.cmdPaletteOpen = false
     }
 
     /* ─── Context Menu ─── */
@@ -402,6 +445,7 @@ ApplicationWindow {
         onActivated: {
             startMenuOpen = false
             notifCenterOpen = false
+            cmdPaletteOpen = false
             contextMenu.hide()
         }
     }
@@ -440,6 +484,21 @@ ApplicationWindow {
     Shortcut {
         sequence: "Ctrl+Shift+Escape"
         onActivated: openAppBySource("TaskManagerApp.qml")
+    }
+
+    Shortcut {
+        sequence: "Ctrl+K"
+        onActivated: cmdPaletteOpen = !cmdPaletteOpen
+    }
+
+    Shortcut {
+        sequence: "Meta+B"
+        onActivated: openAppBySource("AIBusApp.qml")
+    }
+
+    Shortcut {
+        sequence: "Meta+M"
+        onActivated: openAppBySource("AIMemoryApp.qml")
     }
 
     /* Global 1-second heartbeat */

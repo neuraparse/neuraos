@@ -16,6 +16,13 @@
 #include "backend/processmanager.h"
 #include "backend/networkmanager.h"
 #include "backend/settingsmanager.h"
+#include "backend/aibusmanager.h"
+#include "backend/aimemorymanager.h"
+#include "backend/commandpalette.h"
+#include "backend/automationmanager.h"
+#include "backend/mcpmanager.h"
+#include "backend/knowledgemanager.h"
+#include "backend/ecosystemmanager.h"
 
 int main(int argc, char *argv[])
 {
@@ -44,6 +51,13 @@ int main(int argc, char *argv[])
     ProcessManager processManager;
     NetworkManager networkManager;
     SettingsManager settingsManager;
+    AIBusManager aiBusManager;
+    AIMemoryManager aiMemoryManager;
+    CommandPalette commandPalette;
+    AutomationManager automationManager;
+    MCPManager mcpManager;
+    KnowledgeManager knowledgeManager;
+    EcosystemManager ecosystemManager;
 
     /* QML engine */
     QQmlApplicationEngine engine;
@@ -55,6 +69,13 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("ProcessManager", &processManager);
     engine.rootContext()->setContextProperty("NetworkManager", &networkManager);
     engine.rootContext()->setContextProperty("Settings", &settingsManager);
+    engine.rootContext()->setContextProperty("AIBus", &aiBusManager);
+    engine.rootContext()->setContextProperty("AIMemory", &aiMemoryManager);
+    engine.rootContext()->setContextProperty("CommandEngine", &commandPalette);
+    engine.rootContext()->setContextProperty("Automation", &automationManager);
+    engine.rootContext()->setContextProperty("MCP", &mcpManager);
+    engine.rootContext()->setContextProperty("Knowledge", &knowledgeManager);
+    engine.rootContext()->setContextProperty("Ecosystem", &ecosystemManager);
 
     /* Add QML import paths so all files can find Theme singleton */
     engine.addImportPath(QStringLiteral("qrc:/qml"));

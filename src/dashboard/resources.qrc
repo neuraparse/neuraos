@@ -29,6 +29,7 @@
         <file>qml/shell/Desktop.qml</file>
         <file>qml/shell/NotificationCenter.qml</file>
         <file>qml/shell/ContextMenu.qml</file>
+        <file>qml/shell/CommandPalette.qml</file>
 
         <!-- Shell Widgets -->
         <file>qml/shell/widgets/ClockWidget.qml</file>
@@ -66,6 +67,12 @@
         <file>qml/apps/PhotosApp.qml</file>
         <file>qml/apps/ClockApp.qml</file>
         <file>qml/apps/VideoPlayerApp.qml</file>
+        <file>qml/apps/AIBusApp.qml</file>
+        <file>qml/apps/AIMemoryApp.qml</file>
+        <file>qml/apps/AutomationStudioApp.qml</file>
+        <file>qml/apps/MCPHubApp.qml</file>
+        <file>qml/apps/KnowledgeBaseApp.qml</file>
+        <file>qml/apps/EcosystemApp.qml</file>
 
         <!-- Fonts -->
         <file>fonts/remixicon.ttf</file>
