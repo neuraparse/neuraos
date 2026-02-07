@@ -142,7 +142,15 @@ Item {
             "expand":     "\uED9C",  /* fullscreen (alias) */
             "collapse":   "\uEBCD",  /* contract */
             "chevron-right":"\uEA6E",/* arrow-right-s (alias) */
-            "chevron-down":"\uEA60"  /* arrow-down-s (alias) */
+            "chevron-down":"\uEA60", /* arrow-down-s (alias) */
+
+            /* New app icons (v4.0 AI suite) */
+            "hub":        "\uEDC9",  /* git-merge - orchestration hub */
+            "brain":      "\uEF30",  /* brain (alias for neural) */
+            "automation": "\uEED6",  /* magic - automation workflows */
+            "plug":       "\uEFF4",  /* plug - MCP connection */
+            "book":       "\uEACA",  /* book-open - knowledge base */
+            "network":    "\uEF56"   /* mind-map - ecosystem network */
         }
         return map[name] || "\uEE59"  /* fallback: info */
     }

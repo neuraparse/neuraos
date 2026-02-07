@@ -15,51 +15,6 @@ Rectangle {
     signal commandSelected(string action, string target)
     signal closed()
 
-    /* ─── JS mock for CommandEngine (no C++ backend) ─── */
-    property var _commands: [
-        { label: "Open Terminal",        icon: "terminal",    action: "open_app", target: "terminal",       category: "Apps" },
-        { label: "Open File Manager",    icon: "folder",      action: "open_app", target: "file manager",   category: "Apps" },
-        { label: "Open Settings",        icon: "gear",        action: "open_app", target: "settings",       category: "Apps" },
-        { label: "Open System Monitor",  icon: "monitor",     action: "open_app", target: "system monitor", category: "Apps" },
-        { label: "Open AI Assistant",    icon: "robot",       action: "open_app", target: "ai assistant",   category: "Apps" },
-        { label: "Open Neural Studio",   icon: "neural",      action: "open_app", target: "neural studio",  category: "Apps" },
-        { label: "Open AI Bus",          icon: "hub",         action: "open_app", target: "ai bus",         category: "Apps" },
-        { label: "Open AI Memory",       icon: "brain",       action: "open_app", target: "ai memory",      category: "Apps" },
-        { label: "Open Automation Studio",icon: "automation",  action: "open_app", target: "automation",     category: "Apps" },
-        { label: "Open MCP Hub",         icon: "plug",        action: "open_app", target: "mcp hub",        category: "Apps" },
-        { label: "Open Knowledge Base",  icon: "book",        action: "open_app", target: "knowledge base", category: "Apps" },
-        { label: "Open Ecosystem",       icon: "network",     action: "open_app", target: "ecosystem",      category: "Apps" },
-        { label: "Open Calculator",      icon: "grid",        action: "open_app", target: "calculator",     category: "Apps" },
-        { label: "Open Browser",         icon: "globe",       action: "open_app", target: "browser",        category: "Apps" },
-        { label: "Open Notes",           icon: "edit",        action: "open_app", target: "notes",          category: "Apps" },
-        { label: "Open Music Player",    icon: "volume",      action: "open_app", target: "music",          category: "Apps" }
-    ]
-
-    property var _cmdEngine: ({
-        getSuggestions: function(query) {
-            if (!query) return cmdPalette._commands.slice(0, 6)
-            var q = query.toLowerCase()
-            var matched = []
-            for (var i = 0; i < cmdPalette._commands.length; i++) {
-                if (cmdPalette._commands[i].label.toLowerCase().indexOf(q) >= 0 ||
-                    cmdPalette._commands[i].target.toLowerCase().indexOf(q) >= 0) {
-                    matched.push(cmdPalette._commands[i])
-                }
-            }
-            return matched.slice(0, 8)
-        },
-        execute: function(query) {
-            var q = query.toLowerCase()
-            for (var i = 0; i < cmdPalette._commands.length; i++) {
-                if (cmdPalette._commands[i].label.toLowerCase().indexOf(q) >= 0 ||
-                    cmdPalette._commands[i].target.toLowerCase().indexOf(q) >= 0) {
-                    return { matched: true, action: cmdPalette._commands[i].action, target: cmdPalette._commands[i].target }
-                }
-            }
-            return { matched: false }
-        }
-    })
-
     /* ─── Top inner glow ─── */
     Rectangle {
         anchors.top: parent.top
@@ -118,7 +73,7 @@ Rectangle {
                     }
 
                     onTextChanged: {
-                        var results = _cmdEngine.getSuggestions(text)
+                        var results = CommandEngine.getSuggestions(text)
                         suggestionModel.clear()
                         for (var i = 0; i < results.length; i++) {
                             suggestionModel.append(results[i])
@@ -127,7 +82,7 @@ Rectangle {
 
                     Keys.onReturnPressed: {
                         if (cmdInput.text.length > 0) {
-                            var result = _cmdEngine.execute(cmdInput.text)
+                            var result = CommandEngine.execute(cmdInput.text)
                             if (result.matched) {
                                 commandSelected(result.action, result.target || "")
                             }
@@ -307,7 +262,7 @@ Rectangle {
                         if (model.type === "history") {
                             cmdInput.text = text
                         } else {
-                            var result = _cmdEngine.execute(text)
+                            var result = CommandEngine.execute(text)
                             if (result.matched) {
                                 commandSelected(result.action, result.target || "")
                             }
@@ -367,7 +322,7 @@ Rectangle {
 
     Component.onCompleted: {
         /* Load initial suggestions (history) */
-        var results = _cmdEngine.getSuggestions("")
+        var results = CommandEngine.getSuggestions("")
         for (var i = 0; i < results.length; i++) {
             suggestionModel.append(results[i])
         }

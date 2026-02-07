@@ -21,6 +21,13 @@ if(Qt5_FOUND AND Qt5Quick_FOUND)
         backend/processmanager.cpp
         backend/networkmanager.cpp
         backend/settingsmanager.cpp
+        backend/aibusmanager.cpp
+        backend/aimemorymanager.cpp
+        backend/commandpalette.cpp
+        backend/automationmanager.cpp
+        backend/mcpmanager.cpp
+        backend/knowledgemanager.cpp
+        backend/ecosystemmanager.cpp
     )
 
     set(BACKEND_HEADERS
@@ -30,6 +37,13 @@ if(Qt5_FOUND AND Qt5Quick_FOUND)
         backend/processmanager.h
         backend/networkmanager.h
         backend/settingsmanager.h
+        backend/aibusmanager.h
+        backend/aimemorymanager.h
+        backend/commandpalette.h
+        backend/automationmanager.h
+        backend/mcpmanager.h
+        backend/knowledgemanager.h
+        backend/ecosystemmanager.h
     )
 
     # Dashboard executable

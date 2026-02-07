@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QVariantList>
 #include <QVariantMap>
+#include <QDateTime>
 
 /**
  * MCP Integration Hub Manager (Archon OS-inspired)
