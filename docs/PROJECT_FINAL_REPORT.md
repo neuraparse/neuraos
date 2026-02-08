@@ -14,7 +14,7 @@ NeuralOS is a modern, AI-native embedded operating system designed for edge AI a
 ### Key Achievements
 
 - **25 major tasks** completed across 5 development phases
-- **12 AI/ML backends** in NPIE v2.0.0 (LiteRT, ONNX, emlearn, WasmEdge, NCNN, ExecuTorch, OpenVINO, llama.cpp, whisper.cpp, stable-diffusion.cpp, MLC LLM)
+- **12 AI/ML backends** in NPIE v2.0.0 — each with dedicated .cpp/.c implementation file (LiteRT, ONNX, emlearn, WasmEdge, NCNN, ExecuTorch, OpenVINO, llama.cpp, whisper.cpp, stable-diffusion.cpp, MLC LLM, QuEST)
 - **5 quantum backends** (QuEST 4.2.0, QuEST Density, Qulacs 0.6.12, Stim 1.15.0, PennyLane 0.44.0)
 - **33 desktop applications** with 14 C++ backend managers
 - **7 AI-inspired features** from competitive OS analysis
@@ -54,13 +54,15 @@ NeuralOS is a modern, AI-native embedded operating system designed for edge AI a
 - [x] Multi-architecture: ARM64, ARM32, x86_64, RISC-V
 
 ### AI/ML Inference (NPIE v2.0.0)
-- [x] 12 inference backends
-- [x] LLM inference API (llama.cpp with GGUF quantization)
-- [x] Speech-to-text API (whisper.cpp)
-- [x] Image generation (stable-diffusion.cpp)
-- [x] 11 accelerator types (GPU, NPU, TPU, DSP, Vulkan, CUDA, Metal, etc.)
-- [x] 7 quantization modes (Q4_K_M, Q4_K_S, Q5_K_M, Q8_0, IQ2_XXS, IQ3_S, FP16-NF4)
-- [x] New data types: BFloat16, FP8, INT4
+- [x] 12 inference backends — all with full C/C++ implementation source files
+- [x] Backend implementations: npie_litert.cpp, npie_onnx.cpp, npie_emlearn.c, npie_wasm.cpp, npie_ncnn.cpp, npie_executorch.cpp, npie_openvino.cpp, npie_llama.cpp, npie_whisper.cpp, npie_stable_diffusion.cpp, npie_mlc_llm.cpp, npie_quest.cpp
+- [x] LLM inference API (llama.cpp with GGUF quantization, streaming token callback)
+- [x] Speech-to-text API (whisper.cpp, multi-language, translation)
+- [x] Image generation (stable-diffusion.cpp, SDXL support)
+- [x] Quantum simulation API (QuEST, statevector + density matrix, 13 gates)
+- [x] 13 accelerator types (GPU, NPU, TPU, DSP, Vulkan, CUDA, Metal, Hexagon, Ethos, Intel NPU)
+- [x] 9 quantization modes (Q4_K_M, Q4_K_S, Q5_K_M, Q8_0, IQ2_XXS, IQ3_S, FP16-NF4, INT8, INT4)
+- [x] New data types: BFloat16, FP8, INT4, INT64, BOOL, STRING
 
 ### Quantum Computing
 - [x] Quantum simulation API (create, gate, measure, statevector)

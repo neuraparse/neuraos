@@ -2,7 +2,24 @@
 
 ## Overview
 
-The NeuraParse Inference Engine (NPIE) v2.0.0 provides a unified C API for running AI models on embedded devices, including support for LLM inference, speech-to-text, and quantum circuit simulation.
+The NeuraParse Inference Engine (NPIE) v2.0.0 provides a unified C API for running AI models on embedded devices. All 12 inference backends have full C/C++ implementation files with load/inference/unload support, including LLM text generation, speech-to-text, image generation, and quantum circuit simulation.
+
+### Backend Implementation Files (12/12)
+
+| Backend | Source File | Library Dependency |
+|---------|-----------|-------------------|
+| LiteRT | `npie_litert.cpp` | tensorflow-lite |
+| ONNX Runtime | `npie_onnx.cpp` | onnxruntime |
+| emlearn | `npie_emlearn.c` | emlearn (header-only) |
+| WasmEdge | `npie_wasm.cpp` | wasmedge |
+| NCNN | `npie_ncnn.cpp` | ncnn (+ Vulkan optional) |
+| ExecuTorch | `npie_executorch.cpp` | executorch |
+| OpenVINO | `npie_openvino.cpp` | openvino::runtime |
+| llama.cpp | `npie_llama.cpp` | llama, common |
+| whisper.cpp | `npie_whisper.cpp` | whisper |
+| stable-diffusion.cpp | `npie_stable_diffusion.cpp` | stable-diffusion |
+| MLC LLM | `npie_mlc_llm.cpp` | tvm_runtime |
+| QuEST | `npie_quest.cpp` | QuEST |
 
 ---
 

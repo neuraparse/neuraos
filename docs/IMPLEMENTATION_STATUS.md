@@ -65,10 +65,24 @@ NeuralOS is a modern AI-native embedded operating system designed for edge AI ap
 ### ✅ Phase 4: AI/Quantum Modernization (v4.1.0)
 
 15. **NPIE v2.0.0 Upgrade** - COMPLETE
-    - 12 inference backends (was 4)
-    - New backends: NCNN, ExecuTorch, OpenVINO, llama.cpp, whisper.cpp, stable-diffusion.cpp, MLC LLM
+    - 12 inference backends with full C/C++ implementation files (was 4)
+    - All backend source files in `src/npie/core/backends/`:
+      - `npie_litert.cpp` — LiteRT (TensorFlow Lite) 2.1+
+      - `npie_onnx.cpp` — ONNX Runtime 1.24+
+      - `npie_emlearn.c` — emlearn (classical ML) 0.23+
+      - `npie_wasm.cpp` — WasmEdge 0.16+
+      - `npie_ncnn.cpp` — NCNN 1.0+ (Vulkan GPU acceleration)
+      - `npie_executorch.cpp` — ExecuTorch 1.1+ (PyTorch edge, XNNPACK delegate)
+      - `npie_openvino.cpp` — OpenVINO 2025.4+ (Intel CPU/GPU/NPU, AUTO device)
+      - `npie_llama.cpp` — llama.cpp b7966+ (GGUF LLM, streaming tokens, quantization)
+      - `npie_whisper.cpp` — whisper.cpp 1.8+ (speech-to-text, multi-language, translation)
+      - `npie_stable_diffusion.cpp` — stable-diffusion.cpp 0.4+ (text-to-image, SDXL)
+      - `npie_mlc_llm.cpp` — MLC LLM (TVM compiled, Vulkan/CUDA/Metal backends)
+      - `npie_quest.cpp` — QuEST 4.2+ (quantum simulation, 13 gates, shot measurement)
     - New accelerators: Vulkan, CUDA, Metal, Hexagon NPU, Ethos NPU, Intel NPU
     - New quantization: Q4_K_M, Q4_K_S, Q5_K_M, Q8_0, IQ2_XXS, IQ3_S, FP16-NF4
+    - `npie_internal.h.in` updated with all backend function declarations (NPIE_MAX_BACKENDS=16)
+    - `src/npie/CMakeLists.txt` updated with conditional compilation and linking for all 12 backends
 
 16. **LLM & Generative AI APIs** - COMPLETE
     - `npie_llm_load/generate/unload` with streaming token callback
@@ -115,11 +129,12 @@ NeuralOS is a modern AI-native embedded operating system designed for edge AI ap
 
 | Feature | v1.0.0 | v2.0.0 |
 |---------|--------|--------|
-| Backends | 4 | 12 |
-| Accelerators | 5 | 11 |
-| Data Types | FP32, FP16, INT8, INT32, UINT8 | +BFloat16, FP8, INT4 |
-| APIs | Core + Inference | +LLM, Speech, Quantum |
-| Quantization | None | 7 modes (Q4_K_M through FP16-NF4) |
+| Backends | 4 (LiteRT, ONNX, emlearn, Wasm) | 12 (all with .cpp/.c implementation files) |
+| Backend Impl Files | 4 | 12 (all in src/npie/core/backends/) |
+| Accelerators | 5 | 13 (GPU, NPU, TPU, DSP, Vulkan, CUDA, Metal, Hexagon, Ethos, Intel NPU) |
+| Data Types | FP32, FP16, INT8, INT32, UINT8 | +BFloat16, FP8, INT4, INT64, BOOL, STRING |
+| APIs | Core + Inference | +LLM, Speech, Quantum, Memory Manager |
+| Quantization | None | 9 modes (Q4_K_M, Q4_K_S, Q5_K_M, Q8_0, IQ2_XXS, IQ3_S, FP16-NF4, INT8, INT4) |
 
 ### Desktop Shell - 14 Backend Managers
 

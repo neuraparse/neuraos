@@ -2,7 +2,7 @@
 
 ## Qt5 QML Desktop Shell
 
-NeuralOS includes a full-featured Qt5 QML desktop environment with glassmorphism design and 33 built-in applications.
+NeuralOS includes a full-featured Qt5 QML desktop environment with glassmorphism design, 33 built-in applications, 14 C++ backend managers, and integration with NPIE v2.0.0 (12 fully implemented AI/ML/Quantum backends).
 
 ### Features
 
