@@ -1,0 +1,84 @@
+NeuralOS Proprietary Software License
+Copyright (c) 2024-2026 NeuraParse. All rights reserved.
+
+1. DEFINITIONS
+
+"Software" means the NeuralOS operating system, including all source code,
+object code, documentation, build scripts, configuration files, and any
+associated materials provided under this license.
+
+"Licensee" means any individual or entity that has been granted a valid
+license to use the Software by NeuraParse.
+
+2. GRANT OF LICENSE
+
+Subject to the terms and conditions of this License and payment of applicable
+fees, NeuraParse grants the Licensee a non-exclusive, non-transferable,
+revocable license to use the Software solely for the purposes specified in
+the applicable license agreement.
+
+3. RESTRICTIONS
+
+The Licensee shall NOT:
+(a) Copy, modify, adapt, translate, or create derivative works of the Software
+    without prior written consent from NeuraParse;
+(b) Distribute, sublicense, lease, rent, loan, or otherwise transfer the
+    Software or any rights therein to any third party;
+(c) Reverse engineer, decompile, disassemble, or attempt to derive the source
+    code of the Software;
+(d) Remove, alter, or obscure any proprietary notices, labels, or marks on
+    the Software;
+(e) Use the Software to develop a competing product or service;
+(f) Share, publish, or make publicly available any portion of the Software,
+    including but not limited to source code, algorithms, or documentation.
+
+4. INTELLECTUAL PROPERTY
+
+All intellectual property rights in and to the Software, including but not
+limited to patents, copyrights, trade secrets, and trademarks, are and shall
+remain the exclusive property of NeuraParse. This License does not convey any
+ownership rights to the Licensee.
+
+5. CONFIDENTIALITY
+
+The Licensee acknowledges that the Software contains trade secrets and
+proprietary information of NeuraParse. The Licensee agrees to maintain the
+confidentiality of the Software and not to disclose any part of it to any
+third party without the prior written consent of NeuraParse.
+
+6. WARRANTY DISCLAIMER
+
+THE SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. NEURAPARSE DOES NOT
+WARRANT THAT THE SOFTWARE WILL BE ERROR-FREE OR UNINTERRUPTED.
+
+7. LIMITATION OF LIABILITY
+
+IN NO EVENT SHALL NEURAPARSE BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL,
+CONSEQUENTIAL, OR PUNITIVE DAMAGES ARISING OUT OF OR IN CONNECTION WITH THE
+USE OF THE SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+8. TERMINATION
+
+This License is effective until terminated. NeuraParse may terminate this
+License immediately upon written notice if the Licensee breaches any term of
+this License. Upon termination, the Licensee must destroy all copies of the
+Software in their possession.
+
+9. GOVERNING LAW
+
+This License shall be governed by and construed in accordance with the laws
+of the Republic of Turkey, without regard to its conflict of laws provisions.
+
+10. THIRD-PARTY COMPONENTS
+
+The Software may include open-source components licensed under their respective
+licenses (e.g., Linux kernel under GPL-2.0, BusyBox under GPL-2.0, libbpf
+under LGPL-2.1). These components remain subject to their original licenses.
+The proprietary portions of the Software (including but not limited to NPIE,
+NPI init, MAVLink implementation, Swarm engine, Sensor fusion, Dashboard,
+Network stack, Security subsystem, and OTA manager) are exclusively owned
+by NeuraParse and subject to this License.
+
+For licensing inquiries: info@neuraparse.com

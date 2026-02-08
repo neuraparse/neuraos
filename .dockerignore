@@ -1,0 +1,36 @@
+# Build artifacts
+build/
+output/
+*.o
+*.a
+*.so
+*.so.*
+
+# Git
+.git/
+.github/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# CI/CD (not needed in container)
+.github/workflows/
+
+# Buildroot artifacts (too large)
+buildroot-*/
+dl/
+

@@ -1,0 +1,49 @@
+# Dockerfile for building NeuralOS x86_64 with Buildroot
+FROM ubuntu:22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV BUILDROOT_VERSION=2025.08
+
+# Install Buildroot dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    wget \
+    curl \
+    ca-certificates \
+    libcurl4-openssl-dev \
+    cpio \
+    unzip \
+    rsync \
+    bc \
+    git \
+    file \
+    python3 \
+    python3-dev \
+    libncurses5-dev \
+    libssl-dev \
+    libelf-dev \
+    flex \
+    bison \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /neuraos
+
+# Copy project files
+COPY configs/ configs/
+COPY package/ package/
+COPY board/ board/
+COPY external.mk external.mk
+COPY external.desc external.desc
+COPY Config.in Config.in
+
+# Clone Buildroot (matching setup_environment.sh)
+RUN git clone --depth 1 --branch ${BUILDROOT_VERSION} \
+    https://gitlab.com/buildroot.org/buildroot.git buildroot
+
+WORKDIR /neuraos/buildroot
+
+# Configure for x86_64
+RUN make BR2_EXTERNAL="/neuraos" neuraos_x86_64_defconfig
+
+# Build (this takes a while)
+CMD ["/bin/bash", "-c", "make -j$(nproc)"]

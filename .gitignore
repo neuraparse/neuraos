@@ -1,0 +1,99 @@
+# NeuralOS .gitignore
+# Copyright (c) 2024-2026 NeuraParse. All rights reserved.
+#
+# This repo is PUBLIC-FACING. Only documentation and showcase files
+# are tracked. All source code, configs, and build files are excluded.
+
+# ===================
+# BLOCK EVERYTHING BY DEFAULT
+# ===================
+*
+
+# ===================
+# ALLOW: Public-facing files only
+# ===================
+!.gitignore
+!.gitattributes
+!LICENSE
+!README.md
+
+# Documentation
+!docs/
+!docs/**
+# Block any sensitive docs
+docs/*.draft*
+
+# Logo/assets for README
+!docs/assets/
+!docs/assets/**
+
+# Dockerfiles (show build capability)
+!Dockerfile
+!Dockerfile.*
+!.dockerignore
+
+# CI/CD
+!.github/
+!.github/**
+
+# ===================
+# ALWAYS BLOCK (even if unignored above)
+# ===================
+
+# Secrets & credentials
+*.env
+*.key
+*.pem
+*.crt
+*.p12
+*.pfx
+*credentials*
+*secret*
+*.keystore
+
+# Build artifacts
+*.o
+*.obj
+*.a
+*.so
+*.dll
+*.exe
+*.elf
+*.out
+*.img
+*.iso
+*.ext2
+*.ext4
+*.squashfs
+*.cpio
+*.dtb
+*.dtbo
+*.ko
+*.fw
+*.log
+
+# Large files
+*.tar
+*.tar.*
+*.tgz
+*.zip
+*.7z
+*.xz
+*.bz2
+*.gz
+*.bin
+*.gguf
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# IDE/OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~
+nul

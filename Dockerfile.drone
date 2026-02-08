@@ -1,0 +1,72 @@
+#
+# NeuralOS Drone Profile Docker Build
+# Multi-stage build for ARM64 cross-compilation
+# Version: 5.0.0
+#
+
+# Stage 1: Build environment
+FROM ubuntu:24.04 AS builder
+
+ARG BUILDROOT_VERSION=2025.08
+ARG TARGETARCH=aarch64
+ARG DEBIAN_FRONTEND=noninteractive
+
+# Install build dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    git \
+    wget \
+    curl \
+    unzip \
+    python3 \
+    python3-pip \
+    python3-setuptools \
+    bc \
+    bison \
+    flex \
+    libssl-dev \
+    libelf-dev \
+    cpio \
+    rsync \
+    file \
+    gcc-aarch64-linux-gnu \
+    g++-aarch64-linux-gnu \
+    binutils-aarch64-linux-gnu \
+    u-boot-tools \
+    device-tree-compiler \
+    dosfstools \
+    mtools \
+    parted \
+    qemu-user-static \
+    && rm -rf /var/lib/apt/lists/*
+
+# Download Buildroot
+WORKDIR /build
+RUN wget -q "https://buildroot.org/downloads/buildroot-${BUILDROOT_VERSION}.tar.xz" && \
+    tar xf "buildroot-${BUILDROOT_VERSION}.tar.xz" && \
+    mv "buildroot-${BUILDROOT_VERSION}" buildroot && \
+    rm "buildroot-${BUILDROOT_VERSION}.tar.xz"
+
+# Copy NeuralOS source
+COPY . /build/neuraos
+
+# Configure Buildroot with drone profile
+WORKDIR /build
+RUN cd buildroot && \
+    make O=/build/output BR2_EXTERNAL=/build/neuraos neuraos_defconfig && \
+    make O=/build/output -j$(nproc)
+
+# Stage 2: Generate SDK
+FROM builder AS sdk
+RUN cd buildroot && make O=/build/output sdk
+
+# Stage 3: Minimal output image
+FROM scratch AS output
+COPY --from=builder /build/output/images/ /images/
+COPY --from=sdk /build/output/host/ /sdk/
+
+# Labels
+LABEL maintainer="Neura Parse Ltd <info@neuraparse.com>"
+LABEL version="5.0.0"
+LABEL description="NeuralOS Drone Profile - AI-Native Embedded OS"
