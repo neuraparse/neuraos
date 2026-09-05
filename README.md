@@ -2,61 +2,191 @@
 
 # NeuraOS
 
-### Governed edge intelligence for robotics and defence systems
+### Intelligence at the edge. Authority by design.
 
-**Deterministic control. Local AI. Human authority. Evidence by design.**
+**An operating-system foundation for governed AI, robotics and autonomous machines.**
 
-[![Lifecycle](https://img.shields.io/badge/lifecycle-1.0%20production%20candidate-f59e0b?style=flat-square)](#development-status)
-[![Edition](https://img.shields.io/badge/edition-2026-111827?style=flat-square)](#verified-technology-baseline)
-[![Linux](https://img.shields.io/badge/Linux-6.18%20LTS-fcc624?style=flat-square&logo=linux&logoColor=111827)](#verified-technology-baseline)
-[![PQC](https://img.shields.io/badge/PQC-39%20checks%20passed-166534?style=flat-square)](#post-quantum-cryptography)
-[![Licence](https://img.shields.io/badge/licence-proprietary-dc2626?style=flat-square&logo=lock)](#licence)
+**PUBLIC EDITION · 2026 PRODUCT & ARCHITECTURE OVERVIEW**
 
-[Product](#product) · [Status](#development-status) · [Architecture](#architecture) · [Technology](#verified-technology-baseline) · [Governance](#governed-autonomy) · [Safety](#safety-envelope) · [Security](#security-baseline) · [PQC](#post-quantum-cryptography) · [Documentation](#documentation)
+[![Edition](https://img.shields.io/badge/edition-Public-111827?style=flat-square)](#public-edition)
+[![Foundation](https://img.shields.io/badge/foundation-Linux%20LTS-fcc624?style=flat-square&logo=linux&logoColor=111827)](#platform)
+[![PQC](https://img.shields.io/badge/security-Hybrid%20PQC-166534?style=flat-square)](#post-quantum-security)
+[![Reference](https://img.shields.io/badge/reference-1.0.0--rc.8-334155?style=flat-square)](#engineering-evidence)
+
+[**Discuss your platform →**](mailto:info@neuraparse.com?subject=NeuraOS%20Platform%20Discussion) · [Platform](#platform) · [Applications](#applications) · [Architecture](#architecture) · [Security](#security-and-trust) · [Engineering evidence](#engineering-evidence)
 
 </div>
 
-## Product
+NeuraOS brings the operating-system foundation, governed agent policies, device integration contracts and release evidence into one edge architecture. It is designed for teams building intelligent machines that must operate close to their sensors, respect explicit authority and remain understandable when conditions change.
 
-NeuraOS is an edge platform architecture for perception, sensor fusion, autonomous planning and local inference close to robotic hardware. It is designed for deployments where connectivity is intermittent, latency is bounded and consequential actions require explicit authority.
+For robotics OEMs, embedded-system teams and integrators, NeuraOS connects **local intelligence, controlled action and verifiable change** through a consistent architecture across machines and environments.
 
-The public Git surface contains only this README. Implementation, build,
-configuration, schema, evidence and detailed documentation paths named below
-refer to the controlled local workspace; they are deliberately not published
-or distributed through Git. Paths shown as inline code are local references,
-not downloadable files in this repository.
+> **Public Edition** presents the product architecture and current engineering baseline. The `1.0.0-rc.8` reference has been exercised on hosts and QEMU; physical deployment qualification remains open. [View the verified scope](#engineering-evidence).
 
-Five principles define the product:
+## Why NeuraOS
 
-- **Edge sovereignty** — mission data and inference can remain on the device or inside a controlled boundary.
-- **Bounded autonomy** — policy, time, geography, confidence and resource limits are enforced outside the model.
-- **Deterministic safety** — probabilistic AI never replaces the command arbiter, emergency stop or independently assured controller.
-- **Evidence-first engineering** — every model, configuration, update and decision is attributable, reviewable and reversible.
-- **Open interoperability** — maintained robotics and inference interfaces are preferred over product-specific lock-in.
+Intelligent machines bring together software, models, hardware, operators and communications with different lifecycles. NeuraOS defines how those parts share identity, authority and evidence, so an integration can be reviewed as a system.
 
-### Capabilities and controls
-
-| Domain | Intended capability | Required control |
+| What your team needs | How NeuraOS approaches it | Intended engineering value |
 |---|---|---|
-| Robotic perception | Multi-sensor detection, tracking and scene understanding | Confidence calibration, stale-data rejection and operator-visible uncertainty |
-| Ground, air and maritime robotics | Navigation, route planning and vehicle integration | Independent motion controller, geofence and minimum-risk state |
-| Multi-vehicle operations | Telemetry, task allocation and resilient coordination | Authenticated membership, rate limits and loss-of-link policy |
-| Disconnected edge AI | Local vision, speech and language inference | Approved models only; no silent online learning |
-| Governed AI agents | Tool use, task planning and peer-agent coordination | Signed tool manifests, deny-by-default broker, sandbox and human approval for consequential actions |
-| Simulation and digital twins | SIL/HIL validation, deterministic replay and fault injection | Reproducible evidence, rollback proof and hazard traceability |
+| Keep intelligence close to the machine | Local-first inference architecture, explicit resource budgets and board-specific runtime selection | Control where computation and sensitive data belong |
+| Give AI useful but bounded authority | Typed proposals, tool permissions, freshness checks, approval rules and an independent command arbiter | Make agent permissions testable and reviewable |
+| Build across different device families | Exact hardware/BSP manifests, peripheral ownership and ordered bring-up stages | Reuse an integration method while preserving each device’s constraints |
+| Evolve software with traceability | Immutable inputs, signed-update workflows, SBOMs, provenance and rollback contracts | Connect each proposed release to its source and verification record |
+| Prepare for disrupted conditions | Fault injection, deterministic replay and declared minimum-risk behaviour | Explore failure handling before hardware and field evaluation |
+| Plan for a longer security lifecycle | Maintained LTS foundations, hybrid PQC profiles and explicit migration boundaries | Make cryptographic and platform upgrades part of the architecture |
 
-## Development status
+These are the product’s design objectives. Delivered reference implementations and integration work are identified throughout this overview.
 
-NeuraOS now provides **version 1.0.0-rc.8, a bootable production candidate**. The repository builds a hash-locked x86-64 QEMU operating-system image from Buildroot 2025.02.17 LTS and Linux 6.18.49, embeds an explicit 19-package catalog resolving to 40 target components, and mounts its deterministic ext4 root through a dm-verity mapping. The deterministic C17 command arbiter and hash-linked audit reference run both on the host and inside the image.
+## Platform
 
-This README consolidates the operating-system implementation, device and
-vehicle contracts, governed-agent controls, digital rehearsal, global
-applicability research and subsequent PQC work as of **5 September 2026**.
-The current operating boundary is **QEMU and non-actuating simulation**.
-There is no authorized physical deployment; **7 of 17 production gates are
-satisfied and 9 field-readiness blockers remain open**.
+### A purpose-built edge foundation
 
-### Delivery and verification record
+The current reference boots a minimal Linux operating system built with Buildroot LTS. A read-only root, dm-verity integrity checking, locked accounts, binary hardening and host firewall provide a concrete foundation for embedded integration. The C17 command arbiter and hash-linked audit reference run both on the host and inside the QEMU image.
+
+Images are assembled around a device profile and its required components. The architecture accommodates different compute and accelerator choices through explicit board, firmware and runtime boundaries.
+
+### Governed AI agents
+
+NeuraOS gives agent integration an explicit execution model: identify the caller, verify the tool and artifact, evaluate permissions, obtain required approval, and apply isolation before execution. The host policy evaluator rejects stale requests, replay, privilege expansion and unauthorized capabilities.
+
+MCP and A2A define the selected interoperability boundary; WasmEdge defines the selected portable-tool runtime. Their target integration remains planned. Installed bubblewrap isolation primitives are exercised at boot, while the deterministic arbiter preserves a separate control boundary.
+
+### A common integration model for machines
+
+The mobility catalogue defines **11 platform classes** spanning industrial robots, AMRs, civil road and off-road vehicles, UAS, surface vessels and underwater vehicles, with separate non-weapon defence profiles. **17 protocol contracts** and ordered conformance checks describe how an adapter joins that architecture.
+
+The implemented host gateway policy validates identity, freshness, sequence, reference frame, units, approval and limits on high-level proposals. Device adapters and physical controllers must be qualified for each specific integration.
+
+### Custom hardware with an explicit path to bring-up
+
+The device workflow records the exact module, carrier, storage, firmware, BSP, sensor and peripheral set. **12 ordered bring-up stages** track boot/recovery, provisioning, interfaces, calibration, timing, thermal behaviour and review evidence. Intake tooling creates an integration scaffold and checks the order and integrity of recorded evidence.
+
+The research catalogue covers **12 vendor and integration-provider routes**. Evaluated compute options include NVIDIA Jetson AGX Orin Industrial, NXP i.MX 95 Industrial and AMD Kria K26 Industrial, with Qualcomm Dragonwing IQ-9075, Intel Core Ultra Series 3 for Edge and Hailo-10H also evaluated. All six options await qualification against an exact NeuraOS board/BSP configuration.
+
+### Digital rehearsal across domains
+
+The reference simulation campaign executes **1,100 deterministic runs across 22 scenarios**. It exercises sensor and actuator faults, network loss, replay, clock changes, compute overruns, power loss, obstacles and operational-boundary violations across the declared platform classes.
+
+Eight backend contracts define the next integration layer, including Gazebo, PX4/ArduPilot SITL, CARLA, Webots, VRX and Stonefish. External SIL/HIL evidence binds the simulator, world, vehicle, sensors, parameters and results to exact artifacts. The installed reference campaign is logical simulation; high-fidelity physics and hardware testing are separate integration work.
+
+## Applications
+
+NeuraOS is designed as a foundation for the following integration programs. Each target application has its own hardware, performance and operating requirements to establish during qualification.
+
+| Environment | Example integration objectives | Platform emphasis |
+|---|---|---|
+| Manufacturing and warehouses | Inspection, AMR coordination, workcell assistance and machine supervision | Bounded agent permissions, device identity and repeatable fault handling |
+| Energy and critical infrastructure | Remote inspection, local anomaly analysis and maintenance assistance | Local data boundaries, disrupted-link planning and traceable updates |
+| Agriculture, construction and mining | Worksite monitoring, equipment assistance and off-road autonomy research | Custom hardware profiles, operational limits and recovery planning |
+| Ground mobility | Civil vehicle integration, fleet telemetry and assisted operations | Explicit protocol boundaries and independent motion authority |
+| Air systems | Inspection UAS, mapping and search-and-rescue integration | Companion-compute boundaries, link-loss policy and flight-controller separation |
+| Surface and subsea systems | Port inspection, offshore monitoring and underwater robotics | Domain-specific interfaces, energy constraints and recovery evidence |
+| Public-service and defence support | Logistics, engineering, inspection, emergency response and operator assistance | Human authority, access control and auditable task boundaries |
+
+Defence scope is limited to **non-weapon systems**. Weapon control, target engagement, lethal-force authority and bypassing independent safety protections are excluded from the platform contracts.
+
+## Architecture
+
+The design keeps application intelligence, agent permissions, operating-system services and physical safety authority distinct. Solid connections below describe the reference software; dashed connections identify integration boundaries.
+
+```mermaid
+flowchart TB
+    Operator["Operator and application policy"]
+    Agent["AI agents and local inference<br/>Selected integration layer"]
+    Gateway["Host-verified tool and proposal policy"]
+    Core["C17 command arbiter and audit reference"]
+    OS["Bootable Linux LTS foundation<br/>Read-only root · integrity · isolation"]
+    Trust["Release evidence and update verification<br/>Source identity · SBOM · provenance"]
+    Controller["Independent physical controller<br/>Device-specific integration"]
+    Device["Robots · ground · air · surface · subsea<br/>Device-specific qualification"]
+
+    Operator --> Gateway
+    Agent -. scoped requests .-> Gateway
+    Gateway --> Core
+    Core --> OS
+    OS --> Trust
+    Core -. bounded proposals .-> Controller
+    Controller -. motion and safety authority .-> Device
+```
+
+Models can propose actions inside their assigned scope. Operator authority, command validation and independent stop/safe-state mechanisms govern whether a physical action may occur. The architecture keeps primary flight, motion and emergency-control loops outside the AI workload.
+
+## Security and trust
+
+Security is part of the platform lifecycle: establishing identity, protecting the runtime, validating a change and preserving its evidence.
+
+- **Platform integrity.** QEMU tests cover a dm-verity-protected root and rejection of a modified data block, plus test-key OVMF Secure Boot and TPM measurements.
+- **Process isolation.** The image includes namespace, privilege, filesystem, device and network isolation checks, with kernel controls and an audit of target ELF hardening.
+- **Controlled updates.** RAUC verifies a test-signed bundle and rejects a wrong key or modified payload. A/B state-machine tests cover inactive slots, retries, confirmation and rollback policy.
+- **Traceable releases.** CycloneDX inventory, SLSA provenance, legal inventory and a deterministic archive bind the rc.8 build to 217 exact private-source inputs.
+- **Bounded agent authority.** Caller identity, tool identity, approval, freshness and resource permissions are evaluated independently of model-generated instructions.
+- **Security maintenance.** A pinned vulnerability scanner and reproducible reconciliation preserve findings for product-security review, VEX and risk-owner disposition.
+
+Physical protected keys, attestation, A/B storage and production signing belong to the target qualification program. Current release status is recorded in [engineering evidence](#engineering-evidence).
+
+## Post-quantum security
+
+NeuraOS includes tested building blocks for a transition to quantum-resistant communications and signatures. Its installed **OpenSSL 3.5.8 LTS** supplies native ML-KEM, ML-DSA and SLH-DSA implementations, based on the finalized [NIST FIPS 203](https://csrc.nist.gov/pubs/fips/203/final), [FIPS 204](https://csrc.nist.gov/pubs/fips/204/final) and [FIPS 205](https://csrc.nist.gov/pubs/fips/205/final) standards.
+
+| Profile or capability | Cryptography | Verified scope |
+|---|---|---|
+| Balanced hybrid TLS | `X25519MLKEM768` + TLS 1.3 + AES-256-GCM | Opt-in profile; mutually authenticated loopback connection and rejection tests |
+| High-assurance hybrid TLS | `SecP384r1MLKEM1024` + TLS 1.3 + AES-256-GCM | Opt-in profile; same connection checks with the larger ML-KEM parameter set |
+| Post-quantum signatures | `ML-DSA-65` and `ML-DSA-87` | Detached signing, verification and tamper/wrong-key/wrong-context rejection |
+| Hash-based signature diversity | `SLH-DSA-SHA2-256s` | Detached signature tests for evaluation of infrequent signing and recovery use cases |
+
+**39 checks passed** using the built target OpenSSL executable and libraries on an x86-64 Linux host. The two TLS profiles require their named hybrid group and reject classical-only negotiation, TLS 1.2, AES-128-only negotiation, wrong hostnames and invalid or missing peer credentials. Hybrid key establishment follows [RFC 10024](https://www.rfc-editor.org/rfc/rfc10024.html).
+
+Service adoption is explicit. These supplementary profiles were added after the rc.8 image build; they do not globally reconfigure services or replace boot/update signatures. TLS authentication in the tests uses ECDSA P-384 certificates. PQ authentication, production signer integration and device performance qualification remain separate work.
+
+<details>
+<summary><strong>PQC design choices and migration requirements</strong></summary>
+
+- OpenSSL 3.5 is the maintained LTS choice, with upstream support through 8 April 2030; newer 3.6 and 4.0 branches are tracked separately. See the [official support table](https://openssl-library.org/source/).
+- The profiles are `config/pqc-balanced.cnf` and `config/pqc-high-assurance.cnf` in the controlled workspace. Load the selected file with the service’s `OPENSSL_CONF`, retain its TLS/group/cipher restrictions and configure mutual authentication, peer authorization, rotation and revocation in the service.
+- Keep 0-RTT disabled for commands and updates. PQC-required endpoints must not silently retry through a classical-only connection.
+- Inventory key purposes, provider versions, certificate chains, peer capabilities and data lifetimes. Qualify entropy sources, protected key storage, packet sizes, reconnect costs, CPU/RAM and latency on each target.
+- Future dual-signature artifact policies must verify both selected signatures against the same exact payload, purpose and version. The current primitive tests do not implement that production verifier migration.
+- ML-DSA authentication for TLS is tracked through [draft-ietf-tls-mldsa-05](https://datatracker.ietf.org/doc/draft-ietf-tls-mldsa/); the specification was still a draft at the 5 September 2026 review.
+- QKD requires dedicated optical infrastructure and an authenticated classical channel. No QKD equipment is integrated; see the [NSA guidance](https://www.nsa.gov/Cybersecurity/Post-Quantum-Cybersecurity-Resources/). [HQC remains a NIST standardization selection](https://csrc.nist.gov/Projects/post-quantum-cryptography/post-quantum-cryptography-standardization/selected-algorithms), not an enabled fallback.
+- These tests establish implementation capability, not FIPS 140-3 module validation, CNSA approval, independent interoperability, side-channel assurance or physical-device qualification.
+
+</details>
+
+## An integration path teams can review
+
+Each program starts with one defined system and an explicit success criterion. The workflow connects hardware selection to the evidence needed for a deployment decision.
+
+| Step | Engineering focus | Reviewable output |
+|---|---|---|
+| 1. Define the system | Intended use, exact hardware, operating environment, data boundary and authority | Agreed integration scope and device manifest |
+| 2. Establish the platform | BSP, firmware, boot/recovery, provisioning, peripherals and compute budget | Versioned platform profile and bring-up evidence |
+| 3. Integrate intelligence | Selected models/runtimes, agent tools, transport adapters and independent controller | Bounded interfaces and conformance results |
+| 4. Rehearse the system | Simulation, SIL/HIL, faults, timing, thermal behaviour and recovery | Evidence for the specific system and its failure modes |
+| 5. Review deployment | Security disposition, signing, operational limits, crew, site and applicable approvals | Scoped production/field decision by the responsible parties |
+
+The applicability catalogue provides a starting point across **15 review dimensions, 39 official-source instruments, 18 use cases and eight jurisdiction profiles**. It supports engineering assessment; local legal, regulatory and operating approvals depend on the deployment.
+
+**Planning an OEM platform or a custom device?** [Discuss the target system with NeuraParse](mailto:info@neuraparse.com?subject=NeuraOS%20Integration%20Discussion). Share a non-sensitive summary of the machine, compute platform, intended environment and integration objective.
+
+## Engineering evidence
+
+The current **1.0.0-rc.8 reference**, reviewed on **5 September 2026**, is a bootable x86-64 QEMU platform with host-verified policy and simulation tooling. Subsequent PQC work is recorded as supplementary host evidence.
+
+| Recorded result | Scope |
+|---|---|
+| **1,100 / 1,100** simulation runs passed | 22 deterministic reference scenarios across the declared platform classes |
+| **1,000,000** sequential cycles passed | C17 command arbiter and hash-linked audit endurance |
+| **144** Python tests passed | Policy, schema, source/evidence and rejection workflows |
+| **39 / 39** PQC checks passed | Cryptographic primitives and two strict hybrid TLS profiles |
+| **205** target ELF objects audited | Applicable PIE, non-executable stack, RELRO and binding requirements |
+| **5** image artifacts matched | Consecutive same-output build comparison |
+
+**Deployment status:** 7 of 17 production gates are satisfied. Nine field-readiness blockers remain open, and physical operation is **NO-GO**. The candidate remains `production_authorized: false`. Security disposition, production signatures, independent reconstruction, target integration and physical qualification are required before release approval.
+
+<details>
+<summary><strong>Complete verification record and retained evidence</strong></summary>
 
 | Area | Delivered and checked | Evidence boundary |
 |---|---|---|
@@ -73,181 +203,43 @@ satisfied and 9 field-readiness blockers remain open**.
 | Deployment applicability | 15 dimensions, 39 official-source instruments, 18 use cases and eight jurisdiction profiles checked | Deployment-specific legal and operational decisions remain external |
 | Post-quantum cryptography | 39/39 checks passed for ML-KEM, ML-DSA, SLH-DSA and two strict hybrid TLS profiles | Target OpenSSL executed on a Linux host; supplementary work after the rc.8 image build |
 
-The test counts describe different suites and are not combined into a single
-certification score. Local records are retained under
+These results come from distinct engineering suites and do not constitute certification. Local records are retained under
 `build/platform/output/evidence/`, `build/platform/output/release/`,
 `build/release-source-evidence-rc8-final/` and
 `build/pqc-selftest-20260905-final.json`. Public Git publishes this account of
 the results; it does not distribute the private evidence bundles.
 
-### Implemented controls and remaining work
+The image includes 19 explicit packages resolving to 40 SBOM components. QEMU tests cover positive/negative dm-verity boot, test-key Secure Boot, TPM PCR 0/2/4/7/10 and event-log capture. RAUC 1.15.2 verifies a valid test bundle and rejects wrong-key and payload-tamper cases. Two narrowly named GCC runtime libraries are exceptions to immediate binding; first-party stack-canary evidence is required.
 
-The candidate profile was built and structurally verified on **5 September 2026**. A positive QEMU test boots through dm-verity; a negative test modifies one BusyBox data block and proves that the kernel rejects it before the health marker. A second QEMU path boots a test-key signed UKI with OVMF Secure Boot, swtpm TPM 2.0, PCR 0/2/4/7/10 and event-log evidence. The verifier checks every target ELF for PIE executables, non-executable stack and GNU RELRO, and requires immediate binding except for two narrowly named GCC runtime libraries. Five image artifacts are compared across consecutive same-output builds, and one million sequential arbiter/audit cycles run in one process. The installed RAUC 1.15.2 verifies an ephemeral-key signed bundle and rejects both a wrong key and tampered full payload. The installed bubblewrap launcher proves root-supervised namespace, privilege, filesystem, device and network-denial primitives at every boot.
+The source archive and candidate evidence refer to the exact rc.8 build. A same-output hash comparison is distinct from reconstruction by an independent builder. The PQC report identifies its tested binaries, profiles and runner by SHA-256 and retains no private test keys or shared secrets.
 
-The release pipeline emits CycloneDX 1.7 inventory, SLSA v1 provenance, Buildroot legal inventory, a digest-bound update manifest and architecture contracts. Because the public Git surface intentionally contains only this README, the release source identity is the SHA-256 of a sorted manifest covering every exact private build input; generation and verification re-hash those inputs, and a deterministic normalized archive can be retained for independent review. Pinned Grype 0.116.1 scans the candidate against a current database and preserves the raw report. Removing the unused target `jq` and refreshing GLib 2.88.3, libcap 2.78 and tpm2-tss 4.1.3 reduced the current scan to 189 matches, including 7 critical and 59 high. Deterministic reconciliation identifies seven exact Buildroot backport candidates and leaves 182 unresolved matches, including 7 critical and 58 high. Both categories remain `scanned-unreviewed` and production-blocking until independent product-security triage, signed VEX and risk-owner approval. The same review covers six physical edge-compute options and current agent/update standards. The MCP/A2A gateway, WasmEdge tool runtime, TUF/Uptane repository path and OpenTelemetry export remain selected contracts rather than installed or qualified target features.
+</details>
 
-**This is not production-authorized firmware.** The public release identity and candidate manifest are schema-locked to `production_authorized: false`. `make production-check` ignores mutable gate booleans and accepts only an immutable source digest, verified release/update Sigstore bundles and 14 fresh role-separated claims bound to exact evidence digests. Release signing, reviewed vulnerability/VEX disposition, independent reconstruction, physical measured boot and attestation, hardware-backed A/B anti-rollback, full target agent enforcement, target qualification and independent authorization remain open. Seven of seventeen machine-readable engineering gates are satisfied; none substitutes for deployment authorization.
+<details>
+<summary><strong>Security disposition and physical qualification requirements</strong></summary>
 
-**Field operation is also explicitly NO-GO.** No robot, autonomous road
-vehicle or drone may be connected to an actuator and sent to a bench/HIL rig or
-field under the current evidence. `make field-trial-status` verifies that this
-denial still matches the repository facts. A separate fail-closed
-`make field-trial-check` can derive a time-limited result only after an exact
-physical production target, byte-bound trial plan, 1,000-scenario policy floor,
-fault injection, independent stop/safe-state proof, named crew, site/legal
-review and platform-specific signed claims exist. See the
-field-trial readiness record (`docs/assurance/field-trial-readiness.md`).
+The recorded Grype 0.116.1 scan contains **189 matches**, including 7 critical and 59 high. Reconciliation identifies **7 Buildroot backport candidates** and **182 unresolved matches**, including 7 critical and 58 high. Neither group is automatically accepted: independent product-security review, signed VEX and risk-owner disposition remain production requirements.
 
-Custom hardware now has a separate fail-closed intake path. Twelve researched
-silicon, SOM, system and design/manufacturing routes are recorded with their
-official limitations. Exact hardware/BOM, BSP and firmware locks, boot and
-recovery path, provisioning, bus/driver/firmware/calibration ownership and
-twelve ordered bring-up gates are schema validated. The scaffold never emits a
-working flash command or production defconfig, and its digest-bound evidence
-state cannot grant production or field authority. See the
-device support ecosystem (`docs/reference/device-support-ecosystem.md`) and
-custom-device onboarding procedure (`docs/how-to/onboard-custom-device.md`).
+The nine open field requirements cover the exact physical target, vehicle integration, independent safety path, operational envelope, SIL/HIL qualification, field operations, legal/insurance review, jurisdiction applicability and product-security triage. No physical compute option, vehicle adapter or high-fidelity backend is currently qualified.
 
-This distinction is deliberate:
+Production verification requires immutable source identity, verified release/update signature bundles and fresh role-separated claims bound to the exact evidence. Field verification additionally binds the physical system, trial plan, site, crew, validity window and applicable approvals. Example policies and planning documents cannot authorize a deployment.
 
-- `candidate` means implemented and exercised by host or QEMU release checks;
-- `available` means implemented and exercised by a narrower host check;
-- `planned` means architecturally selected but not yet qualified;
-- no README statement is a certification, airworthiness approval or operational authorization.
+The reference C core is not a certified vehicle controller. AI agent, robotics transport and inference integrations require the implementation and target evidence listed in the technology baseline. Standards references describe design inputs, not certification or blanket legal compliance.
 
-See the delivery roadmap (`docs/ROADMAP.md`) and control matrix (`docs/assurance/control-matrix.md`) for the evidence required to advance each capability.
+</details>
 
-### Work delivered across releases
+## Technology ecosystem
 
-| Milestone | Delivered scope |
-|---|---|
-| 0.1–0.2 foundation | Product and technology contracts, deterministic C core, hash-locked Buildroot/Linux image and hardened read-only runtime |
-| rc.1 | dm-verity positive/negative boots, reproducible artifacts, SBOM/provenance/legal inventory and A/B update policy |
-| rc.2–rc.3 | Device research, governed agent contracts, RAUC and bubblewrap installation, QEMU Secure Boot/TPM, vulnerability scanning and signed-evidence promotion workflows |
-| rc.4–rc.5 | Custom-device onboarding, peripheral ownership, staged bring-up, civil/non-weapon mobility classes and bounded gateway/conformance tooling |
-| rc.6–rc.7 | Multi-domain simulation campaign, external SIL/HIL evidence contracts, global applicability assessment and deployment-specific field authorization checks |
-| rc.8 | Security package refresh, unused `jq` removal, vulnerability reconciliation, complete private-source identity, stale-build invalidation and all-target ELF hardening |
-| After the rc.8 image build | Two opt-in PQC TLS profiles, ML-KEM/ML-DSA/SLH-DSA capability tests and the consolidated public README; no new firmware version or production authorization |
+NeuraOS separates the installed platform foundation from the runtimes and interfaces selected for integration. This lets a device program choose the compute, robotics and inference stack appropriate to its constraints.
 
-## Architecture
+**Reference foundation:** Linux LTS built with Buildroot LTS, plus installed OpenSSL, RAUC, bubblewrap and the deterministic NeuraOS core.
 
-```mermaid
-flowchart TB
-    Operator["Human operator<br/>mission authority"]
-    Governance["Governance and policy plane<br/>identity · rules · approval · audit"]
-    Agent["Governed agent boundary<br/>MCP · A2A · signed tools · sandbox"]
-    Workloads["Robotic workloads<br/>perception · navigation · planning · fleet"]
-    Inference["Edge AI adapters<br/>approved runtime · model allowlist · quotas"]
-    Fabric["Robotics fabric<br/>ROS 2 · DDS Security · Zenoh · MAVLink 2"]
-    Safety["Independent safety envelope<br/>command arbitration · limits · watchdogs · safe state"]
-    Platform["NeuraOS platform<br/>Linux LTS · PREEMPT_RT · Buildroot LTS · cgroups v2"]
-    Trust["Platform trust<br/>measured boot · immutable root · signed A/B updates · SBOM"]
-    Hardware["Heterogeneous edge hardware<br/>x86-64 · Arm64 · RISC-V · CPU · GPU · NPU · MCU"]
+**Selected integration ecosystem:** ROS 2, DDS, Zenoh, MAVLink, PX4/ArduPilot, ONNX Runtime, LiteRT, ExecuTorch, OpenVINO, OpenCV, ncnn, llama.cpp, WasmEdge, MCP and A2A.
 
-    Operator --> Governance
-    Operator --> Safety
-    Governance -. authorizes .-> Agent
-    Governance -. authorizes .-> Workloads
-    Governance -. records .-> Inference
-    Workloads --> Agent
-    Agent --> Inference
-    Agent -. typed proposals only .-> Safety
-    Workloads --> Inference
-    Workloads --> Fabric
-    Fabric --> Safety
-    Inference --> Platform
-    Safety --> Platform
-    Platform --> Trust
-    Trust --> Hardware
-```
+<details>
+<summary><strong>Verified technology baseline, versions and adoption state</strong></summary>
 
-The governance plane issues bounded authority and records evidence; it is not required in each real-time cycle. MCP and A2A terminate before the tool broker, and a broker allow means only that a sandbox may launch. The safety envelope remains deterministic and can reject, pause or override AI-originated commands. Primary flight, motion and emergency-protection loops remain outside the AI workload.
-
-Read the architecture reference (`docs/reference/architecture.md`), agent runtime contract (`docs/reference/agent-runtime.md`), device selection register (`docs/reference/autonomous-device-profiles.md`), device support ecosystem (`docs/reference/device-support-ecosystem.md`) and decision records in docs/adr (`docs/adr/README.md`) before implementing a platform component.
-
-### Autonomous-device selection
-
-The researched register does not pretend that a family name is a production target. Exact module, carrier, BSP, firmware, accelerator and lifecycle evidence must be locked together.
-
-| Family | Decision | Verified maturity | NeuraOS posture |
-|---|---|---|---|
-| NVIDIA Jetson AGX Orin Industrial | Candidate | Production module listed through July 2033 | Strong rugged GPU option; exact carrier/BSP and boot trust unqualified |
-| Qualcomm Dragonwing IQ-9075 | Evaluation | Official product page active; longevity catalogue still says sampling | Do not select until an orderable production module and BSP are locked |
-| NXP i.MX 95 Industrial | Candidate | Industrial family with EdgeLock and long-life program | Strong application/real-time/security partition candidate; exact SKU/SOM required |
-| AMD Kria K26 Industrial | Candidate | Production-qualified industrial SOM | Useful FPGA/robotics path; bitstream joins the signed boot and release chain |
-| Intel Core Ultra Series 3 for Edge | Evaluation | Edge family; selected products advertise long availability | Lowest-friction x86 path, but exact embedded SKU/board is unselected |
-| Hailo-10H | Evaluation add-on | Commercially available M.2 accelerator | Never a controller; qualify firmware, compiler and model with its host |
-
-Developer and evaluation kits remain lab equipment. None of the six physical options is `qualified` or `production_authorized` in `config/device-profiles.json`.
-
-The support catalogue adds twelve researched vendor/partner routes without
-changing that verdict. A live target begins from the
-device-onboarding contract (`config/device-onboarding.example.json`), never by
-copying a development-kit image into production.
-
-### Multi-domain mobility boundary
-
-Version 1.0.0-rc.8 carries explicit contract-only profiles for industrial robots,
-AMRs, civil road and off-road vehicles, UAS, surface vessels and underwater
-vehicles, plus separate **non-weapon** defence profiles for ground, air,
-surface and subsea systems. The catalogue binds each class to its own
-independent controller, standards, protocol locks and conformance gates; all
-11 classes remain unqualified and unauthorized.
-
-The mobility gateway accepts only exact-identity, fresh, monotonic,
-SI-unit/owned-frame, bounded high-level proposals. It rejects direct actuation,
-replay, cross-vehicle routing, stale approval and limit excess. Weapon arming
-or firing, target engagement, lethal-force authority, safety/geofence/
-collision-avoidance bypass and Remote ID/transponder disable are globally
-forbidden for every class. See the
-platform reference (`docs/reference/mobility-platforms.md`),
-integration procedure (`docs/how-to/integrate-mobility-platform.md`) and
-conformance status (`docs/assurance/multi-domain-conformance.md`).
-
-### Digital field rehearsal
-
-The rc.8 candidate includes a deterministic, non-actuating simulation campaign
-that executes 1,100 runs over 22 scenarios. Every one of the 11 platform
-classes receives an injected-fault scenario and a separate forbidden weapon
-command test. The campaign covers factory, warehouse, road, worksite,
-airspace, coastal and subsea emulations; sensor, actuator, link, replay,
-clock, compute, power, obstacle, geofence and identification failures enter a
-simulated minimum-risk stop. The complete report is replayed byte-for-byte.
-
-Gazebo Jetty, PX4/ArduPilot SITL, CARLA 0.10.0, Webots R2025a, VRX 3.1.0 and
-Stonefish 1.6.0 are exact-backend contracts, not installed target features.
-External SIL/HIL evidence must bind the adapter, executable or container,
-world, vehicle, sensor, parameters and results by SHA-256. HIL additionally
-requires controller identity and actuator isolation proof. No simulation
-result can self-authorize a physical target or field operation. See the
-rehearsal procedure (`docs/how-to/run-digital-field-rehearsal.md`) and
-simulation assurance record (`docs/assurance/simulation-readiness.md`).
-
-### Global deployment applicability
-
-The rc.8 applicability layer models 15 regulatory and assurance dimensions,
-39 official-source instruments, 18 civil and non-weapon use cases and eight
-representative jurisdiction profiles. It spans industrial, logistics,
-agriculture, forestry, mining, construction, road, healthcare, energy, rail,
-aviation, port, offshore, subsea, environmental, emergency-response, public
-safety, municipal and non-weapon defence-support operations.
-
-The resolver never grants deployment authority. A recognized single-country
-overlay can produce only `independent-authorization-required`; an unknown or
-cross-border jurisdiction, stale catalogue, platform/environment mismatch,
-online learning request, weapon function, target engagement or lethal-force
-semantics produces `unsupported-no-go`. The exact report is replay-verified and
-bound into the field-trial plan before independent legal, spectrum, airspace,
-road, maritime, safety and cybersecurity evidence can be reviewed. The
-catalogue is an engineering applicability aid, not legal advice, certification
-or a claim of exhaustive worldwide law. See the
-global applicability reference (`docs/reference/global-deployment-applicability.md`),
-assessment procedure (`docs/how-to/assess-global-deployment.md`) and
-assurance record (`docs/assurance/global-deployment-readiness.md`).
-
-## Verified technology baseline
-
-The baseline separates long-lived foundations from feature runtimes. Release builds must replace human-readable versions with immutable source revisions and cryptographic hashes. Versions below were checked against official upstream channels on **5 September 2026**; the machine-readable record is `config/technology-baseline.json`.
+Technology selections were checked against official upstream sources on **5 September 2026**. The adoption column distinguishes installed components from selected interfaces and planned adapters. The controlled workspace records the baseline in `config/technology-baseline.json`.
 
 | Layer | Verified release | Purpose | Adoption |
 |---|---|---|---|
@@ -276,200 +268,39 @@ The baseline separates long-lived foundations from feature runtimes. Release bui
 | Vulnerability scanning | [Grype 0.116.1](https://github.com/anchore/grype/releases/tag/v0.116.1) | SBOM scanning with database provenance and retained raw findings | Active release control; disposition pending |
 | Supply-chain evidence | [SLSA 1.2](https://slsa.dev/spec/v1.2/) · [SPDX 3.0.1](https://spdx.github.io/spdx-spec/v3.0.1/) · [CycloneDX 1.7](https://cyclonedx.org/specification/overview/) | Provenance, SBOM, VEX and inventory | Release control |
 
-“Planned adapter” and “selected contract” are not promises to place every runtime in every image. A board profile includes only the smallest qualified set needed for its mission. Installing all listed packages would increase vulnerability, licence, timing and verification scope; image minimization is an explicit security control.
+A board profile includes only the runtimes selected and qualified for its use case. The controlled workspace retains the package catalogue, primary-source hashes and architecture decisions.
 
-The exact installed reference set and activation state live in the package catalog (`config/package-catalog.json`). Buildroot and Linux inputs are independently pinned in the source lock (`config/source-lock.json`).
+</details>
 
-### Release discipline
+<details>
+<summary><strong>Delivery history: foundation through rc.8 and PQC</strong></summary>
 
-- Foundation components remain on supported LTS tracks.
-- Candidate images use immutable primary-source pins, verified hashes, CycloneDX inventory and SLSA provenance; a reviewed VEX and detached signatures remain mandatory production gates.
-- Runtime updates pass API/ABI review, model compatibility, deterministic replay, SIL/HIL regression and rollback rehearsal.
-- Security fixes may move a pin outside the scheduled cadence but never bypass verification or authorization.
-
-## Governed autonomy
-
-NeuraOS applies the continuous functions in [NIST AI RMF 1.0](https://www.nist.gov/itl/ai-risk-management-framework)—Govern, Map, Measure and Manage—and treats the principles in [NATO's revised AI strategy](https://www.nato.int/en/about-us/official-texts-and-resources/official-texts/2024/07/10/summary-of-natos-revised-artificial-intelligence-ai-strategy) as defence-domain design inputs. NIST is revising AI RMF 1.0; NeuraOS will review the baseline when a successor is finalized.
-
-AI components may detect, classify, summarize, recommend, prioritize and plan inside approved constraints. They may not independently:
-
-- change mission objectives or widen geographic, temporal or policy boundaries;
-- disable watchdogs, safety interlocks, audit capture or human override;
-- approve their own models, updates, privileges or operational authorization;
-- conceal uncertainty, discard required evidence or silently learn from live operations;
-- become the sole authority for a safety-critical or irreversible action.
-
-Agent planners inherit the same restrictions. Tool descriptions, MCP resources, A2A Agent Cards, model output, retrieved text and sensor labels are untrusted data and cannot grant capability. A signed tool manifest can only narrow authority; it cannot bypass the deterministic command arbiter.
-
-See governed autonomy (`docs/explanation/governed-autonomy.md`), the threat model (`docs/assurance/threat-model.md`) and the security policy (`SECURITY.md`).
-
-## Safety envelope
-
-NeuraOS treats AI as a fallible proposal source. Safety depends on independently testable controls:
-
-1. **Command arbitration** validates identity, authority, freshness, sequence, state and command range.
-2. **Spatial and temporal constraints** enforce geofences, speed/altitude limits, mission windows and resource budgets outside models.
-3. **Sensor validity** rejects stale, contradictory, spoofed or physically implausible observations.
-4. **Health supervision** monitors deadlines, heartbeat loss, thermal/power limits, memory pressure and degraded modes.
-5. **Independent override** provides authenticated operator control, hardware emergency stop where applicable and a predefined minimum-risk state.
-6. **Recovery discipline** makes rollback, last-known-good boot and evidence preservation part of the safety case.
-
-The reference core implements item 1 and the software stop latch in item 5 on the host and in the QEMU image. Vehicle-specific STPA, FMEA/FMECA, fault-tree and SIL/HIL evidence remains required. See why safety is separated (`docs/explanation/safety-separation.md`).
-
-## Security baseline
-
-| Domain | Required posture |
+| Milestone | Delivered scope |
 |---|---|
-| Root of trust | Test-key OVMF Secure Boot and TPM measurements pass in QEMU; physical protected keys, quotes and attestation remain a production gate |
-| Operating system | Minimal read-only image with enforced dm-verity in QEMU; IMA/EVM, least privilege, cgroups v2 and LSM/seccomp capabilities |
-| Identity | Unique workload/device identity, short-lived credentials, role separation and deny-by-default authorization |
-| Network | Segmentation, mutual authentication, DDS Security, protected management and explicit offline mode |
-| Quantum resistance | Explicit hybrid ML-KEM TLS profiles, ML-DSA signature migration and SLH-DSA diversity; [verified scope and adoption requirements](#post-quantum-cryptography) |
-| Models and data | Signed allowlist, digest verification, encrypted sensitive storage, provenance and retention policy |
-| Updates | RAUC is installed and signed-bundle rejection is tested; physical A/B flash, protected anti-rollback, staged rollout and recovery remain gated |
-| AI agents | Bubblewrap isolation primitives run at boot; authenticated MCP/A2A, signed tools, Wasm execution, quotas and target conformance remain gated |
-| Supply chain | Reproducible build, SBOM/VEX, SLSA provenance, vulnerability triage and licence inventory |
-| Audit | Append-oriented, time-synchronized, tamper-evident events with redaction, retention and controlled export |
+| 0.1–0.2 foundation | Product and technology contracts, deterministic C core, hash-locked Buildroot/Linux image and hardened read-only runtime |
+| rc.1 | dm-verity positive/negative boots, reproducible artifacts, SBOM/provenance/legal inventory and A/B update policy |
+| rc.2–rc.3 | Device research, governed agent contracts, RAUC and bubblewrap installation, QEMU Secure Boot/TPM, vulnerability scanning and signed-evidence promotion workflows |
+| rc.4–rc.5 | Custom-device onboarding, peripheral ownership, staged bring-up, civil/non-weapon mobility classes and bounded gateway/conformance tooling |
+| rc.6–rc.7 | Multi-domain simulation campaign, external SIL/HIL evidence contracts, global applicability assessment and deployment-specific field authorization checks |
+| rc.8 | Security package refresh, unused `jq` removal, vulnerability reconciliation, complete private-source identity, stale-build invalidation and all-target ELF hardening |
+| After the rc.8 image build | Two opt-in PQC TLS profiles, ML-KEM/ML-DSA/SLH-DSA capability tests and the consolidated public README; no new firmware version or production authorization |
 
-The cybersecurity model follows [NIST CSF 2.0](https://www.nist.gov/cyberframework). Threat analysis includes compromised updates, malicious peripherals, sensor/GNSS deception, adversarial examples, prompt/tool injection, poisoning, model extraction, insider risk, denial of service and disrupted communications.
+</details>
 
-### Post-quantum cryptography
+## Public Edition
 
-NeuraOS selects **post-quantum cryptography (PQC)** to protect long-lived device,
-fleet and agent communications against future quantum attacks, including
-traffic collected today for later decryption. The baseline uses the finalized
-[ML-KEM / FIPS 203](https://csrc.nist.gov/pubs/fips/203/final),
-[ML-DSA / FIPS 204](https://csrc.nist.gov/pubs/fips/204/final) and
-[SLH-DSA / FIPS 205](https://csrc.nist.gov/pubs/fips/205/final) standards.
-These algorithms run on conventional computers. Standards and implementation
-support were checked on **5 September 2026**.
+Public Edition is NeuraOS’s **public product and architecture brief**. It gives engineering leaders, OEMs and prospective integration partners a view of the platform direction, implemented reference controls, evaluated technologies and available test results.
 
-The installed **OpenSSL 3.5.8** supplies these primitives natively; no
-experimental provider is needed for this baseline. Its 3.5 LTS branch is
-supported through **8 April 2030**. Newer 3.6 and 4.0 branches exist; the choice
-here is the maintained LTS branch with its current security fixes.
-See the [official release and support table](https://openssl-library.org/source/).
+This Git repository intentionally contains only `README.md`. Implementation, firmware, models, configuration, detailed documentation and raw evidence remain in the controlled workspace. The edition label identifies this overview; the demonstrated system has the maturity documented in the engineering evidence above.
 
-| Use | NeuraOS selection | Implemented and verified scope |
-|---|---|---|
-| General device, fleet and agent TLS | TLS 1.3, `X25519MLKEM768`, `TLS_AES_256_GCM_SHA384` | Balanced profile (`config/pqc-balanced.cnf`); successful mutually authenticated loopback connection with the built target OpenSSL |
-| Higher-margin TLS endpoints | TLS 1.3, `SecP384r1MLKEM1024`, `TLS_AES_256_GCM_SHA384` | High-assurance profile (`config/pqc-high-assurance.cnf`); same positive and negative connection checks; hardware performance qualification pending |
-| Artifact, model and tool signature migration | `ML-DSA-65`; `ML-DSA-87` for higher-margin profiles | Detached signing and verification exercised; production release and tool verifiers still require integration |
-| Hash-based signature diversity | `SLH-DSA-SHA2-256s` for evaluation of infrequent offline signing and recovery | Detached signing and rejection tests exercised; larger signatures and signing cost require use-case qualification |
+Commercial discussions can cover a defined device program, integration requirements, evaluation scope, licensing and the evidence required for delivery. Availability, deliverables and support terms are established by agreement.
 
-The hybrid groups are specified by **RFC 10024**, published in August 2026.
-They combine ECDHE and ML-KEM within TLS; ML-KEM establishes a shared secret,
-while AES-GCM protects application records. Both NeuraOS profiles require
-TLS 1.3 and allow only their named hybrid group, so a classical-only peer is
-rejected. These are process-level OpenSSL configurations: applications must
-explicitly load the selected profile and must not override its settings.
-See the [TLS specification](https://www.rfc-editor.org/rfc/rfc10024.html) and
-[OpenSSL configuration interface](https://docs.openssl.org/3.5/man5/config/).
+<details>
+<summary><strong>For collaborators with access to the controlled workspace</strong></summary>
 
-**Hybrid key establishment does not by itself provide PQ authentication.**
-The tested TLS identities use ephemeral ECDSA P-384 certificates with explicit
-trust and hostname checks. ML-DSA handshake authentication remains a separate
-integration track: its TLS specification is still
-[draft-ietf-tls-mldsa-05](https://datatracker.ietf.org/doc/draft-ietf-tls-mldsa/)
-at this review. Installed ML-DSA primitives do not establish that RAUC, Sigstore,
-UEFI Secure Boot, TPM attestation, DDS, MAVLink or the agent gateway already
-authenticate with PQ signatures. The current boot and release chains retain
-their existing verification schemes.
+Local documentation includes tutorials, build/onboarding procedures, architecture and API references, assurance records and design decisions. The main paths are `docs/README.md`, `docs/ROADMAP.md`, `docs/assurance/`, `config/`, `schemas/` and `tools/`.
 
-Adoption requirements for the selected profiles are:
-
-- Load `config/pqc-balanced.cnf` or `config/pqc-high-assurance.cnf` through the
-  service's `OPENSSL_CONF`; configure peer trust, mutual authentication,
-  identity authorization, credential rotation and revocation in the service.
-  Keep TLS 0-RTT disabled for commands and updates. Existing network services
-  are not automatically reconfigured by adding these files.
-- Maintain an inventory of algorithm, key purpose, provider version,
-  certificate chain, peer support and data lifetime. Prioritize sensitive
-  long-retention data; separate legacy endpoints from PQC-required endpoints
-  without automatic downgrade or retry into a classical-only connection.
-- Bind future PQ artifact signatures to the same exact payload, signer role,
-  purpose and version as the release policy. During any dual-signature
-  transition, require both policy-selected signatures; reject a missing PQ
-  signature. This verifier migration is not implemented by the primitive test.
-- Use vetted OS entropy and supported key storage; qualify any HSM, TPM or
-  secure element for the exact algorithm and operation. Measure handshake
-  size, MTU/fragmentation, reconnect cost, CPU/RAM, latency and denial-of-service
-  limits on each board and link. Keep cryptographic handshakes outside primary
-  motion and emergency-control loops.
-
-**Verified locally:** the supplementary
-PQC self-test (`tools/pqc_selftest.py`) passed **39 checks** using the actual
-target musl/OpenSSL executable and libraries on an x86-64 Linux host. It covers
-ML-KEM-768/1024 round trips and corrupt/wrong-key/truncated ciphertexts;
-ML-DSA-65/87 and SLH-DSA signatures with altered messages, altered signatures,
-wrong keys and wrong contexts; and both TLS profiles with rejection of
-classical-only groups, TLS 1.2, AES-128-only negotiation, wrong hostnames,
-untrusted servers, missing client certificates and untrusted clients.
-ML-KEM's implicit rejection is checked by confirming that corrupt ciphertext
-produces a different shared secret, rather than expecting a process error.
-
-```bash
-python3 tools/pqc_selftest.py --report build/pqc-selftest.json
-```
-
-The report refuses overwrite, records hashes of the tested binaries, profiles
-and runner, and retains no test private keys or shared secrets. It is
-supplementary host evidence, not a QEMU boot test, independent interoperability
-test, ACVP validation or physical-device assessment. The profiles and harness
-are additions after the rc.8 image build; they do not change its archived
-release evidence or authorize production deployment.
-
-**Quantum key distribution (QKD)** needs dedicated optical hardware and an
-authenticated classical channel; it is not a software package that makes a
-robot or radio link quantum-secure. No QKD hardware is selected or integrated.
-Its deployment limitations are described in the
-[NSA QKD guidance](https://www.nsa.gov/Cybersecurity/Post-Quantum-Cybersecurity-Resources/).
-[HQC is selected for future NIST standardization](https://csrc.nist.gov/Projects/post-quantum-cryptography/post-quantum-cryptography-standardization/selected-algorithms)
-and remains a diversification watch item, not an enabled fallback.
-Using FIPS-standard algorithms does not make this Buildroot image
-**FIPS 140-3 validated**, **CNSA 2.0 approved** or universally quantum-proof;
-those claims require the applicable module, system and deployment evidence.
-
-### Assurance alignment
-
-Controls are mapped to the standards applicable to each deployment, including [NIST AI RMF 1.0](https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10), [NIST CSF 2.0](https://www.nist.gov/publications/nist-cybersecurity-framework-csf-20), [ISO/IEC 42001:2023](https://www.iso.org/standard/42001), [Regulation (EU) 2024/1689](https://eur-lex.europa.eu/eli/reg/2024/1689/oj) where applicable, and relevant IEC 61508, ISO 26262, ISO 21448, ISO/SAE 21434, UL 4600, airworthiness or maritime regimes.
-
-Alignment describes engineering intent; it is not a certification or legal conclusion. Jurisdiction, system classification and conformity obligations must be decided for each deployment.
-
-## Documentation
-
-This README is the complete public documentation entry point. The following
-map is for collaborators with access to the controlled local workspace;
-cloning the public repository does not provide these files or build tools.
-The local documentation separates tutorials, procedures, references, design
-rationale and assurance records.
-
-| Need | Start here |
-|---|---|
-| Understand the repository | Documentation map (`docs/README.md`) |
-| Exercise the safety kernel | Host safety lab (`docs/tutorials/host-safety-lab.md`) |
-| Build or integrate | Build the core (`docs/how-to/build-core.md`) · Build and boot the OS image (`docs/how-to/build-image.md`) · Onboard a custom device (`docs/how-to/onboard-custom-device.md`) |
-| Inspect contracts | Runtime API (`docs/reference/runtime-api.md`) · JSON schemas (`schemas/README.md`) |
-| Inspect the platform | Package catalog (`docs/reference/package-catalog.md`) · Architecture (`docs/reference/architecture.md`) · Device profiles (`docs/reference/autonomous-device-profiles.md`) · Device support ecosystem (`docs/reference/device-support-ecosystem.md`) |
-| Inspect agent controls | Governed agent runtime (`docs/reference/agent-runtime.md`) · Agent policy reference (`tools/agent_policy.py`) |
-| Review delivery risk | Roadmap (`docs/ROADMAP.md`) · Control matrix (`docs/assurance/control-matrix.md`) |
-| Assess country and use-case applicability | Global deployment assessment (`docs/how-to/assess-global-deployment.md`) |
-| Decide whether a physical trial may start | Field-trial readiness (`docs/assurance/field-trial-readiness.md`) |
-
-```text
-core/       bounded C17 arbiter, audit chain, CLI and host tests
-board/      read-only QEMU rootfs policy, users and boot health services
-config/     release/update policy, device/agent/onboarding profiles, production gates and source locks
-configs/    active Buildroot and Linux production-candidate profile
-package/    Buildroot external packages
-schemas/    policy, model-manifest and audit-event contracts
-docs/       tutorials, procedures, references, rationale, assurance and ADRs
-tools/      image/release builders, device intake, dm-verity tests, A/B simulator and verifiers
-build/      local images, retained reports and private source archives; never published
-```
-
-With access to the full private workspace on a supported Linux host, build
-and verify the reference operating system:
+On the supported Linux host, the documented verification workflow is:
 
 ```bash
 make check
@@ -478,37 +309,30 @@ make release-candidate
 python3 tools/pqc_selftest.py --report build/pqc-selftest.json
 ```
 
-`make release-candidate` verifies source hashes, the final Buildroot selection, kernel controls, locked accounts, the absence of setuid/setgid files, dm-verity positive and negative boots, test-key Secure Boot and TPM measurements, signed RAUC bundle rejection, five same-output image digests, a current vulnerability scan, legal inventory and the release evidence bundle. The PQC command is a separate supplementary check and requires a new report filename on each retained run. `make production-check` is intentionally rejected until every signed external gate is satisfied, and `make field-trial-check` adds a further exact-system/site/crew/legal authorization layer. See the image build procedure (`docs/how-to/build-image.md`), signed promotion procedure (`docs/how-to/promote-production.md`), production-readiness record (`docs/assurance/production-readiness.md`) and field-trial decision (`docs/assurance/field-trial-readiness.md`).
+The PQC check is supplementary and requires a new filename for each retained report. `make production-check` and `make field-trial-check` validate external authorization evidence; the current example policies are intentionally rejected. These commands require the full controlled workspace.
 
-## Public repository
+</details>
 
-This public Git repository is the product and assurance overview for NeuraOS;
-only `README.md` is published. The deliberately bounded, non-operational QEMU
-production candidate and its evidence remain in the controlled local workspace.
+## Work with NeuraParse
 
-- The C17 reference demonstrates bounded command arbitration and hash-linked audit events; it is not a vehicle controller or certified safety component.
-- Git does not distribute source code, build inputs, evidence, production
-  firmware, trained models, operational configuration or binary releases.
-- Public issues are for non-sensitive product and documentation feedback only.
-- Do not submit classified, export-controlled, operational, personal or vulnerability-sensitive information.
-- Report vulnerabilities through GitHub's
-  [private reporting channel](https://github.com/neuraparse/neuraos/security/advisories/new)
-  when available. Otherwise contact [info@neuraparse.com](mailto:info@neuraparse.com)
-  with a minimal, non-sensitive request for a secure channel; do not include
-  exploit material or credentials in the initial message.
+**Bring the machine, the operating environment and the problem you need to solve.** Start the conversation with the target hardware, intended workloads, connectivity constraints and required integration scope.
+
+[**Start a platform conversation →**](mailto:info@neuraparse.com?subject=NeuraOS%20Platform%20Discussion) · [Website](https://neuraparse.com) · [Product questions](https://github.com/neuraparse/neuraos/issues)
+
+For suspected vulnerabilities, use [private vulnerability reporting](https://github.com/neuraparse/neuraos/security/advisories/new) when available. Otherwise send a minimal, non-sensitive request for a secure channel to [info@neuraparse.com](mailto:info@neuraparse.com). Keep credentials, customer environments, operational logs and restricted information out of public issues.
 
 ## Licence
 
-Copyright © 2024–2026 NeuraParse. **All rights reserved.** NeuraOS-specific materials are proprietary unless NeuraParse grants rights in a separate written agreement. Without that agreement, no licence is granted to use, copy, modify, merge, publish, distribute, sublicense, reverse engineer or create derivative works from these materials. Licensing enquiries: [info@neuraparse.com](mailto:info@neuraparse.com).
+Copyright © 2024–2026 NeuraParse. **All rights reserved.** NeuraOS-specific materials are proprietary. Use, modification, distribution and licensing rights require a separate written agreement with NeuraParse.
 
-Third-party projects remain governed by their own licences, notices and source-availability obligations. Listing a project in the technology baseline does not bundle or redistribute it.
+Third-party technologies remain subject to their own licences and terms. References to projects, vendors and standards do not imply redistribution, partnership, endorsement or certification.
 
 ---
 
 <div align="center">
 
-**NeuraOS** · Governed at the edge · Designed for evidence · Built around human authority
+**NeuraOS · Local intelligence. Governed action. Verifiable systems.**
 
-[Website](https://neuraparse.com) · [Repository](https://github.com/neuraparse/neuraos) · [Issues](https://github.com/neuraparse/neuraos/issues) · [Security](https://github.com/neuraparse/neuraos/security)
+[Discuss your platform](mailto:info@neuraparse.com?subject=NeuraOS%20Platform%20Discussion) · [Public repository](https://github.com/neuraparse/neuraos)
 
 </div>
