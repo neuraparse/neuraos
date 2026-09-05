@@ -4,28 +4,36 @@
 
 ### Intelligence at the edge. Authority by design.
 
-**An operating-system foundation for governed AI, robotics and autonomous machines.**
+**Build intelligent machines on a governed edge foundation.**
 
-**PUBLIC EDITION · 2026 PRODUCT & ARCHITECTURE OVERVIEW**
+**PUBLIC EDITION · SEPTEMBER 2026 · PRODUCT & ARCHITECTURE**
 
 [![Edition](https://img.shields.io/badge/edition-Public-111827?style=flat-square)](#public-edition)
 [![Foundation](https://img.shields.io/badge/foundation-Linux%20LTS-fcc624?style=flat-square&logo=linux&logoColor=111827)](#platform)
 [![PQC](https://img.shields.io/badge/security-Hybrid%20PQC-166534?style=flat-square)](#post-quantum-security)
 [![Reference](https://img.shields.io/badge/reference-1.0.0--rc.8-334155?style=flat-square)](#engineering-evidence)
 
-[**Discuss your platform →**](mailto:info@neuraparse.com?subject=NeuraOS%20Platform%20Discussion) · [Platform](#platform) · [Applications](#applications) · [Architecture](#architecture) · [Security](#security-and-trust) · [Engineering evidence](#engineering-evidence)
+[**Discuss your platform →**](mailto:info@neuraparse.com?subject=NeuraOS%20Platform%20Discussion) · [Capabilities](#platform) · [Applications](#applications) · [Security & PQC](#security-and-trust) · [2026 and beyond](#2026-and-beyond) · [Evidence](#engineering-evidence)
+
+<img src="https://github.com/neuraparse/neuraos/releases/download/public-media-2026-09-v1/neuraos-physical-ai-2026-09-v1.png" alt="AI-generated NeuraOS concept: an edge-computing core connects an industrial robot, ground rover, inspection drone, surface vessel and subsea robot." width="1280">
+
+<sub>AI-generated concept artwork · A multi-domain platform vision, not deployed-hardware evidence.</sub>
+
+**LOCAL INTELLIGENCE &nbsp; / &nbsp; GOVERNED ACTION &nbsp; / &nbsp; VERIFIABLE CHANGE**
 
 </div>
 
-NeuraOS brings the operating-system foundation, governed agent policies, device integration contracts and release evidence into one edge architecture. It is designed for teams building intelligent machines that must operate close to their sensors, respect explicit authority and remain understandable when conditions change.
+NeuraOS is an **operating-system foundation for physical AI**: intelligence that observes, reasons and assists where machines meet the real world. It brings a bootable Linux platform, governed agent policies, custom-device integration contracts and release evidence into one edge architecture.
 
-For robotics OEMs, embedded-system teams and integrators, NeuraOS connects **local intelligence, controlled action and verifiable change** through a consistent architecture across machines and environments.
+For robotics OEMs, embedded-system teams and integrators, the ambition is clear: **keep intelligence close to the machine, keep authority explicit, and make every change reviewable.** From an inspection robot to a custom airborne or subsea platform, NeuraOS provides a common integration method while preserving each device's constraints.
+
+**One foundation. Many machine classes. Qualification for each.** Explore the [platform capabilities](#platform), [integration path](#an-integration-path-teams-can-review) and [forward direction](#2026-and-beyond).
 
 > **Public Edition** presents the product architecture and current engineering baseline. The `1.0.0-rc.8` reference has been exercised on hosts and QEMU; physical deployment qualification remains open. [View the verified scope](#engineering-evidence).
 
 ## Why NeuraOS
 
-Intelligent machines bring together software, models, hardware, operators and communications with different lifecycles. NeuraOS defines how those parts share identity, authority and evidence, so an integration can be reviewed as a system.
+The hard part of an intelligent machine is the complete system: models, hardware, operators, communications and updates must work within the same rules. NeuraOS makes **identity, authority and evidence** shared architectural concerns, from the edge image to the deployment review.
 
 | What your team needs | How NeuraOS approaches it | Intended engineering value |
 |---|---|---|
@@ -36,7 +44,7 @@ Intelligent machines bring together software, models, hardware, operators and co
 | Prepare for disrupted conditions | Fault injection, deterministic replay and declared minimum-risk behaviour | Explore failure handling before hardware and field evaluation |
 | Plan for a longer security lifecycle | Maintained LTS foundations, hybrid PQC profiles and explicit migration boundaries | Make cryptographic and platform upgrades part of the architecture |
 
-These are the product’s design objectives. Delivered reference implementations and integration work are identified throughout this overview.
+The value proposition is integration continuity: a device manifest informs bring-up; bounded interfaces inform testing; test evidence informs the release decision. These are design objectives, with delivered reference implementations and integration work identified below.
 
 ## Platform
 
@@ -47,6 +55,8 @@ The current reference boots a minimal Linux operating system built with Buildroo
 Images are assembled around a device profile and its required components. The architecture accommodates different compute and accelerator choices through explicit board, firmware and runtime boundaries.
 
 ### Governed AI agents
+
+**Useful intelligence, bounded responsibility.** The intended workloads include local perception, inspection analysis, maintenance assistance and scoped agent tools. Model and accelerator choices belong to the device profile; selecting a runtime does not grant it physical-control authority.
 
 NeuraOS gives agent integration an explicit execution model: identify the caller, verify the tool and artifact, evaluate permissions, obtain required approval, and apply isolation before execution. The host policy evaluator rejects stale requests, replay, privilege expansion and unauthorized capabilities.
 
@@ -114,7 +124,13 @@ Models can propose actions inside their assigned scope. Operator authority, comm
 
 ## Security and trust
 
-Security is part of the platform lifecycle: establishing identity, protecting the runtime, validating a change and preserving its evidence.
+**Establish identity. Bound execution. Verify the change. Preserve the evidence.** NeuraOS treats security as a lifecycle across the operating system, agent boundary and release process.
+
+<p align="center">
+  <img src="https://github.com/neuraparse/neuraos/releases/download/public-media-2026-09-v1/neuraos-hybrid-trust-2026-09-v1.png" alt="AI-generated security concept: a graphite edge core within layered boundaries, cyan and amber paths representing hybrid cryptography, and a traceable sequence of release artifacts." width="1100">
+  <br>
+  <sub>AI-generated concept artwork · Runtime boundaries, hybrid cryptography and release traceability.</sub>
+</p>
 
 - **Platform integrity.** QEMU tests cover a dm-verity-protected root and rejection of a modified data block, plus test-key OVMF Secure Boot and TPM measurements.
 - **Process isolation.** The image includes namespace, privilege, filesystem, device and network isolation checks, with kernel controls and an audit of target ELF hardening.
@@ -127,7 +143,7 @@ Physical protected keys, attestation, A/B storage and production signing belong 
 
 ## Post-quantum security
 
-NeuraOS includes tested building blocks for a transition to quantum-resistant communications and signatures. Its installed **OpenSSL 3.5.8 LTS** supplies native ML-KEM, ML-DSA and SLH-DSA implementations, based on the finalized [NIST FIPS 203](https://csrc.nist.gov/pubs/fips/203/final), [FIPS 204](https://csrc.nist.gov/pubs/fips/204/final) and [FIPS 205](https://csrc.nist.gov/pubs/fips/205/final) standards.
+**Plan for the lifetime of the machine—and the data it protects.** NeuraOS includes tested building blocks for a transition to quantum-resistant communications and signatures. Its installed **OpenSSL 3.5.8 LTS** supplies native ML-KEM, ML-DSA and SLH-DSA implementations, based on the finalized [NIST FIPS 203](https://csrc.nist.gov/pubs/fips/203/final), [FIPS 204](https://csrc.nist.gov/pubs/fips/204/final) and [FIPS 205](https://csrc.nist.gov/pubs/fips/205/final) standards.
 
 | Profile or capability | Cryptography | Verified scope |
 |---|---|---|
@@ -154,9 +170,41 @@ Service adoption is explicit. These supplementary profiles were added after the 
 
 </details>
 
+## 2026 and beyond
+
+**A platform direction for the next generation of intelligent machines.** The September 2026 review connects NeuraOS's architecture to concrete changes in the ecosystem:
+
+- **Hybrid PQC has an interoperable standards foundation.** Published in August 2026, RFC 10024 specifies the hybrid TLS groups used by the two NeuraOS test profiles. Our next adoption boundary is service integration and measured device performance. [IETF standard](https://www.rfc-editor.org/info/rfc10024/).
+- **Agent interoperability is becoming more explicit.** MCP's 2026-07-28 specification defines stateless, self-contained requests and per-request capability negotiation. NeuraOS selects MCP for tool/context interoperability and A2A for peer-agent tasks, with policy enforcement and target adapters still to integrate. [MCP specification](https://modelcontextprotocol.io/specification/2026-07-28), [A2A specification](https://a2a-protocol.org/latest/specification/).
+- **Security operations belong in product planning.** For products in scope, EU Cyber Resilience Act reporting obligations apply from **11 September 2026**, ahead of full application on **11 December 2027**. This makes vulnerability handling, traceability and support responsibilities timely integration questions; it does not establish NeuraOS compliance. [European Commission overview](https://digital-strategy.ec.europa.eu/en/policies/cra-summary).
+
+**Maintained foundations, deliberate adoption.** Buildroot 2026.08 became the current stable release on 4 September; the reference retains the 2025.02 LTS line, supported upstream through March 2028. OpenSSL 3.5 LTS has an upstream support horizon of 8 April 2030. These are component lifecycles, not a NeuraOS support or security guarantee. [Buildroot releases](https://buildroot.org/download.html), [OpenSSL support table](https://openssl-library.org/source/).
+
+### Forward direction
+
+The following priorities describe the product direction. They are **planned integration and qualification work**, not shipped capabilities or committed delivery dates.
+
+| Priority | Next capability to establish | Evidence required before a delivery claim |
+|---|---|---|
+| Physical AI at the edge | Board-specific perception, local inference and bounded agent workloads | Exact model/runtime identity; accuracy, latency, memory, power and thermal measurements |
+| Governed agent interoperability | MCP/A2A adapters, portable tools and target-enforced permissions | End-to-end identity, approval, isolation, denial and recovery tests on the device |
+| Multi-domain device programs | Qualified BSPs, vehicle adapters and high-fidelity simulation backends | Bring-up records, protocol conformance, SIL/HIL and independent control-path review |
+| Cryptographic agility | Service-level hybrid TLS adoption and a reviewed PQ artifact-authentication policy | Interoperability, protected-key lifecycle, downgrade rejection and target performance evidence |
+| Fleet and product lifecycle | Production signing, physical A/B recovery and reviewed update-metadata integration | Key ceremonies, independent reconstruction, rollback tests and security disposition |
+
+The ambition is broad; the delivery unit is precise: **one versioned device profile, one defined operating envelope, one reviewable evidence set.**
+
 ## An integration path teams can review
 
 Each program starts with one defined system and an explicit success criterion. The workflow connects hardware selection to the evidence needed for a deployment decision.
+
+Start the discussion with the outcome your team needs:
+
+- **A custom edge platform:** scope a board-specific OS profile, device provisioning and a bring-up evidence package.
+- **Governed intelligence on a machine:** scope model/runtime selection, agent permissions and bounded tool or controller interfaces.
+- **A defensible evaluation program:** scope simulation, target measurements, security review and the evidence required for a pilot decision.
+
+These are engagement scopes to agree, not off-the-shelf qualified products or promised delivery terms.
 
 | Step | Engineering focus | Reviewable output |
 |---|---|---|
@@ -293,6 +341,8 @@ Public Edition is NeuraOS’s **public product and architecture brief**. It give
 
 This Git repository intentionally contains only `README.md`. Implementation, firmware, models, configuration, detailed documentation and raw evidence remain in the controlled workspace. The edition label identifies this overview; the demonstrated system has the maturity documented in the engineering evidence above.
 
+The original AI-generated illustrations are hosted as [Public Edition media assets](https://github.com/neuraparse/neuraos/releases/tag/public-media-2026-09-v1), outside the Git source tree. They communicate architectural concepts, not shipping hardware, customer deployments or measured security properties. The media publication is not a firmware release.
+
 Commercial discussions can cover a defined device program, integration requirements, evaluation scope, licensing and the evidence required for delivery. Availability, deliverables and support terms are established by agreement.
 
 <details>
@@ -315,7 +365,7 @@ The PQC check is supplementary and requires a new filename for each retained rep
 
 ## Work with NeuraParse
 
-**Bring the machine, the operating environment and the problem you need to solve.** Start the conversation with the target hardware, intended workloads, connectivity constraints and required integration scope.
+**Bring the machine. Define the boundaries. Build the evidence.** Start the conversation with the target hardware, intended workloads, connectivity constraints and the outcome your team needs. A useful first discussion identifies the integration scope, success criteria, qualification responsibilities and expected deliverables.
 
 [**Start a platform conversation →**](mailto:info@neuraparse.com?subject=NeuraOS%20Platform%20Discussion) · [Website](https://neuraparse.com) · [Product questions](https://github.com/neuraparse/neuraos/issues)
 
