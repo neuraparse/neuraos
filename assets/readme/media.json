@@ -17,5 +17,23 @@
       "path": "custom-profile-light-2026-09.png",
       "prompt": "Use case: ui-mockup\nAsset type: wide landscape light-mode customisation screen for the NeuraOS README, approximately 16:9.\nPrimary request: Create a polished, coherent enterprise configuration-screen design for NeuraOS. A flat front-facing software canvas with warm white background, slate typography, light grey borders, subtle teal highlights, compact technical labels and ample breathing room. No desktop or hardware photograph, no dark mode.\nTop bar exact text: \"NeuraOS\", \"Device profile\", \"Illustrative interface\".\nSidebar exact text: \"Overview\", \"Missions\", \"Devices\", \"Network\", \"Evidence\", \"Profiles\"; highlight \"Profiles\".\nMain heading exact text: \"Configure your platform\".\nA clean selected profile card: \"Custom ground robot\", \"Configuration draft\".\nTwo-column form:\nLeft card title \"Hardware & capabilities\"; fields \"Controller\", value \"Custom gateway\"; \"Compute\", value \"Board-specific profile\"; \"Capabilities\", chips \"Inspect\", \"Transport\".\nRight card title \"Authority & connectivity\"; fields \"Command approval\", value \"Human approval required\"; \"Offline behaviour\", value \"Hold\"; \"Network policy\", value \"Authenticated links\"; \"Environment\", value \"Simulation\".\nA lower full-width card title \"Mission and deployment options\", with three orderly small option cards \"Workflow\", \"Model selection\", \"Evidence retention\". These are product customisation concepts, not proof all integrations are shipped.\nBottom buttons exact: \"Save profile draft\", \"Review configuration\".\nFooter exact text: \"AI-generated UI concept · Custom integration\".\nConstraints: all wording must be crisp and correctly spelled, especially NeuraOS. No enabled production switch, no deployment success badge, no certifications, no vendor endorsement, no fictional SLA or performance metric. Clear, appealing software design without excessive widgets. This is a design mockup for configurable integration, not a screenshot of implemented UI."
     }
+  ],
+  "runtime_screenshots": [
+    {
+      "path": "console-reference-light-2026-09.png",
+      "kind": "actual browser capture",
+      "source": "docs/research/2026-09/current-console-r74/host-attempt-004/actual-overview-light.png",
+      "environment": "installed Linux x86_64 backend with R74 HTTPS gateway; local unbound workspace",
+      "physical_dispatch": false,
+      "production_authorized": false
+    },
+    {
+      "path": "console-reference-mobile-2026-09.png",
+      "kind": "actual browser capture",
+      "source": "docs/research/2026-09/current-console-r74/docker-attempt-003/actual-overview-320px.png",
+      "environment": "Linux AMD64 Docker reference; 320 CSS px browser viewport",
+      "physical_dispatch": false,
+      "production_authorized": false
+    }
   ]
 }
