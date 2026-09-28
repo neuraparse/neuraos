@@ -22,15 +22,15 @@
     {
       "path": "console-reference-light-2026-09.png",
       "kind": "actual browser capture",
-      "source": "docs/research/2026-09/current-console-r74/host-attempt-004/actual-overview-light.png",
-      "environment": "installed Linux x86_64 backend with R74 HTTPS gateway; local unbound workspace",
+      "source": "docs/research/2026-09/current-console-r75/host-attempt-002/actual-overview-light.png",
+      "environment": "installed Linux x86_64 backend with R75 HTTPS gateway; local unbound workspace",
       "physical_dispatch": false,
       "production_authorized": false
     },
     {
       "path": "console-reference-mobile-2026-09.png",
       "kind": "actual browser capture",
-      "source": "docs/research/2026-09/current-console-r74/docker-attempt-003/actual-overview-320px.png",
+      "source": "docs/research/2026-09/current-console-r75/docker-attempt-010/actual-overview-320px.png",
       "environment": "Linux AMD64 Docker reference; 320 CSS px browser viewport",
       "physical_dispatch": false,
       "production_authorized": false

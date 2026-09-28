@@ -24,13 +24,13 @@ Connect it with **NowFlow** for mission workflows and human approvals. Apply the
 
 ![Actual NeuraOS reference console in a desktop browser, showing the light Overview workspace and its AI-generated industrial-autonomy illustration.](assets/readme/console-reference-light-2026-09.png)
 
-<sub>Actual R74 Linux HTTPS reference console · 1440 px browser capture · unbound local workspace</sub>
+<sub>Actual R75 Linux HTTPS reference console · 1440 px browser capture · unbound local workspace</sub>
 
-The seven-page console brings missions, device profiles, network policy, evidence and installation choices into one light workspace. It uses Geist typography and a labelled AI-generated hero image. The same interface reflows on narrow screens, with a keyboard-accessible mobile menu.
+The seven-page console brings missions, device profiles, network policy, evidence and installation choices into one light workspace. It uses Geist typography and a labelled AI-generated hero image. The same interface reflows on narrow screens. The mobile menu has a visible close button, a backdrop and contained keyboard focus.
 
 ![Actual NeuraOS reference console at 320 px, showing the responsive Overview page.](assets/readme/console-reference-mobile-2026-09.png)
 
-<sub>Actual R74 Docker reference console · 320 px browser capture</sub>
+<sub>Actual R75 Docker reference console · 320 px browser capture</sub>
 
 The screenshots show the implemented reference UI. The separate product and result illustrations below are AI-generated concepts; they do not represent deployed customer systems.
 
@@ -152,7 +152,7 @@ Tailor the mission and device contracts to your system, then select the hardware
 | As the primary OS | Bootable x86_64 and ARM64 QEMU images with read-only dm-verity roots | Both images booted with the console; a physical board/BSP, firmware and safe-state integration remain target-specific |
 | On a desktop workstation | Exported Docker installation plans | POSIX shell and PowerShell 7.6.6 flows ran on Linux; Windows and macOS Docker Desktop have not passed native acceptance |
 
-The console exports a profile and verification commands for the chosen route. The current source-bound R74 artifacts are controlled integration packages, not public downloads from this repository.
+The console exports a profile and verification commands for the chosen route. The current source-bound R75 artifacts are controlled integration packages, not public downloads from this repository.
 
 Evaluated compute routes include NVIDIA Jetson AGX Orin Industrial, NXP i.MX 95 Industrial, AMD Kria K26 Industrial, Qualcomm Dragonwing IQ-9075, Intel Core Ultra Series 3 for Edge and Hailo-10H. Each requires a board-specific NeuraOS profile and qualification.
 
@@ -187,7 +187,7 @@ The security reference also includes tested **hybrid post-quantum TLS profiles**
 | **10 verified Node signatures** | Acknowledgements and outcomes in the same offline workflow |
 | **3 product-profile tests** | NowFlow autonomy/legacy profile visibility rules |
 | **149 packaged files** | Digest-verified internal host archive; relocated evidence verification and byte-identical C library rebuild |
-| **R74 interface and installation** | 33 AMD64 Docker checks, 30 ARM64 Compose checks, 31 installed Linux checks, 19 checks on each x86_64/ARM64 QEMU image, and 25 PowerShell-on-Linux checks |
+| **R75 interface and installation** | 42 AMD64 Docker checks, 34 ARM64 Compose checks, 34 installed Linux checks, 22 checks on each x86_64/ARM64 QEMU image, and 25 PowerShell-on-Linux checks; automated mobile, light and dark accessibility audits reported zero violations, with image contrast still requiring manual review |
 
 **Current availability:** the `1.0.0-rc.8` host/QEMU reference and scoped integration work. Physical deployments require target qualification and operational approval. AI illustrations show the product design and example workflows.
 
@@ -248,7 +248,7 @@ Availability, deliverables, licensing and support terms are established for the 
 
 This public repository contains the product brief and its visual assets. Implementation, firmware, models, operational configuration and detailed evidence stay in the controlled workspace.
 
-The hero, mission-result and custom-profile illustrations are AI-generated concepts. The two console screenshots are captures of the implemented R74 reference. Neither category depicts a deployed customer system or qualified physical hardware. Generation prompts and screenshot provenance are recorded in [the media manifest](assets/readme/media.json).
+The hero, mission-result and custom-profile illustrations are AI-generated concepts. The two console screenshots are captures of the implemented R75 reference. Neither category depicts a deployed customer system or qualified physical hardware. Generation prompts and screenshot provenance are recorded in [the media manifest](assets/readme/media.json).
 
 For product questions, use [the issue tracker](https://github.com/neuraparse/neuraos/issues). For security reports, use [private vulnerability reporting](https://github.com/neuraparse/neuraos/security/advisories/new) when available, or request a secure channel at [info@neuraparse.com](mailto:info@neuraparse.com).
 
