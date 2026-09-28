@@ -188,6 +188,7 @@ The security reference also includes tested **hybrid post-quantum TLS profiles**
 | **3 product-profile tests** | NowFlow autonomy/legacy profile visibility rules |
 | **149 packaged files** | Digest-verified internal host archive; relocated evidence verification and byte-identical C library rebuild |
 | **R75 interface and installation** | 42 AMD64 Docker checks, 34 ARM64 Compose checks, 34 installed Linux checks, 22 checks on each x86_64/ARM64 QEMU image, and 25 PowerShell-on-Linux checks; automated mobile, light and dark accessibility audits reported zero violations, with image contrast still requiring manual review |
+| **R80–R82 agent gateway installation** | An actual Linux systemd service and ARM64 Docker/Compose guests accepted signed TLS 1.3 MCP requests; non-root identity, restricted privileges, restart behaviour and tampered-registry denial were checked. The ARM64 runs used QEMU and loopback-only lab networking. |
 
 **Current availability:** the `1.0.0-rc.8` host/QEMU reference and scoped integration work. Physical deployments require target qualification and operational approval. AI illustrations show the product design and example workflows.
 
