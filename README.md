@@ -189,6 +189,7 @@ The security reference also includes tested **hybrid post-quantum TLS profiles**
 | **149 packaged files** | Digest-verified internal host archive; relocated evidence verification and byte-identical C library rebuild |
 | **R75 interface and installation** | 42 AMD64 Docker checks, 34 ARM64 Compose checks, 34 installed Linux checks, 22 checks on each x86_64/ARM64 QEMU image, and 25 PowerShell-on-Linux checks; automated mobile, light and dark accessibility audits reported zero violations, with image contrast still requiring manual review |
 | **R80–R85 agent gateway** | A Linux systemd service and an ARM64 Docker/Compose gateway accepted signed TLS 1.3 MCP requests. The ARM64 image was reproduced byte-for-byte in two isolated QEMU builders; the same digest passed Compose restart, non-root isolation and tampered-registry denial in an ARM64 QEMU guest. These are loopback lab results, not physical-device or fleet acceptance. |
+| **R87–R88 gateway security** | An image-specific CycloneDX SBOM and dated vulnerability scan were replayed offline. A cryptography dependency fix was rebuilt byte-for-byte in two ARM64 QEMU builders and passed the signed TLS/Compose flow. On the same vulnerability database, matches fell from 23 to 22, with high findings from three to two; Python and zlib findings remain open. |
 
 **Current availability:** the `1.0.0-rc.8` host/QEMU reference and scoped integration work. Physical deployments require target qualification and operational approval. AI illustrations show the product design and example workflows.
 
@@ -200,6 +201,8 @@ The recorded production configuration has **7 of 17 gates satisfied**; ten remai
 Acceptance binds the exact hardware, controller, firmware, model, transport, operating envelope, site and responsible parties to the evidence. Native robot adapters, high-fidelity SIL/HIL, physical safe states, protected keys, independent HA and operational approvals require their own results.
 
 The recorded rc.8 Grype scan has 189 matches. Reconciliation identifies seven Buildroot backport candidates and 182 unresolved matches, including seven critical and 58 high. Product-security disposition, approved VEX and risk-owner acceptance remain release requirements.
+
+The separate ARM64 agent gateway candidate has 22 matches on the 28 September 2026 database, including two high findings in Python and zlib. Its cryptography fix passed reproducible-build and signed-TLS lab checks; security disposition remains open.
 
 Reference tests establish the stated software scope. Device performance, physical safety, certification and field acceptance are evaluated for each deployment. The resource-quorum reference is not a complete Raft/Paxos federation service.
 
